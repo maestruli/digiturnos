@@ -19,10 +19,10 @@
                     <file>${libs.woodstock-theme-default.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
-                <library>
+                <library files="1">
                     <file>${file.reference.webui-jsf_es.jar}</file>
                 </library>
-                <library>
+                <library files="1">
                     <file>${file.reference.webui-jsf-suntheme_es.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

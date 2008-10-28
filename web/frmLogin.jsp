@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
-    Document   : Page1
-    Created on : 04/09/2008, 01:06:54
-    Author     : Leandro
+    Document   : frmLogin
+    Created on : 28/10/2008, 20:31:47
+    Author     : Augusto
 -->
 <jsp:root version="2.1" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
     <jsp:directive.page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"/>
@@ -14,8 +14,7 @@
                 </webuijsf:head>
                 <webuijsf:body id="body1" style="-rave-layout: grid">
                     <webuijsf:form id="form1">
-                        <webuijsf:staticText id="staticText1" style="left: 96px; top: 120px; position: absolute" text="Digiturnos - Página inicial"/>
-                        <webuijsf:button actionExpression="#{Page1.button1_action}" id="button1" style="position: absolute; left: 336px; top: 144px" text="Ir al otro formulario"/>
+                        <webuijsf:button actionExpression="#{frmLogin.button1_action}" id="button1" style="position: absolute; left: 216px; top: 120px" text="Volver"/>
                     </webuijsf:form>
                 </webuijsf:body>
             </webuijsf:html>
