@@ -1,7 +1,7 @@
 /*
- * Page1.java
+ * frmLogin.java
  *
- * Created on 04/09/2008, 01:06:54
+ * Created on 28/10/2008, 20:31:48
  */
  
 package digiturnos;
@@ -16,9 +16,9 @@ import javax.faces.FacesException;
  * lifecycle methods and event handlers where you may add behavior
  * to respond to incoming events.</p>
  *
- * @author Leandro
+ * @author Augusto
  */
-public class Page1 extends AbstractPageBean {
+public class frmLogin extends AbstractPageBean {
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -34,7 +34,7 @@ public class Page1 extends AbstractPageBean {
     /**
      * <p>Construct a new Page bean instance.</p>
      */
-    public Page1() {
+    public frmLogin() {
     }
 
     /**
@@ -63,7 +63,7 @@ public class Page1 extends AbstractPageBean {
         try {
             _init();
         } catch (Exception e) {
-            log("Page1 Initialization Failure", e);
+            log("frmLogin Initialization Failure", e);
             throw e instanceof FacesException ? (FacesException) e: new FacesException(e);
         }
         
@@ -107,7 +107,7 @@ public class Page1 extends AbstractPageBean {
     @Override
     public void destroy() {
     }
-    
+
     /**
      * <p>Return a reference to the scoped data bean.</p>
      *
@@ -138,8 +138,8 @@ public class Page1 extends AbstractPageBean {
     public String button1_action() {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
-        return "Ir al login";
+        return "Volver del login";
     }
-
+    
 }
 
