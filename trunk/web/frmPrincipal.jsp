@@ -58,7 +58,7 @@
                                     </div>
                                 </div>			
                             </td>
-                            <td>
+                            <td valign="top">
                                 <webuijsf:form id="form1">
                                     Aca van las cosas
                                 </webuijsf:form>
