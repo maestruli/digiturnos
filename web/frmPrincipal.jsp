@@ -27,7 +27,7 @@
                                 <br/>
                             </td>
                         </tr>
-                        <tr align="left">
+                        <tr align="left" valign="top">
                             <td width="170px" align="left">
                                 <div id="menu">
                                     <div id="menuCliente">
