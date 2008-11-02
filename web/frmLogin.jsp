@@ -13,7 +13,7 @@
                     <webuijsf:link id="link1" url="/resources/stylesheet.css"/>
                 </webuijsf:head>
                 <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
-                    <table background="resources/bannerbg.gif" border="0" cellpadding="0" cellspacing="0" height="74" style="background-repeat: no-repeat;" width="604">
+                    <table align="center" background="resources/bannerbg.gif" border="0" cellpadding="0" cellspacing="0" height="74" style="background-repeat: no-repeat;" width="604">
                         <tr>
                             <td colspan="2">
                                 <img alt="df" border="0" src="resources/header.jpg" vspace="1"/>
@@ -70,7 +70,7 @@
                                         </tr>
                                         <tr>
                                             <td align="center" colspan="3" height="40" valign="middle">
-                                                <webuijsf:button id="cmdLogin" text="Login"/>
+                                                <webuijsf:button actionExpression="#{frmLogin.cmdLogin_action}" id="cmdLogin" text="Login"/>
                                             </td>
                                         </tr>
                                     </table>

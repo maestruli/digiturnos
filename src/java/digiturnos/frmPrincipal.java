@@ -1,7 +1,7 @@
 /*
- * frmLogin.java
+ * frmPrincipal.java
  *
- * Created on 28/10/2008, 20:31:48
+ * Created on 02/11/2008, 17:08:29
  */
  
 package digiturnos;
@@ -18,7 +18,7 @@ import javax.faces.FacesException;
  *
  * @author Augusto
  */
-public class frmLogin extends AbstractPageBean {
+public class frmPrincipal extends AbstractPageBean {
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -34,7 +34,7 @@ public class frmLogin extends AbstractPageBean {
     /**
      * <p>Construct a new Page bean instance.</p>
      */
-    public frmLogin() {
+    public frmPrincipal() {
     }
 
     /**
@@ -63,7 +63,7 @@ public class frmLogin extends AbstractPageBean {
         try {
             _init();
         } catch (Exception e) {
-            log("frmLogin Initialization Failure", e);
+            log("frmPrincipal Initialization Failure", e);
             throw e instanceof FacesException ? (FacesException) e: new FacesException(e);
         }
         
@@ -106,39 +106,6 @@ public class frmLogin extends AbstractPageBean {
      */
     @Override
     public void destroy() {
-    }
-
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected SessionBean1 getSessionBean1() {
-        return (SessionBean1) getBean("SessionBean1");
-    }
-
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected RequestBean1 getRequestBean1() {
-        return (RequestBean1) getBean("RequestBean1");
-    }
-
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
-    protected ApplicationBean1 getApplicationBean1() {
-        return (ApplicationBean1) getBean("ApplicationBean1");
-    }
-
-    public String cmdLogin_action() {
-        // TODO: Process the action. Return value is a navigation
-        // case name where null will return to the same page.
-        return "logueoExitoso";
     }
     
 }
