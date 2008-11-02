@@ -26,4 +26,16 @@
         <managed-bean-class>digiturnos.frmLogin</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>frmPrincipal</managed-bean-name>
+        <managed-bean-class>digiturnos.frmPrincipal</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <navigation-rule>
+        <from-view-id>/frmLogin.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>logueoExitoso</from-outcome>
+            <to-view-id>/frmPrincipal.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
