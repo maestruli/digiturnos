@@ -9,12 +9,75 @@
     <f:view>
         <webuijsf:page id="page1">
             <webuijsf:html id="html1">
-                <webuijsf:head id="head1">
+                <webuijsf:head id="head1" title="Digiturnos">
                     <webuijsf:link id="link1" url="/resources/stylesheet.css"/>
                 </webuijsf:head>
-                <webuijsf:body id="body1" style="-rave-layout: grid">
-                    <webuijsf:form id="form1">
-                        <webuijsf:button actionExpression="#{frmLogin.button1_action}" id="button1" style="position: absolute; left: 216px; top: 120px" text="Volver"/>
+                <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
+                    <table background="resources/bannerbg.gif" border="0" cellpadding="0" cellspacing="0" height="74" style="background-repeat: no-repeat;" width="604">
+                        <tr>
+                            <td colspan="2">
+                                <img alt="df" border="0" src="resources/header.jpg" vspace="1"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" background="resources/subbanner.jpg" width="100%">
+                                <a class="linkSubbanner" href="#">Inicio</a>|
+                                <a class="linkSubbanner" href="#">Contáctenos</a>
+                                <br/>
+                            </td>
+                        </tr>
+                    </table>
+                    <webuijsf:form id="formulario">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" height="74" style="background-repeat: repeat;" width="767">
+                            <tr>
+                                <td>
+                                    <table align="center" cellpadding="0" cellspacing="0" width="450">
+                                        <tr>
+                                            <td colspan="3">
+                                                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tr>
+                                                        <td>
+                                                            <h2>Pantalla de Login</h2>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" nowrap="nowrap">
+                                                <img align="absmiddle" src="resources/icon-info.gif"/> 
+                                                Ingrese su nombre de usuario y password
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" rowspan="3" valign="middle">
+                                                <img hspace="6" src="resources/icon-loginpic.gif"/>
+                                            </td>
+                                            <td>
+                                                <webuijsf:label id="label1" text="Nombre de Usuario"/>
+                                            </td>
+                                            <td>
+                                                <webuijsf:textField id="txtUsuario" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <webuijsf:label id="label2" text="Password"/>
+                                            </td>
+                                            <td>
+                                                <webuijsf:textField id="txtPassword" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="center" colspan="3" height="40" valign="middle">
+                                                <webuijsf:button id="cmdLogin" text="Login"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <br/>
+                                </td>
+                            </tr>
+                        </table>
                     </webuijsf:form>
                 </webuijsf:body>
             </webuijsf:html>
