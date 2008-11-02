@@ -54,18 +54,18 @@
                                                 <img hspace="6" src="resources/icon-loginpic.gif"/>
                                             </td>
                                             <td>
-                                                <webuijsf:label id="label1" text="Nombre de Usuario"/>
+                                                <webuijsf:label for="txtDocumento" id="lblDocumento" text="Documento"/>
                                             </td>
                                             <td>
-                                                <webuijsf:textField id="txtUsuario" />
+                                                <webuijsf:textField id="txtDocumento"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <webuijsf:label id="label2" text="Password"/>
+                                                <webuijsf:label for="txtPassword" id="lblPassword" text="Password"/>
                                             </td>
                                             <td>
-                                                <webuijsf:textField id="txtPassword" />
+                                                <webuijsf:textField id="txtPassword"/>
                                             </td>
                                         </tr>
                                         <tr>
