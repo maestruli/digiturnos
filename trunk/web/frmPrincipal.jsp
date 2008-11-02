@@ -13,7 +13,7 @@
                 <webuijsf:head id="head1">
                     <webuijsf:link id="link1" url="/resources/stylesheet.css"/>
                 </webuijsf:head>
-                <webuijsf:body id="body1" style="-rave-layout: grid">
+                <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
                     <table align="center" background="resources/bannerbg.gif" border="0" cellpadding="0" cellspacing="0" height="74" style="background-repeat: no-repeat;" width="604">
                         <tr>
                             <td colspan="2">
