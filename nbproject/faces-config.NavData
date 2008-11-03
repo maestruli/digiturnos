@@ -2,7 +2,7 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
-        <Node id="frmPrincipal.jsp" x="498" y="153" zoom="true"/>
+        <Node id="frmPrincipal.jsp" x="498" y="153" zoom="false"/>
         <Node id="frmLogin.jsp" x="108" y="115" zoom="false"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>

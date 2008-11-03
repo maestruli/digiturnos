@@ -531,10 +531,14 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         <copy-ear-war file="${libs.woodstock-theme-default.classpath}" propname="included.lib.libs.woodstock-theme-default.classpath.X"/>
         <basename file="${file.reference.webui-jsf-suntheme_es.jar}" property="included.lib.file.reference.webui-jsf-suntheme_es.jar"/>
         <copy-ear-war file="${file.reference.webui-jsf-suntheme_es.jar}" propname="included.lib.file.reference.webui-jsf-suntheme_es.jar.X"/>
+        <basename file="${libs.PostgreSQLDriver.classpath}" property="included.lib.libs.PostgreSQLDriver.classpath"/>
+        <copy-ear-war file="${libs.PostgreSQLDriver.classpath}" propname="included.lib.libs.PostgreSQLDriver.classpath.X"/>
+        <basename file="${file.reference.commons-logging-1.1.1.jar}" property="included.lib.file.reference.commons-logging-1.1.1.jar"/>
+        <copy-ear-war file="${file.reference.commons-logging-1.1.1.jar}" propname="included.lib.file.reference.commons-logging-1.1.1.jar.X"/>
         <copy file="${libs.exceptionhandler-runtime.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${included.lib.libs.jsf12-support.classpath.1.X} ${included.lib.libs.jsf12-support.classpath.2.X} ${included.lib.libs.jsf12-support.classpath.3.X} ${included.lib.libs.jsf12-support.classpath.4.X} ${included.lib.libs.woodstock-components.classpath.1.X} ${included.lib.libs.woodstock-components.classpath.2.X} ${included.lib.libs.woodstock-components.classpath.3.X} ${included.lib.libs.woodstock-components.classpath.4.X} ${included.lib.libs.woodstock-components.classpath.5.X} ${included.lib.libs.woodstock-theme-default.classpath} ${included.lib.file.reference.webui-jsf-suntheme_es.jar} "/>
+            <attribute name="Class-Path" value="${included.lib.libs.jsf12-support.classpath.1.X} ${included.lib.libs.jsf12-support.classpath.2.X} ${included.lib.libs.jsf12-support.classpath.3.X} ${included.lib.libs.jsf12-support.classpath.4.X} ${included.lib.libs.woodstock-components.classpath.1.X} ${included.lib.libs.woodstock-components.classpath.2.X} ${included.lib.libs.woodstock-components.classpath.3.X} ${included.lib.libs.woodstock-components.classpath.4.X} ${included.lib.libs.woodstock-components.classpath.5.X} ${included.lib.libs.woodstock-theme-default.classpath} ${included.lib.file.reference.webui-jsf-suntheme_es.jar} ${included.lib.libs.PostgreSQLDriver.classpath} ${included.lib.file.reference.commons-logging-1.1.1.jar} "/>
         </manifest>
         <delete dir="${dist.ear.dir}/temp"/>
     </target>
@@ -550,6 +554,8 @@ or ant -Dj2ee.platform.classpath=&lt;server_classpath&gt; (where no properties f
         <copy file="${libs.woodstock-components.classpath.libfile.1}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${libs.woodstock-theme-default.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.webui-jsf-suntheme_es.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copy file="${libs.PostgreSQLDriver.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copy file="${file.reference.commons-logging-1.1.1.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${libs.exceptionhandler-runtime.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" name="do-ear-dist">
