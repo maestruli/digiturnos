@@ -7,6 +7,10 @@
 package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.Button;
+import com.sun.webui.jsf.component.TextField;
+import digiturnos.dao.dao.UsuariosDao;
+import digiturnos.dao.factory.DaoFactory;
 import javax.faces.FacesException;
 
 /**
@@ -19,6 +23,11 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmLogin extends AbstractPageBean {
+    
+    private TextField txtUsuario = new TextField();
+    private TextField txtPassword = new TextField();
+    private Button cmdLogin = new Button();
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -138,7 +147,40 @@ public class frmLogin extends AbstractPageBean {
     public String cmdLogin_action() {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
+        DaoFactory df  = DaoFactory.getDaoFactory();
+        UsuariosDao udao = df.getUsuariosDao();
+        
+        this.txtUsuario.setText("Hola");
+        
+        
+        
+           
         return "logueoExitoso";
+        
+    }
+
+    public TextField getTxtUsuario() {
+        return txtUsuario;
+    }
+
+    public void setTxtUsuario(TextField txtUsuario) {
+        this.txtUsuario = txtUsuario;
+    }
+
+    public TextField getTxtPassword() {
+        return txtPassword;
+    }
+
+    public void setTxtPassword(TextField txtPassword) {
+        this.txtPassword = txtPassword;
+    }
+
+    public Button getCmdLogin() {
+        return cmdLogin;
+    }
+
+    public void setCmdLogin(Button cmdLogin) {
+        this.cmdLogin = cmdLogin;
     }
     
 }

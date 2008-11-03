@@ -13,7 +13,8 @@
                     <webuijsf:link id="link1" url="/resources/stylesheet.css"/>
                 </webuijsf:head>
                 <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
-                    <table align="center" background="resources/bannerbg.gif" border="0" cellpadding="0" cellspacing="0" height="74" style="background-repeat: no-repeat;" width="604">
+                    <table align="center" background="resources/bannerbg.gif" border="0" cellpadding="0" cellspacing="0" height="74"
+                        style="background-repeat: no-repeat;" width="604">
                         <tr>
                             <td colspan="2">
                                 <img alt="df" border="0" src="resources/header.jpg" vspace="1"/>
@@ -57,7 +58,7 @@
                                                 <webuijsf:label for="txtDocumento" id="lblDocumento" text="Documento"/>
                                             </td>
                                             <td>
-                                                <webuijsf:textField id="txtDocumento"/>
+                                                <webuijsf:textField binding="#{frmLogin.txtUsuario}" id="txtDocumento"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -65,12 +66,12 @@
                                                 <webuijsf:label for="txtPassword" id="lblPassword" text="Password"/>
                                             </td>
                                             <td>
-                                                <webuijsf:textField id="txtPassword"/>
+                                                <webuijsf:textField id="txtPassword" binding="#{frmLogin.txtPassword}" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <td align="center" colspan="3" height="40" valign="middle">
-                                                <webuijsf:button actionExpression="#{frmLogin.cmdLogin_action}" id="cmdLogin" text="Login"/>
+                                                <webuijsf:button actionExpression="#{frmLogin.cmdLogin_action}" id="cmdLogin" text="Login" binding="#{frmLogin.cmdLogin}"  />
                                             </td>
                                         </tr>
                                     </table>
