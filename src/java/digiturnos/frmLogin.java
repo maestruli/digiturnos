@@ -9,8 +9,12 @@ package digiturnos;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.TextField;
+import digiturnos.dao.dao.TiposUsuarioDao;
 import digiturnos.dao.dao.UsuariosDao;
+import digiturnos.dao.exception.TiposUsuarioDaoException;
 import digiturnos.dao.factory.DaoFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
 
 /**
@@ -148,9 +152,13 @@ public class frmLogin extends AbstractPageBean {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
         DaoFactory df  = DaoFactory.getDaoFactory();
-        UsuariosDao udao = df.getUsuariosDao();
-        
-        this.txtUsuario.setText("Hola");
+        TiposUsuarioDao udao = df.getTiposUsuarioDao();
+        try {
+
+            this.txtUsuario.setText(udao.countAll());
+        } catch (TiposUsuarioDaoException ex) {
+            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         
         
