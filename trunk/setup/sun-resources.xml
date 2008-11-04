@@ -31,7 +31,12 @@
         steady-pool-size="8"
         validate-atmost-once-period-in-seconds="0"
         wrap-jdbc-objects="false">
-    <property name="URL" value="jdbc:postgresql://localhost:5432/digiturnos"/>
+    <property name="DatabaseName" value="digiturnos"/>
+    <property name="LoginTimeout" value="0"/>
+    <property name="PortNumber" value="5432"/>
+    <property name="PrepareThreshold" value="0"/>
+    <property name="ServerName" value="localhost"/>
+    <property name="Ssl" value="false"/>
     <property name="User" value="admin"/>
     <property name="Password" value="admin"/>
   </jdbc-connection-pool>
