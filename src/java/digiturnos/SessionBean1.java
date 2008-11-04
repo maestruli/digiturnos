@@ -23,7 +23,9 @@ import javax.faces.FacesException;
  */
 public class SessionBean1 extends AbstractSessionBean {
     private String nombre;
-    private int nivel;
+    private boolean medico;
+    private boolean paciente;
+    private boolean empleado;
     
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
@@ -133,12 +135,29 @@ public class SessionBean1 extends AbstractSessionBean {
         this.nombre = nombre;
     }
 
-    public int getNivel() {
-        return nivel;
+    public boolean isMedico() {
+        return medico;
     }
 
-    public void setNivel(int nivel) {
-        this.nivel = nivel;
+    public void setMedico(boolean medico) {
+        this.medico = medico;
     }
+
+    public boolean isPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(boolean paciente) {
+        this.paciente = paciente;
+    }
+
+    public boolean isEmpleado() {
+        return empleado;
+    }
+
+    public void setEmpleado(boolean empleado) {
+        this.empleado = empleado;
+    }
+
 
 }
