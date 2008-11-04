@@ -30,6 +30,7 @@
                         <tr align="left" valign="top">
                             <td width="170px" align="left">
                                 <div id="menu">
+                                    <h:outputText rendered="#{SessionBean1.paciente}">
                                     <div id="menuCliente">
                                         <h1>Menu</h1>
                                         <ul class="linksmenu">
@@ -38,13 +39,16 @@
                                             <li><a href="nosotros.php">Ver Historico</a></li>
                                         </ul>
                                     </div>
+                                    </h:outputText>
+                                    <h:outputText rendered="#{SessionBean1.medico}">
                                     <div id="menuMedico">
                                         <h1>Menu</h1>
                                         <ul class="linksmenu">
                                             <li><a href="index.php">Ver agenda de día</a></li>
                                         </ul>
                                     </div>
-                                    <h:outputText rendered="false">
+                                    </h:outputText>
+                                    <h:outputText rendered="#{SessionBean1.empleado}">
                                     <div id="menuEmpleado">
                                         <h1>Menu</h1>
                                         <ul class="linksmenu">
