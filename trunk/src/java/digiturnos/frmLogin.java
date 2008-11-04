@@ -163,7 +163,9 @@ public class frmLogin extends AbstractPageBean {
         try {
             resultado = udao.findByWhere(where, null);
             if (resultado.length==1) {
-                getSessionBean1().setNivel(resultado[0].getIdtipousuario());
+                getSessionBean1().setPaciente(resultado[0].getIdtipousuario().intValue()==1);
+                getSessionBean1().setEmpleado(resultado[0].getIdtipousuario().intValue()==2);
+                getSessionBean1().setMedico(resultado[0].getIdtipousuario().intValue()==3);
                 getSessionBean1().setNombre(resultado[0].getNombre());
                 return "logueoExitoso";
             }
