@@ -63,15 +63,15 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <webuijsf:label for="txtPassword" id="lblPassword" text="Password"/>
+                                                <webuijsf:label id="lblPassword" text="Password"/>
                                             </td>
                                             <td>
-                                                <webuijsf:textField id="txtPassword" binding="#{frmLogin.txtPassword}" />
+                                                <webuijsf:passwordField binding="#{frmLogin.txtPassword}" id="txtPassword"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td align="center" colspan="3" height="40" valign="middle">
-                                                <webuijsf:button actionExpression="#{frmLogin.cmdLogin_action}" id="cmdLogin" text="Login" binding="#{frmLogin.cmdLogin}"  />
+                                                <webuijsf:button actionExpression="#{frmLogin.cmdLogin_action}" binding="#{frmLogin.cmdLogin}" id="cmdLogin" text="Login"/>
                                             </td>
                                         </tr>
                                     </table>
