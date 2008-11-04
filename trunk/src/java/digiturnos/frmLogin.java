@@ -8,10 +8,13 @@ package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.webui.jsf.component.Button;
+import com.sun.webui.jsf.component.PasswordField;
 import com.sun.webui.jsf.component.TextField;
 import digiturnos.dao.dao.TiposUsuarioDao;
 import digiturnos.dao.dao.UsuariosDao;
+import digiturnos.dao.dto.Usuarios;
 import digiturnos.dao.exception.TiposUsuarioDaoException;
+import digiturnos.dao.exception.UsuariosDaoException;
 import digiturnos.dao.factory.DaoFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +32,7 @@ import javax.faces.FacesException;
 public class frmLogin extends AbstractPageBean {
     
     private TextField txtUsuario = new TextField();
-    private TextField txtPassword = new TextField();
+    private PasswordField txtPassword = new PasswordField ();
     private Button cmdLogin = new Button();
     
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
@@ -151,17 +154,21 @@ public class frmLogin extends AbstractPageBean {
     public String cmdLogin_action() {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
-        DaoFactory df  = DaoFactory.getDaoFactory();
-        TiposUsuarioDao udao = df.getTiposUsuarioDao();
-        try {
-
-            this.txtUsuario.setText(udao.countAll());
-        } catch (TiposUsuarioDaoException ex) {
-            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }   
-           
-        return "null";
         
+        String usuario = (String) txtUsuario.getText();
+        String clave = "MD5('" + txtPassword.getText() + "')";
+        String where="password=" + clave + " AND dni='" +  usuario + "'";
+        
+        
+        UsuariosDao udao = DaoFactory.getDaoFactory().getUsuariosDao();
+        Usuarios resultado[];
+        try {
+            resultado = udao.findByWhere(where, null);
+            return (resultado.length==1) ? "logueoExitoso" : null;
+        } catch (UsuariosDaoException ex) {
+            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public TextField getTxtUsuario() {
@@ -172,20 +179,20 @@ public class frmLogin extends AbstractPageBean {
         this.txtUsuario = txtUsuario;
     }
 
-    public TextField getTxtPassword() {
-        return txtPassword;
-    }
-
-    public void setTxtPassword(TextField txtPassword) {
-        this.txtPassword = txtPassword;
-    }
-
     public Button getCmdLogin() {
         return cmdLogin;
     }
 
     public void setCmdLogin(Button cmdLogin) {
         this.cmdLogin = cmdLogin;
+    }
+
+    public PasswordField getTxtPassword() {
+        return txtPassword;
+    }
+
+    public void setTxtPassword(PasswordField txtPassword) {
+        this.txtPassword = txtPassword;
     }
     
 }
