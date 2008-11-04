@@ -25,7 +25,7 @@ public abstract class DaoFactory {
         }
 
         try {
-            return (DaoFactory) Class.forName(daoImpl).newInstance();
+            return new PostgresqlDaoFactory(); 
         } catch (Exception e) {
             e.printStackTrace();
         }
