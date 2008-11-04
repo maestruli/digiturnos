@@ -155,7 +155,7 @@ public class frmLogin extends AbstractPageBean {
         
         String usuario = (String) txtUsuario.getText();
         String clave = "MD5('" + txtPassword.getText() + "')";
-        String where="password=" + clave + " AND dni='" +  usuario + "'";
+        String where="password=" + clave + " AND dni=" +  usuario;
         
         
         UsuariosDao udao = DaoFactory.getDaoFactory().getUsuariosDao();

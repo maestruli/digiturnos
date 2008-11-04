@@ -44,6 +44,7 @@
                                             <li><a href="index.php">Ver agenda de día</a></li>
                                         </ul>
                                     </div>
+                                    <h:outputText rendered="false">
                                     <div id="menuEmpleado">
                                         <h1>Menu</h1>
                                         <ul class="linksmenu">
@@ -56,6 +57,7 @@
                                             <li><a href="nosotros.php">Otorgar Licencias</a></li>
                                         </ul>
                                     </div>
+                                    </h:outputText>
                                 </div>			
                             </td>
                             <td valign="top">
