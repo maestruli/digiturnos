@@ -158,12 +158,9 @@ public class frmLogin extends AbstractPageBean {
             this.txtUsuario.setText(udao.countAll());
         } catch (TiposUsuarioDaoException ex) {
             Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        
-        
+        }   
            
-        return "logueoExitoso";
+        return "null";
         
     }
 
