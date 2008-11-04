@@ -10,10 +10,8 @@ import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.PasswordField;
 import com.sun.webui.jsf.component.TextField;
-import digiturnos.dao.dao.TiposUsuarioDao;
 import digiturnos.dao.dao.UsuariosDao;
 import digiturnos.dao.dto.Usuarios;
-import digiturnos.dao.exception.TiposUsuarioDaoException;
 import digiturnos.dao.exception.UsuariosDaoException;
 import digiturnos.dao.factory.DaoFactory;
 import java.util.logging.Level;
@@ -164,7 +162,11 @@ public class frmLogin extends AbstractPageBean {
         Usuarios resultado[];
         try {
             resultado = udao.findByWhere(where, null);
-            return (resultado.length==1) ? "logueoExitoso" : null;
+            if (resultado.length==1) {
+                getSessionBean1().setNivel(resultado[0].getIdtipousuario());
+                getSessionBean1().setNombre(resultado[0].getNombre());
+                return "logueoExitoso";
+            }
         } catch (UsuariosDaoException ex) {
             Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
         }

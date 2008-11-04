@@ -22,6 +22,9 @@ import javax.faces.FacesException;
  * @author Leandro
  */
 public class SessionBean1 extends AbstractSessionBean {
+    private String nombre;
+    private int nivel;
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -120,6 +123,22 @@ public class SessionBean1 extends AbstractSessionBean {
      */
     protected ApplicationBean1 getApplicationBean1() {
         return (ApplicationBean1) getBean("ApplicationBean1");
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getNivel() {
+        return nivel;
+    }
+
+    public void setNivel(int nivel) {
+        this.nivel = nivel;
     }
 
 }
