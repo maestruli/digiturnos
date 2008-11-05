@@ -1,21 +1,12 @@
 /*
- * frmLogin.java
+ * frmVerTurnos.java
  *
- * Created on 28/10/2008, 20:31:48
+ * Created on 04/11/2008, 22:06:33
  */
  
 package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
-import com.sun.webui.jsf.component.Button;
-import com.sun.webui.jsf.component.PasswordField;
-import com.sun.webui.jsf.component.TextField;
-import digiturnos.dao.dao.UsuariosDao;
-import digiturnos.dao.dto.Usuarios;
-import digiturnos.dao.exception.UsuariosDaoException;
-import digiturnos.dao.factory.DaoFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.FacesException;
 
 /**
@@ -27,12 +18,7 @@ import javax.faces.FacesException;
  *
  * @author Augusto
  */
-public class frmLogin extends AbstractPageBean {
-    
-    private TextField txtUsuario = new TextField();
-    private PasswordField txtPassword = new PasswordField ();
-    private Button cmdLogin = new Button();
-    
+public class frmVerTurnos extends AbstractPageBean {
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -48,7 +34,7 @@ public class frmLogin extends AbstractPageBean {
     /**
      * <p>Construct a new Page bean instance.</p>
      */
-    public frmLogin() {
+    public frmVerTurnos() {
     }
 
     /**
@@ -77,7 +63,7 @@ public class frmLogin extends AbstractPageBean {
         try {
             _init();
         } catch (Exception e) {
-            log("frmLogin Initialization Failure", e);
+            log("frmVerTurnos Initialization Failure", e);
             throw e instanceof FacesException ? (FacesException) e: new FacesException(e);
         }
         
@@ -127,15 +113,6 @@ public class frmLogin extends AbstractPageBean {
      *
      * @return reference to the scoped data bean
      */
-    protected SessionBean1 getSessionBean1() {
-        return (SessionBean1) getBean("SessionBean1");
-    }
-
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
     protected RequestBean1 getRequestBean1() {
         return (RequestBean1) getBean("RequestBean1");
     }
@@ -149,55 +126,13 @@ public class frmLogin extends AbstractPageBean {
         return (ApplicationBean1) getBean("ApplicationBean1");
     }
 
-    public String cmdLogin_action() {
-        // TODO: Process the action. Return value is a navigation
-        // case name where null will return to the same page.
-        
-        String usuario = (String) txtUsuario.getText();
-        String clave = "MD5('" + txtPassword.getText() + "')";
-        String where="password=" + clave + " AND dni=" +  usuario;
-        
-        
-        UsuariosDao udao = DaoFactory.getDaoFactory().getUsuariosDao();
-        Usuarios resultado[];
-        try {
-            resultado = udao.findByWhere(where, null);
-            if (resultado.length==1) {
-                getSessionBean1().setPaciente(resultado[0].getIdtipousuario().intValue()==1);
-                getSessionBean1().setEmpleado(resultado[0].getIdtipousuario().intValue()==2);
-                getSessionBean1().setMedico(resultado[0].getIdtipousuario().intValue()==3);
-                getSessionBean1().setAdmin(resultado[0].getIdtipousuario().intValue()==4);
-                getSessionBean1().setNombre(resultado[0].getNombre());
-                return "logueoExitoso";
-            }
-        } catch (UsuariosDaoException ex) {
-            Logger.getLogger(frmLogin.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
-    public TextField getTxtUsuario() {
-        return txtUsuario;
-    }
-
-    public void setTxtUsuario(TextField txtUsuario) {
-        this.txtUsuario = txtUsuario;
-    }
-
-    public Button getCmdLogin() {
-        return cmdLogin;
-    }
-
-    public void setCmdLogin(Button cmdLogin) {
-        this.cmdLogin = cmdLogin;
-    }
-
-    public PasswordField getTxtPassword() {
-        return txtPassword;
-    }
-
-    public void setTxtPassword(PasswordField txtPassword) {
-        this.txtPassword = txtPassword;
+    /**
+     * <p>Return a reference to the scoped data bean.</p>
+     *
+     * @return reference to the scoped data bean
+     */
+    protected SessionBean1 getSessionBean1() {
+        return (SessionBean1) getBean("SessionBean1");
     }
     
 }
