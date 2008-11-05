@@ -95,6 +95,14 @@
                                                 </ul>
                                             </div>
                                         </h:outputText>
+                                        <div id="menuSalir">
+                                            <ul class="linksmenu">
+                                                <li>
+                                                    <webuijsf:hyperlink actionExpression="#{frmPrincipal.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar Sesión
+                                                    "/>
+                                                </li>
+                                            </ul>
+                                        </div>   
                                     </div>
                                 </td>
                                 <td valign="top">

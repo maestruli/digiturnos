@@ -8,6 +8,7 @@ package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import javax.faces.FacesException;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -106,6 +107,12 @@ public class frmPrincipal extends AbstractPageBean {
      */
     @Override
     public void destroy() {
+    }
+
+    public String lnkCerrarSesion_action() {
+        HttpSession sesion = (HttpSession) getExternalContext().getSession(true);
+        sesion.invalidate();
+        return "cerrarSesion";
     }
     
 }
