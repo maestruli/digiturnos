@@ -4,8 +4,8 @@
     <Scope Scope="Project">
         <Node id="frmPrincipal.jsp" x="498" y="153" zoom="false"/>
         <Node id="frmLogin.jsp" x="277" y="41" zoom="false"/>
-        <Node id="frmVerTurnos.jsp" x="20" y="236" zoom="true"/>
         <Node id="frmReservarTurno.jsp" x="77" y="311" zoom="true"/>
+        <Node id="frmVerTurnos.jsp" x="20" y="236" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>
