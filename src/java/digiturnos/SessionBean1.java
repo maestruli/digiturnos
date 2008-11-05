@@ -26,6 +26,7 @@ public class SessionBean1 extends AbstractSessionBean {
     private boolean medico;
     private boolean paciente;
     private boolean empleado;
+    private boolean admin;
     
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
@@ -157,6 +158,14 @@ public class SessionBean1 extends AbstractSessionBean {
 
     public void setEmpleado(boolean empleado) {
         this.empleado = empleado;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 
 

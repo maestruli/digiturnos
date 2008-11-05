@@ -38,4 +38,14 @@
             <to-view-id>/frmPrincipal.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>frmReservarTurno</managed-bean-name>
+        <managed-bean-class>digiturnos.frmReservarTurno</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>frmVerTurnos</managed-bean-name>
+        <managed-bean-class>digiturnos.frmVerTurnos</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>
