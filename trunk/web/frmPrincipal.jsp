@@ -14,16 +14,15 @@
                 </webuijsf:head>
                 <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
                     <webuijsf:form id="formulario">
-                        <table align="center" background="resources/bannerbg.gif" border="0" cellpadding="0" cellspacing="0" height="74"
-                            style="background-repeat: no-repeat;" width="604">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td colspan="2">
-                                    <img alt="df" border="0" src="resources/header.jpg" vspace="1"/>
+                                    <img alt="Digiturnos" border="0" src="resources/header.jpg"/>
                                 </td>
                             </tr>
                             <tr>
-                                <td align="right" background="resources/subbanner.jpg" colspan="2" width="100%">
-                                    <a class="linkSubbanner" href="#">Inicio</a>|
+                                <td align="right" bgcolor="#416EED" colspan="2">
+                                    <a class="linkSubbanner" href="#">Inicio</a> |
                                     <a class="linkSubbanner" href="#">Contáctenos</a>
                                     <br/>
                                 </td>
@@ -47,8 +46,8 @@
                                                 </ul>
                                             </div>
                                         </h:outputText>
-                                        <h:outputText rendered="#{SessionBean1.medico}">
-                                            <div id="menuMedico">
+                                        <h:outputText rendered="#{SessionBean1.profesional}">
+                                            <div id="menuProfesional">
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
@@ -74,7 +73,7 @@
                                                         <webuijsf:hyperlink id="lnkEspecialidades" text="Administrar Especialidades"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkMedicos" text="Administrar Médicos"/>
+                                                        <webuijsf:hyperlink id="lnkProfesionales" text="Administrar Profesionales"/>
                                                     </li>
                                                     <li>
                                                         <webuijsf:hyperlink id="lnkBandasHorarias" text="Administrar Bandas Horarias"/>
@@ -98,15 +97,14 @@
                                         <div id="menuSalir">
                                             <ul class="linksmenu">
                                                 <li>
-                                                    <webuijsf:hyperlink actionExpression="#{frmPrincipal.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar Sesión
-                                                    "/>
+                                                    <webuijsf:hyperlink actionExpression="#{frmPrincipal.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar Sesión                                                     "/>
                                                 </li>
                                             </ul>
-                                        </div>   
+                                        </div>
                                     </div>
                                 </td>
                                 <td valign="top">
-                                        Aca van las cosas
+                                    Aca van las cosas
                                 </td>
                             </tr>
                         </table>
