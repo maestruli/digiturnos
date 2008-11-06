@@ -23,7 +23,7 @@ import javax.faces.FacesException;
  */
 public class SessionBean1 extends AbstractSessionBean {
     private String nombre;
-    private boolean medico;
+    private boolean profesional;
     private boolean paciente;
     private boolean empleado;
     private boolean admin;
@@ -136,12 +136,12 @@ public class SessionBean1 extends AbstractSessionBean {
         this.nombre = nombre;
     }
 
-    public boolean isMedico() {
-        return medico;
+    public boolean isProfesional() {
+        return profesional;
     }
 
-    public void setMedico(boolean medico) {
-        this.medico = medico;
+    public void setProfesional(boolean profesional) {
+        this.profesional = profesional;
     }
 
     public boolean isPaciente() {

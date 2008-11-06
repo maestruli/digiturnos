@@ -13,16 +13,15 @@
                     <webuijsf:link id="link1" url="/resources/stylesheet.css"/>
                 </webuijsf:head>
                 <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
-                    <table align="center" background="resources/bannerbg.gif" border="0" cellpadding="0" cellspacing="0" height="74"
-                        style="background-repeat: no-repeat;" width="604">
+                    <table align="center" border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td colspan="2">
-                                <img alt="df" border="0" src="resources/header.jpg" vspace="1"/>
+                                <img alt="Digiturnos" border="0" src="resources/header.jpg"/>
                             </td>
                         </tr>
                         <tr>
-                            <td align="right" background="resources/subbanner.jpg" width="100%">
-                                <a class="linkSubbanner" href="#">Inicio</a>|
+                            <td align="right" bgcolor="#416EED">
+                                <a class="linkSubbanner" href="#">Inicio</a> |
                                 <a class="linkSubbanner" href="#">Contáctenos</a>
                                 <br/>
                             </td>
@@ -38,7 +37,7 @@
                                                 <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                                     <tr>
                                                         <td>
-                                                            <h2>Pantalla de Login</h2>
+                                                            <h2>Inicio de Sesión</h2>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -46,8 +45,8 @@
                                         </tr>
                                         <tr>
                                             <td colspan="3" nowrap="nowrap">
-                                                <img align="absmiddle" src="resources/icon-info.gif"/> 
-                                                Ingrese su nombre de usuario y password
+                                                <img align="absmiddle" src="resources/infoabout24.png"/> 
+                                                Ingrese su nombre de usuario y contraseña.
                                             </td>
                                         </tr>
                                         <tr>
@@ -63,7 +62,7 @@
                                         </tr>
                                         <tr>
                                             <td>
-                                                <webuijsf:label id="lblPassword" text="Password"/>
+                                                <webuijsf:label id="lblPassword" text="Contraseña"/>
                                             </td>
                                             <td>
                                                 <webuijsf:passwordField binding="#{frmLogin.txtPassword}" id="txtPassword"/>

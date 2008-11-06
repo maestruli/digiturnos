@@ -165,7 +165,7 @@ public class frmLogin extends AbstractPageBean {
             if (resultado.length==1) {
                 getSessionBean1().setPaciente(resultado[0].getIdtipousuario().intValue()==1);
                 getSessionBean1().setEmpleado(resultado[0].getIdtipousuario().intValue()==2);
-                getSessionBean1().setMedico(resultado[0].getIdtipousuario().intValue()==3);
+                getSessionBean1().setProfesional(resultado[0].getIdtipousuario().intValue()==3);
                 getSessionBean1().setAdmin(resultado[0].getIdtipousuario().intValue()==4);
                 getSessionBean1().setNombre(resultado[0].getNombre());
                 return "logueoExitoso";
