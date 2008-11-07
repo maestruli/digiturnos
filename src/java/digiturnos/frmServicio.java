@@ -1,21 +1,12 @@
 /*
- * frmServicios.java
+ * frmServicio.java
  *
- * Created on 05/11/2008, 23:34:42
+ * Created on 07/11/2008, 17:37:43
  */
  
 package digiturnos;
 
-import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
-import com.sun.webui.jsf.component.ImageHyperlink;
-import com.sun.webui.jsf.component.TableRowGroup;
-import digiturnos.dao.dao.ServiciosDao;
-import digiturnos.dao.dto.ServiciosPK;
-import digiturnos.dao.exception.ServiciosDaoException;
-import digiturnos.dao.factory.DaoFactory;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.FacesException;
 
 /**
@@ -25,14 +16,9 @@ import javax.faces.FacesException;
  * lifecycle methods and event handlers where you may add behavior
  * to respond to incoming events.</p>
  *
- * @author Leandro
+ * @author Augusto
  */
-public class frmServicios extends AbstractPageBean {
-    
-    private ObjectArrayDataProvider dpServicios;
-    private ImageHyperlink imgLnkEditar;
-    private ImageHyperlink imgLnkEliminar;
-    
+public class frmServicio extends AbstractPageBean {
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -42,15 +28,13 @@ public class frmServicios extends AbstractPageBean {
      */
     private void _init() throws Exception {
     }
-    
-
 
     // </editor-fold>
 
     /**
      * <p>Construct a new Page bean instance.</p>
      */
-    public frmServicios() {
+    public frmServicio() {
     }
 
     /**
@@ -79,7 +63,7 @@ public class frmServicios extends AbstractPageBean {
         try {
             _init();
         } catch (Exception e) {
-            log("frmServicios Initialization Failure", e);
+            log("frmServicio Initialization Failure", e);
             throw e instanceof FacesException ? (FacesException) e: new FacesException(e);
         }
         
@@ -124,85 +108,32 @@ public class frmServicios extends AbstractPageBean {
     public void destroy() {
     }
 
-    public ObjectArrayDataProvider getDpServicios() {
-        if (this.dpServicios==null) {
-            DaoFactory df  = DaoFactory.getDaoFactory();
-            ServiciosDao sdao = df.getServiciosDao();
-            sdao.setOrderByColumn(sdao.COLUMN_SERVICIO);
-            
-            this.dpServicios = new ObjectArrayDataProvider();
-            try {
-                this.dpServicios.setArray((Object[]) sdao.findAll());
-            } catch (ServiciosDaoException ex) {
-                Logger.getLogger(SessionBean1.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        return dpServicios;
+    /**
+     * <p>Return a reference to the scoped data bean.</p>
+     *
+     * @return reference to the scoped data bean
+     */
+    protected ApplicationBean1 getApplicationBean1() {
+        return (ApplicationBean1) getBean("ApplicationBean1");
     }
 
-    public void setDpServicios(ObjectArrayDataProvider dpServicios) {
-        this.dpServicios = dpServicios;
-    }
-
-    public ImageHyperlink getImgLnkEditar() {
-        return imgLnkEditar;
-    }
-
-    public void setImgLnkEditar(ImageHyperlink imgLnkEditar) {
-        this.imgLnkEditar = imgLnkEditar;
-    }
-
-    public ImageHyperlink getImgLnkEliminar() {
-        return imgLnkEliminar;
-    }
-
-    public void setImgLnkEliminar(ImageHyperlink imgLnkEliminar) {
-        this.imgLnkEliminar = imgLnkEliminar;
-    }
-
-    public String cmdNuevo_action() {
-        // TODO: Process the action. Return value is a navigation
-        // case name where null will return to the same page.
-        return "nuevoServicio";
-    }
-
-    public String lnkCerrarSesion_action() {
-        // TODO: Replace with your code
-        return "cerrarSesion";
-    }
-
-    public String imageHyperlink1_action() {
-        String id = this.dpServicios.getValue("idservicio", rowGroup.getRowKey()).toString();
-        getRequestBean1().setId(Integer.parseInt(id));
-        return "editarServicio";
-    }
-
-    public String imageHyperlink2_action() {
-        Integer id = Integer.valueOf(this.dpServicios.getValue("idservicio", rowGroup.getRowKey()).toString());
-        
-        ServiciosDao sdao =   DaoFactory.getDaoFactory().getServiciosDao();
-        try {
-            sdao.delete(new ServiciosPK(id));
-        } catch (ServiciosDaoException ex) {
-            Logger.getLogger(frmServicios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
-        this.dpServicios = null;
-        return null;
-    }
-    
-    private TableRowGroup rowGroup = new TableRowGroup();
-
-    public TableRowGroup getRowGroup() {
-        return rowGroup;
-    }
-
-    public void setRowGroup(TableRowGroup trg) {
-        this.rowGroup = trg;
-    }
-    
+    /**
+     * <p>Return a reference to the scoped data bean.</p>
+     *
+     * @return reference to the scoped data bean
+     */
     protected RequestBean1 getRequestBean1() {
         return (RequestBean1) getBean("RequestBean1");
     }
+
+    /**
+     * <p>Return a reference to the scoped data bean.</p>
+     *
+     * @return reference to the scoped data bean
+     */
+    protected SessionBean1 getSessionBean1() {
+        return (SessionBean1) getBean("SessionBean1");
+    }
+    
 }
 
