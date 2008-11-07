@@ -97,32 +97,43 @@
                                         <div id="menuSalir">
                                             <ul class="linksmenu">
                                                 <li>
-                                                    <webuijsf:hyperlink actionExpression="#{frmPrincipal.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar Sesión                                                     "/>
+                                                    <webuijsf:hyperlink actionExpression="#{frmServicios.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar Sesión                                                     "/>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </td>
-                                <td align="center">
-                                    <h:panelGrid id="gridPanel1" style="margin: 5px; padding: 5px; "/>
-                                    <webuijsf:table augmentTitle="false" id="table1" paginateButton="true" paginationControls="true" style="align: center"
-                                        title="Servicios" width="80%">
-                                        <webuijsf:tableRowGroup emptyDataMsg="No hay datos para mostrar." id="tableRowGroup1" rows="10"
-                                            sourceData="#{frmServicios.defaultTableDataProvider}" sourceVar="currentRow">
-                                            <webuijsf:tableColumn headerText="Nombre" id="tableColumn1" sort="column1">
-                                                <webuijsf:staticText id="staticText1" text="#{currentRow.value['column1']}"/>
-                                            </webuijsf:tableColumn>
-                                            <webuijsf:tableColumn align="center" id="tableColumn2" width="100">
-                                                <webuijsf:imageHyperlink id="imageHyperlink1" imageURL="/resources/edit24.png" text=""/>
-                                                <webuijsf:imageHyperlink id="imageHyperlink3" imageURL="/resources/find24.png"/>
-                                                <webuijsf:imageHyperlink id="imageHyperlink2" imageURL="/resources/delete24.png"/>
-                                            </webuijsf:tableColumn>
-                                        </webuijsf:tableRowGroup>
-                                    </webuijsf:table>
-                                    <h:panelGrid cellpadding="5" cellspacing="2" columns="2" id="gridPanel2" style="align: center">
-                                        <webuijsf:textField columns="30" id="textField1" label="Servicio" labelLevel="1"/>
-                                        <webuijsf:imageHyperlink id="imageHyperlink4" imageURL="/resources/add24.png"/>
-                                    </h:panelGrid>
+                                <td>
+                                    <table width="100%">
+                                        <tr>
+                                            <td align="center">
+                                                <webuijsf:table augmentTitle="false" id="table1" style="align: center" title="Servicios" width="480">
+                                                    <webuijsf:tableRowGroup emptyDataMsg="No hay datos para mostrar." id="tableRowGroup1" rows="10"
+                                                                            sourceData="#{frmServicios.dpServicios}" sourceVar="currentRow" binding="#{frmServicios.rowGroup}">
+                                                        <webuijsf:tableColumn headerText="ID" id="tableColumn1" sort="idservicio">
+                                                            <webuijsf:staticText id="staticText1" text="#{currentRow.value['idservicio']}"/>
+                                                        </webuijsf:tableColumn>
+                                                        <webuijsf:tableColumn headerText="Servicio" id="tableColumn2" sort="servicio">
+                                                            <webuijsf:staticText id="staticText2" text="#{currentRow.value['servicio']}"/>
+                                                        </webuijsf:tableColumn>
+                                                        <webuijsf:tableColumn align="center" id="tableColumn3">
+                                                            <webuijsf:imageHyperlink actionExpression="#{frmServicios.imageHyperlink1_action}"
+                                                                binding="#{frmServicios.imgLnkEditar}" id="imageHyperlink1" imageURL="/resources/edit24.png" text=""/>
+                                                        </webuijsf:tableColumn>
+                                                        <webuijsf:tableColumn align="center" id="tableColumn4">
+                                                            <webuijsf:imageHyperlink actionExpression="#{frmServicios.imageHyperlink2_action}"
+                                                                binding="#{frmServicios.imgLnkEliminar}" id="imageHyperlink2" imageURL="/resources/delete24.png" text=""/>
+                                                        </webuijsf:tableColumn>
+                                                    </webuijsf:tableRowGroup>
+                                                </webuijsf:table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td align="right">
+                                                <webuijsf:button actionExpression="#{frmServicios.cmdNuevo_action}" id="cmdNuevo" text="Nuevo"/>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </td>
                             </tr>
                         </table>

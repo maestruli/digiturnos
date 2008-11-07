@@ -6,7 +6,13 @@
  
 package digiturnos;
 
+import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractSessionBean;
+import digiturnos.dao.dao.EspecialidadesDao;
+import digiturnos.dao.exception.EspecialidadesDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
 
 /**
@@ -27,6 +33,13 @@ public class SessionBean1 extends AbstractSessionBean {
     private boolean paciente;
     private boolean empleado;
     private boolean admin;
+    
+    private ObjectArrayDataProvider dpServicios;
+    private ObjectArrayDataProvider dpEspecialidades;
+    private ObjectArrayDataProvider dpPacientes;
+    private ObjectArrayDataProvider dpUsuarios;
+    
+    
     
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
@@ -166,6 +179,50 @@ public class SessionBean1 extends AbstractSessionBean {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public ObjectArrayDataProvider getDpServicios() {
+        if (this.dpServicios==null) {
+            DaoFactory df  = DaoFactory.getDaoFactory();
+            EspecialidadesDao edao = df.getEspecialidadesDao();
+            edao.setOrderByColumn(edao.COLUMN_ESPECIALIDAD);
+            
+            this.dpServicios = new ObjectArrayDataProvider();
+            try {
+                this.dpServicios.setArray((Object[]) edao.findAll());
+            } catch (EspecialidadesDaoException ex) {
+                Logger.getLogger(SessionBean1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return dpServicios;
+    }
+
+    public void setDpServicios(ObjectArrayDataProvider dpServicios) {
+        this.dpServicios = dpServicios;
+    }
+
+    public ObjectArrayDataProvider getDpEspecialidades() {
+        return dpEspecialidades;
+    }
+
+    public void setDpEspecialidades(ObjectArrayDataProvider dpEspecialidades) {
+        this.dpEspecialidades = dpEspecialidades;
+    }
+
+    public ObjectArrayDataProvider getDpPacientes() {
+        return dpPacientes;
+    }
+
+    public void setDpPacientes(ObjectArrayDataProvider dpPacientes) {
+        this.dpPacientes = dpPacientes;
+    }
+
+    public ObjectArrayDataProvider getDpUsuarios() {
+        return dpUsuarios;
+    }
+
+    public void setDpUsuarios(ObjectArrayDataProvider dpUsuarios) {
+        this.dpUsuarios = dpUsuarios;
     }
 
 

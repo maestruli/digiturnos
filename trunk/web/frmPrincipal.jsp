@@ -67,7 +67,7 @@
                                                         <webuijsf:hyperlink id="lnkPacientes" text="Administrar Pacientes"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkServicios" text="Administrar Servicios"/>
+                                                        <webuijsf:hyperlink id="lnkServicios" text="Administrar Servicios" url="/faces/frmServicios.jsp"/>
                                                     </li>
                                                     <li>
                                                         <webuijsf:hyperlink id="lnkEspecialidades" text="Administrar Especialidades"/>
