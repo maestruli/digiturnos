@@ -12,7 +12,7 @@ public class EspecialidadesDaoImplBase extends PostgresqlBase implements Especia
     private Integer limit;
     private Integer offset;
 
-    protected static final String SQL_SELECT = "SELECT especialidades.idespecialidad, especialidades.especialidad, especialidades.idservicio FROM especialidades ";
+    protected static final String SQL_SELECT = "SELECT especialidades.idespecialidad, especialidades.especialidad, especialidades.idservicio, (SELECT servicio FROM Servicios WHERE IDservicio=especialidades.IDservicio) FROM especialidades ";
     protected static final String SQL_MAX_ID = "SELECT MAX(idespecialidad) FROM especialidades";
     protected static final String SQL_INSERT = "INSERT INTO especialidades (especialidad, idservicio) VALUES (?, ?)";
     protected static final String SQL_INSERT_WITH_ID = "INSERT INTO especialidades (idespecialidad, especialidad, idservicio) VALUES (?, ?, ?)";
@@ -860,6 +860,11 @@ public class EspecialidadesDaoImplBase extends PostgresqlBase implements Especia
             dto.setIdservicio(rs.getInt(COLUMN_POSITION_IDSERVICIO));
             if (rs.wasNull())
                 dto.setIdservicio(null);
+        } catch (Exception e) {}
+        try {
+            dto.setServicio(rs.getString(COLUMN_POSITION_SERVICIO));
+            if (rs.wasNull())
+                dto.setServicio(null);
         } catch (Exception e) {}
     }
 

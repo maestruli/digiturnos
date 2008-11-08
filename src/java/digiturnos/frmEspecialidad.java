@@ -7,7 +7,21 @@
 package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.DropDown;
+import com.sun.webui.jsf.component.HiddenField;
+import com.sun.webui.jsf.component.TextField;
+import com.sun.webui.jsf.model.SingleSelectOptionsList;
+import digiturnos.dao.dao.EspecialidadesDao;
+import digiturnos.dao.dto.Especialidades;
+import digiturnos.dao.dto.EspecialidadesPK;
+import digiturnos.dao.dto.Servicios;
+import digiturnos.dao.exception.EspecialidadesDaoException;
+import digiturnos.dao.exception.ServiciosDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
+import org.apache.taglibs.standard.tag.common.core.ForEachSupport;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -19,6 +33,10 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmEspecialidad extends AbstractPageBean {
+    private DropDown ddServicio = new DropDown ();
+    private TextField txtEspecialidad = new TextField();
+    private HiddenField hdnId = new HiddenField();
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -27,6 +45,15 @@ public class frmEspecialidad extends AbstractPageBean {
      * here is subject to being replaced.</p>
      */
     private void _init() throws Exception {
+    }
+    private SingleSelectOptionsList ddServicioDefaultOptions = new SingleSelectOptionsList();
+
+    public SingleSelectOptionsList getDdServicioDefaultOptions() {
+        return ddServicioDefaultOptions;
+    }
+
+    public void setDdServicioDefaultOptions(SingleSelectOptionsList ssol) {
+        this.ddServicioDefaultOptions = ssol;
     }
 
     // </editor-fold>
@@ -94,6 +121,36 @@ public class frmEspecialidad extends AbstractPageBean {
      */
     @Override
     public void prerender() {
+        Integer id = new Integer(getRequestBean1().getIdEspecialidad());
+        
+        try {
+            ddServicio.setItems(DaoFactory.getDaoFactory().getServiciosDao().findAll());
+        } catch (ServiciosDaoException ex) {
+            Logger.getLogger(frmEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        hdnId.setText(id);
+        if(id.intValue()!=0) {
+            EspecialidadesDao edao = DaoFactory.getDaoFactory().getEspecialidadesDao();
+            try {
+                Especialidades e = edao.findByPrimaryKey(new Integer(id));
+                txtEspecialidad.setText(e.getEspecialidad());
+                
+                Servicios[] servicios = (Servicios[]) ddServicio.getItems();
+                for(int i=0; i<servicios.length; i++) {
+                    if (servicios[i].getIdservicio()==e.getIdservicio()){
+                        ddServicio.setSelected(servicios[i]);
+                        break;
+                    }
+                }
+                
+            } catch (EspecialidadesDaoException ex) {
+                Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        
     }
 
     /**
@@ -134,6 +191,64 @@ public class frmEspecialidad extends AbstractPageBean {
     protected RequestBean1 getRequestBean1() {
         return (RequestBean1) getBean("RequestBean1");
     }
+
+    public String lnkCerrarSesion_action() {
+        // TODO: Replace with your code
+        return "cerrarSesion";
+    }
+
+    public String cmdAceptar_action() {
+        Integer  id = (Integer)hdnId.getText();
+        
+         EspecialidadesDao sdao =  DaoFactory.getDaoFactory().getEspecialidadesDao();
+         Especialidades especialidad = new Especialidades();
+         especialidad.setEspecialidad(txtEspecialidad.getText().toString());
+         especialidad.setIdservicio(((Servicios)ddServicio.getSelected()).getIdservicio());
+         
+         try {
+             if (id.intValue()!=0) {
+                 especialidad.setIdespecialidad(id);
+                sdao.update(new EspecialidadesPK(id), especialidad);
+             }
+             else {
+                 sdao.insert(especialidad);
+             }
+        } catch (EspecialidadesDaoException ex) {
+            Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        return "Aceptar";
+    }
+
+    public String cmdCancelar_action() {
+        // TODO: Replace with your code
+        return "Cancelar";
+    }
+
+    public DropDown getDdServicio() {
+        return ddServicio;
+    }
+
+    public void setDdServicio(DropDown ddServicio) {
+        this.ddServicio = ddServicio;
+    }
+
+    public TextField getTxtEspecialidad() {
+        return txtEspecialidad;
+    }
+
+    public void setTxtEspecialidad(TextField txtEspecialidad) {
+        this.txtEspecialidad = txtEspecialidad;
+    }
+
+    public HiddenField getHdnId() {
+        return hdnId;
+    }
+
+    public void setHdnId(HiddenField hdnId) {
+        this.hdnId = hdnId;
+    }
+
     
 }
 
