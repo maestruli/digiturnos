@@ -7,6 +7,15 @@
 package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.HiddenField;
+import com.sun.webui.jsf.component.TextField;
+import digiturnos.dao.dao.ServiciosDao;
+import digiturnos.dao.dto.Servicios;
+import digiturnos.dao.dto.ServiciosPK;
+import digiturnos.dao.exception.ServiciosDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
 
 /**
@@ -19,6 +28,9 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmServicio extends AbstractPageBean {
+    private TextField txtServicio = new TextField();
+    private HiddenField hdnId = new HiddenField();
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -94,6 +106,19 @@ public class frmServicio extends AbstractPageBean {
      */
     @Override
     public void prerender() {
+        Integer id = new Integer(getRequestBean1().getIdServicio());
+        
+        hdnId.setText(id);
+        if(id.intValue()!=0) {
+            ServiciosDao sdao = DaoFactory.getDaoFactory().getServiciosDao();
+            try {
+                Servicios s = sdao.findByPrimaryKey(new Integer(id));
+                txtServicio.setText(s.getServicio());
+            } catch (ServiciosDaoException ex) {
+                Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
     }
 
     /**
@@ -133,6 +158,53 @@ public class frmServicio extends AbstractPageBean {
      */
     protected SessionBean1 getSessionBean1() {
         return (SessionBean1) getBean("SessionBean1");
+    }
+
+    public String cmdAceptar_action() {
+         Integer  id = (Integer)hdnId.getText();
+        
+         ServiciosDao sdao =  DaoFactory.getDaoFactory().getServiciosDao();
+         Servicios servicio = new Servicios();
+         servicio.setServicio(txtServicio.getText().toString());
+         try {
+             if (id.intValue()!=0) {
+                 servicio.setIdservicio(id);
+                sdao.update(new ServiciosPK(id), servicio);
+             }
+             else {
+                 sdao.insert(servicio);
+             }
+        } catch (ServiciosDaoException ex) {
+            Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Aceptar";
+    }
+
+    public String lnkCerrarSesion_action() {
+        // TODO: Replace with your code
+        return "cerrarSesion";
+    }
+
+    public String cmdCancelar_action() {
+        // TODO: Process the action. Return value is a navigation
+        // case name where null will return to the same page.
+        return "Cancelar";
+    }
+
+    public TextField getTxtServicio() {
+        return txtServicio;
+    }
+
+    public void setTxtServicio(TextField txtServicio) {
+        this.txtServicio = txtServicio;
+    }
+
+    public HiddenField getHdnId() {
+        return hdnId;
+    }
+
+    public void setHdnId(HiddenField hdnId) {
+        this.hdnId = hdnId;
     }
     
 }

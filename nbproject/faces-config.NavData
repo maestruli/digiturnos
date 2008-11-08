@@ -2,12 +2,25 @@
 <Scene Scope="Project" version="2">
     <Scope Scope="Faces Configuration Only"/>
     <Scope Scope="Project">
-        <Node id="frmServicios.jsp" x="150" y="450" zoom="false"/>
         <Node id="frmPrincipal.jsp" x="650" y="150" zoom="false"/>
-        <Node id="frmLogin.jsp" x="150" y="300" zoom="true"/>
+        <Node id="frmProfesionales.jsp" x="150" y="750" zoom="true"/>
+        <Node id="frmEspecialidades.jsp" x="1150" y="150" zoom="true"/>
+        <Node id="frmPaciente.jsp" x="900" y="150" zoom="true"/>
+        <Node id="frmUsuario.jsp" x="900" y="300" zoom="true"/>
         <Node id="frmVerTurnos.jsp" x="150" y="150" zoom="true"/>
+        <Node id="frmBandaHoraria.jsp" x="900" y="450" zoom="true"/>
+        <Node id="frmServicio.jsp" x="444" y="249" zoom="false"/>
+        <Node id="frmServicios.jsp" x="150" y="450" zoom="false"/>
+        <Node id="frmBandasHorarias.jsp" x="650" y="450" zoom="true"/>
+        <Node id="frmPacientes.jsp" x="400" y="150" zoom="true"/>
+        <Node id="frmVerAgenda.jsp" x="650" y="300" zoom="true"/>
+        <Node id="frmOtorgarLicencias.jsp" x="1150" y="300" zoom="true"/>
+        <Node id="frmLogin.jsp" x="150" y="300" zoom="true"/>
+        <Node id="frmUsuarios.jsp" x="400" y="600" zoom="true"/>
+        <Node id="frmProfesional.jsp" x="400" y="450" zoom="true"/>
+        <Node id="frmEspecialidad.jsp" x="1400" y="150" zoom="true"/>
+        <Node id="frmOtorgarTurnos.jsp" x="150" y="600" zoom="true"/>
         <Node id="frmReservarTurno.jsp" x="273" y="52" zoom="true"/>
-        <Node id="frmServicio.jsp" x="400" y="300" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations"/>
 </Scene>

@@ -173,7 +173,7 @@ public class frmServicios extends AbstractPageBean {
 
     public String imageHyperlink1_action() {
         String id = this.dpServicios.getValue("idservicio", rowGroup.getRowKey()).toString();
-        getRequestBean1().setId(Integer.parseInt(id));
+        getRequestBean1().setIdServicio(Integer.parseInt(id));
         return "editarServicio";
     }
 
