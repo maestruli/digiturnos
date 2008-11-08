@@ -79,3 +79,7 @@ font-weight: bolder;
 text-decoration: none;
 background-image: none;
 }
+body {
+  background-image: url(../resources/fondo.jpg);
+  background-color: white;
+}
