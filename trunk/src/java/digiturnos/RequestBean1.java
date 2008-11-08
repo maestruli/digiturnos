@@ -24,7 +24,7 @@ import javax.faces.FacesException;
  */
 public class RequestBean1 extends AbstractRequestBean {
     private int idServicio = 0;
-    
+    private int idEspecialidad = 0;
     
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
@@ -114,6 +114,14 @@ public class RequestBean1 extends AbstractRequestBean {
 
     public void setIdServicio(int id) {
         this.idServicio = id;
+    }
+
+    public int getIdEspecialidad() {
+        return idEspecialidad;
+    }
+
+    public void setIdEspecialidad(int idEspecialidad) {
+        this.idEspecialidad = idEspecialidad;
     }
 
 }

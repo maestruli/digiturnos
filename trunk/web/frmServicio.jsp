@@ -12,7 +12,7 @@
                 <webuijsf:head id="head1">
                     <webuijsf:link id="link1" url="/resources/stylesheet.css"/>
                 </webuijsf:head>
-                <webuijsf:body id="body1" style="-rave-layout: grid">
+                <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
                     <webuijsf:form id="formulario">
                         <table align="center" border="0" cellpadding="0" cellspacing="0" style="left: -24px; top: 24px; position: absolute">
                             <tr>

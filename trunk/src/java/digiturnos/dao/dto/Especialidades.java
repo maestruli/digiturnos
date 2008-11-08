@@ -1,6 +1,5 @@
 package digiturnos.dao.dto;
 
-import java.util.*;
 import java.io.Serializable;
 
 public class Especialidades implements Serializable, Cloneable {
@@ -14,6 +13,8 @@ public class Especialidades implements Serializable, Cloneable {
     /** idservicio  4  Foriegn Key: idservicio  null */
     protected Integer idservicio;
 
+    private String servicio;
+    
     /** Creates a dto for the especialidades table */
     public Especialidades() {
     }
@@ -117,5 +118,19 @@ public class Especialidades implements Serializable, Cloneable {
         }
         return result;
     }
+
+    public String getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(String servicio) {
+        this.servicio = servicio;
+    }
+    
+    @Override
+    public String toString() { 
+        return this.getServicio();
+    } 
+    
 
 }

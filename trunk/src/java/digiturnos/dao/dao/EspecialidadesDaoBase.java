@@ -40,6 +40,7 @@ public interface EspecialidadesDaoBase {
     public static final int COLUMN_POSITION_ESPECIALIDAD = 2;
     /** column ordinal value constant for especialidades.idservicio int4 */
     public static final int COLUMN_POSITION_IDSERVICIO = 3;
+    public static final int COLUMN_POSITION_SERVICIO = 4;
 
     /** canonical name constant for especialidades.idespecialidad serial */
     public static final String COLUMN_IDESPECIALIDAD = "especialidades.idespecialidad";

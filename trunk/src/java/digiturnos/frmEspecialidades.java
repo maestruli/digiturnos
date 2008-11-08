@@ -6,7 +6,17 @@
  
 package digiturnos;
 
+import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.ImageHyperlink;
+import com.sun.webui.jsf.component.TableRowGroup;
+import com.sun.webui.jsf.model.DefaultTableDataProvider;
+import digiturnos.dao.dao.EspecialidadesDao;
+import digiturnos.dao.dto.EspecialidadesPK;
+import digiturnos.dao.exception.EspecialidadesDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
 
 /**
@@ -19,6 +29,9 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmEspecialidades extends AbstractPageBean {
+    private ObjectArrayDataProvider dpEspecialidades;
+    private TableRowGroup rowGroup = new TableRowGroup();
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -94,6 +107,8 @@ public class frmEspecialidades extends AbstractPageBean {
      */
     @Override
     public void prerender() {
+        
+        
     }
 
     /**
@@ -133,6 +148,66 @@ public class frmEspecialidades extends AbstractPageBean {
      */
     protected RequestBean1 getRequestBean1() {
         return (RequestBean1) getBean("RequestBean1");
+    }
+
+    public String lnkCerrarSesion_action() {
+        // TODO: Replace with your code
+        return "case1";
+    }
+
+    public String imageHyperlink1_action() {
+        String id = this.dpEspecialidades.getValue("idespecialidad", getRowGroup().getRowKey()).toString();
+        getRequestBean1().setIdEspecialidad(Integer.parseInt(id));
+        return "editarEspecialidad";
+    }
+
+    public String imageHyperlink2_action() {
+        Integer id = Integer.valueOf(this.dpEspecialidades.getValue("idespecialidad", getRowGroup().getRowKey()).toString());
+        
+        EspecialidadesDao edao =   DaoFactory.getDaoFactory().getEspecialidadesDao();
+        try {
+            edao.delete(new EspecialidadesPK(id));
+        } catch (EspecialidadesDaoException ex) {
+            Logger.getLogger(frmServicios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        this.dpEspecialidades = null;
+        
+        return null;
+    }
+
+    public String cmdNuevo_action() {
+        // TODO: Replace with your code
+        return "nuevaEspecialidad";
+    }
+
+    public ObjectArrayDataProvider getDpEspecialidades() {
+        
+        if (this.dpEspecialidades==null) {
+            EspecialidadesDao edao = DaoFactory.getDaoFactory().getEspecialidadesDao();
+            edao.setOrderByColumn(edao.COLUMN_ESPECIALIDAD);
+            
+            this.dpEspecialidades = new ObjectArrayDataProvider();
+            try {
+                this.dpEspecialidades.setArray((Object[]) edao.findAll());
+            } catch (EspecialidadesDaoException ex) {
+                Logger.getLogger(SessionBean1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return dpEspecialidades;
+    }
+
+    public void setDpEspecialidades(ObjectArrayDataProvider dpEspecialidades) {
+        this.dpEspecialidades = dpEspecialidades;
+    }
+
+    public TableRowGroup getRowGroup() {
+        return rowGroup;
+    }
+
+    public void setRowGroup(TableRowGroup rowGroup) {
+        this.rowGroup = rowGroup;
     }
     
 }
