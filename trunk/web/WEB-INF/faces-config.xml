@@ -145,4 +145,19 @@
         <managed-bean-class>digiturnos.frmUsuario</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    <navigation-rule>
+        <from-view-id>/frmServicio.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>Aceptar</from-outcome>
+            <to-view-id>/frmServicios.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>Cancelar</from-outcome>
+            <to-view-id>/frmServicios.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cerrarSesion</from-outcome>
+            <to-view-id>/frmServicios.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
