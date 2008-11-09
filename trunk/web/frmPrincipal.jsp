@@ -76,9 +76,6 @@
                                                         <webuijsf:hyperlink id="lnkProfesionales" text="Administrar Profesionales" url="/faces/frmProfesionales.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkBandasHorarias" text="Administrar Bandas Horarias" url="/faces/frmBandasHorarias.jsp"/>
-                                                    </li>
-                                                    <li>
                                                         <webuijsf:hyperlink id="lnkOtorgarLicencias" text="Otorgar Licencias" url="/faces/frmOtorgarLicencias.jsp"/>
                                                     </li>
                                                 </ul>
