@@ -17,6 +17,7 @@ import digiturnos.dao.factory.DaoFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.FacesException;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -167,7 +168,8 @@ public class frmServicios extends AbstractPageBean {
     }
 
     public String lnkCerrarSesion_action() {
-        // TODO: Replace with your code
+        HttpSession sesion = (HttpSession) getExternalContext().getSession(true);
+        sesion.invalidate();
         return "cerrarSesion";
     }
 

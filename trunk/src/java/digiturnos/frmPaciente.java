@@ -1,12 +1,21 @@
 /*
  * frmPaciente.java
  *
- * Created on 08/11/2008, 00:20:26
+ * Created on 07/11/2008, 17:37:43
  */
  
 package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.HiddenField;
+import com.sun.webui.jsf.component.TextField;
+import digiturnos.dao.dao.PacientesDao;
+import digiturnos.dao.dto.Pacientes;
+import digiturnos.dao.dto.PacientesPK;
+import digiturnos.dao.exception.PacientesDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
 
 /**
@@ -19,6 +28,9 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmPaciente extends AbstractPageBean {
+    private TextField txtNombre = new TextField();
+    private HiddenField hdnId = new HiddenField();
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -28,6 +40,7 @@ public class frmPaciente extends AbstractPageBean {
      */
     private void _init() throws Exception {
     }
+
 
     // </editor-fold>
 
@@ -94,6 +107,19 @@ public class frmPaciente extends AbstractPageBean {
      */
     @Override
     public void prerender() {
+        Integer id = new Integer(getRequestBean1().getIdPaciente());
+        
+        hdnId.setText(id);
+        if(id.intValue()!=0) {
+            PacientesDao sdao = DaoFactory.getDaoFactory().getPacientesDao();
+            try {
+                Pacientes p = sdao.findByPrimaryKey(new Integer(id));
+                txtNombre.setText(p.getNombre());
+            } catch (PacientesDaoException ex) {
+                Logger.getLogger(frmPaciente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
     }
 
     /**
@@ -122,8 +148,8 @@ public class frmPaciente extends AbstractPageBean {
      *
      * @return reference to the scoped data bean
      */
-    protected SessionBean1 getSessionBean1() {
-        return (SessionBean1) getBean("SessionBean1");
+    protected RequestBean1 getRequestBean1() {
+        return (RequestBean1) getBean("RequestBean1");
     }
 
     /**
@@ -131,9 +157,55 @@ public class frmPaciente extends AbstractPageBean {
      *
      * @return reference to the scoped data bean
      */
-    protected RequestBean1 getRequestBean1() {
-        return (RequestBean1) getBean("RequestBean1");
+    protected SessionBean1 getSessionBean1() {
+        return (SessionBean1) getBean("SessionBean1");
+    }
+
+    public String cmdAceptar_action() {
+         Integer  id = (Integer)hdnId.getText();
+        
+         PacientesDao pdao =  DaoFactory.getDaoFactory().getPacientesDao();
+         Pacientes paciente = new Pacientes();
+         paciente.setNombre(txtNombre.getText().toString());
+         try {
+             if (id.intValue()!=0) {
+                 paciente.setIdpaciente(id);
+                pdao.update(new PacientesPK(id), paciente);
+             }
+             else {
+                 pdao.insert(paciente);
+             }
+        } catch (PacientesDaoException ex) {
+            Logger.getLogger(frmPaciente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "Aceptar";
+    }
+
+    public String lnkCerrarSesion_action() {
+        // TODO: Replace with your code
+        return "cerrarSesion";
+    }
+
+    public String cmdCancelar_action() {
+        // TODO: Process the action. Return value is a navigation
+        // case name where null will return to the same page.
+        return "Cancelar";
+    }
+
+    public TextField getTxtNombre() {
+        return txtNombre;
+    }
+
+    public void setTxtNombre(TextField txtNombre) {
+        this.txtNombre = txtNombre;
+    }
+
+    public HiddenField getHdnId() {
+        return hdnId;
+    }
+
+    public void setHdnId(HiddenField hdnId) {
+        this.hdnId = hdnId;
     }
     
 }
-

@@ -37,6 +37,7 @@ public class SessionBean1 extends AbstractSessionBean {
     private ObjectArrayDataProvider dpServicios;
     private ObjectArrayDataProvider dpEspecialidades;
     private ObjectArrayDataProvider dpPacientes;
+    private ObjectArrayDataProvider dpProfesionales;
     private ObjectArrayDataProvider dpUsuarios;
     
     

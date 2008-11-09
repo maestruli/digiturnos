@@ -14,7 +14,7 @@
                 </webuijsf:head>
                 <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
                     <webuijsf:form id="formulario">
-                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="left: -24px; top: 24px; position: absolute">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="">
                             <tr>
                                 <td colspan="2">
                                     <img alt="Digiturnos" border="0" src="resources/header.jpg"/>
@@ -103,12 +103,14 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <h:panelGrid cellpadding="5" cellspacing="2" columns="2" id="gridPanel1">
-                                        <webuijsf:textField columns="30" id="textField1" label="Servicio" labelLevel="1" binding="#{frmServicio.txtServicio}"/>
+                                <td align="center">
+                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
+                                        <webuijsf:textField binding="#{frmServicio.txtServicio}" columns="30" id="textField1" label="Servicio"/>
+                                        <webuijsf:hiddenField binding="#{frmServicio.hdnId}" id="hdnId"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid cellpadding="5" cellspacing="2" columns="2" id="gridPanel2" >
                                         <webuijsf:button actionExpression="#{frmServicio.cmdAceptar_action}" id="cmdAceptar" text="Aceptar"/>
                                         <webuijsf:button actionExpression="#{frmServicio.cmdCancelar_action}" id="cmdCancelar" text="Cancelar"/>
-                                        <webuijsf:hiddenField id="hdnId" binding="#{frmServicio.hdnId}" />
                                     </h:panelGrid>
                                 </td>
                             </tr>
