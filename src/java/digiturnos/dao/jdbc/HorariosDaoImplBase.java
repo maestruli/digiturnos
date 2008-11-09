@@ -5,18 +5,19 @@ import digiturnos.dao.dto.*;
 import digiturnos.dao.exception.*;
 import java.util.*;
 import java.sql.*;
+import org.apache.commons.logging.*;
 
-public class ProfesionalesDaoImplBase extends PostgresqlBase implements ProfesionalesDaoBase {
+public class HorariosDaoImplBase extends PostgresqlBase implements HorariosDaoBase {
 
     private Integer limit;
     private Integer offset;
 
-    protected static final String SQL_SELECT = "SELECT profesionales.idprofesional, profesionales.dni, profesionales.nombre, profesionales.fechanacimiento, profesionales.domicilio, profesionales.telefono, profesionales.celular, profesionales.email, profesionales.idespecialidad, (SELECT especialidad FROM especialidades WHERE idespecialidad=profesionales.idespecialidad) as especialidad FROM profesionales ";
-    protected static final String SQL_MAX_ID = "SELECT MAX(idprofesional) FROM profesionales";
-    protected static final String SQL_INSERT = "INSERT INTO profesionales (dni, nombre, fechanacimiento, domicilio, telefono, celular, email, idespecialidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    protected static final String SQL_INSERT_WITH_ID = "INSERT INTO profesionales (idprofesional, dni, nombre, fechanacimiento, domicilio, telefono, celular, email, idespecialidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    protected static final String SQL_UPDATE = "UPDATE profesionales SET idprofesional = ?, dni = ?, nombre = ?, fechanacimiento = ?, domicilio = ?, telefono = ?, celular = ?, email = ?, idespecialidad = ? WHERE profesionales.idprofesional = ?";
-    protected static final String SQL_DELETE = "DELETE FROM profesionales WHERE profesionales.idprofesional = ?";
+    protected static final String SQL_SELECT = "SELECT horarios.idhorario, horarios.idprofesional, horarios.dia, horarios.desde, horarios.hasta FROM horarios ";
+    protected static final String SQL_MAX_ID = "SELECT MAX(idhorario) FROM horarios";
+    protected static final String SQL_INSERT = "INSERT INTO horarios (idprofesional, dia, desde, hasta) VALUES (?, ?, ?, ?)";
+    protected static final String SQL_INSERT_WITH_ID = "INSERT INTO horarios (idhorario, idprofesional, dia, desde, hasta) VALUES (?, ?, ?, ?, ?)";
+    protected static final String SQL_UPDATE = "UPDATE horarios SET idhorario = ?, idprofesional = ?, dia = ?, desde = ?, hasta = ? WHERE horarios.idhorario = ?";
+    protected static final String SQL_DELETE = "DELETE FROM horarios WHERE horarios.idhorario = ?";
 
     protected static final String ORDER_BY = " ORDER BY ";
 
@@ -68,7 +69,7 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
         this.offset = offset;
     }
 
-    public  Profesionales[] findAll() throws ProfesionalesDaoException {
+    public  Horarios[] findAll() throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -87,10 +88,10 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -106,59 +107,52 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public ProfesionalesPK insert(Profesionales dto) throws ProfesionalesDaoException {
+    public HorariosPK insert(Horarios dto) throws HorariosDaoException {
         return insert(dto, null);
     }
 
-    public  ProfesionalesPK insert(Profesionales dto, Integer idprofesional) throws ProfesionalesDaoException {
+    public  HorariosPK insert(Horarios dto, Integer idhorario) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Profesionales idto = null;
-        ProfesionalesPK pk = null;
+        Horarios idto = null;
+        HorariosPK pk = null;
 
         try {
             String sql = SQL_INSERT;
-            if (!(idprofesional == null ))
+            if (!(idhorario == null ))
                 sql = SQL_INSERT_WITH_ID;
             con = getConnection();
             con.setAutoCommit(false);
             ps = con.prepareStatement(sql);
             int paramCount = 1;
-            if (!(idprofesional == null ))
+            if (!(idhorario == null ))
+                ps.setInt(paramCount++,  dto.getIdhorario());
+            if (dto.getIdprofesional() == null)
+                ps.setInt(paramCount++, 0);
+            else
                 ps.setInt(paramCount++,  dto.getIdprofesional());
-            if (dto.getDni() == null)
-                ps.setInt(paramCount++, 0);
-            else
-                ps.setInt(paramCount++,  dto.getDni());
-            ps.setString(paramCount++,  dto.getNombre());
-            ps.setDate(paramCount++,  dto.getFechanacimiento());
-            ps.setString(paramCount++,  dto.getDomicilio());
-            ps.setString(paramCount++,  dto.getTelefono());
-            ps.setString(paramCount++,  dto.getCelular());
-            ps.setString(paramCount++,  dto.getEmail());
-            if (dto.getIdespecialidad() == null)
-                ps.setInt(paramCount++, 0);
-            else
-                ps.setInt(paramCount++,  dto.getIdespecialidad());
+            ps.setString(paramCount++,  dto.getDia());
+            ps.setTime(paramCount++,  dto.getDesde());
+            ps.setTime(paramCount++,  dto.getHasta());
             ps.executeUpdate();
             log.trace("SQL: " + sql);
-            if (idprofesional == null ) {
-                int cIdprofesional = -1;
-                String sqlIdprofesional = "select currval('profesionales_idprofesional_seq')";
-                PreparedStatement psIdprofesional = con.prepareStatement(sqlIdprofesional);
-                ResultSet rsIdprofesional = psIdprofesional.executeQuery();
-                while (rsIdprofesional.next())
-                    cIdprofesional = rsIdprofesional.getInt(1);
-                dto.setIdprofesional(cIdprofesional);
+            if (idhorario == null ) {
+                int cIdhorario = -1;
+                String sqlIdhorario = "select currval('horarios_idhorario_seq')";
+                PreparedStatement psIdhorario = con.prepareStatement(sqlIdhorario);
+                ResultSet rsIdhorario = psIdhorario.executeQuery();
+                while (rsIdhorario.next())
+                    cIdhorario = rsIdhorario.getInt(1);
+                dto.setIdhorario(cIdhorario);
             }
             con.commit();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -177,7 +171,7 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public  int update(ProfesionalesPK pk, Profesionales dto) throws ProfesionalesDaoException {
+    public  int update(HorariosPK pk, Horarios dto) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         int numRows = -1;
@@ -186,50 +180,34 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             String sql = SQL_UPDATE;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            if (dto.getIdprofesional() == null)
+            if (dto.getIdhorario() == null)
                 ps.setNull(1, 4);
             else
-                ps.setInt(1,  dto.getIdprofesional());
-            if (dto.getDni() == null)
+                ps.setInt(1,  dto.getIdhorario());
+            if (dto.getIdprofesional() == null)
                 ps.setNull(2, 4);
             else
-                ps.setInt(2,  dto.getDni());
-            if (dto.getNombre() == null)
+                ps.setInt(2,  dto.getIdprofesional());
+            if (dto.getDia() == null)
                 ps.setNull(3, 12);
             else
-                ps.setString(3,  dto.getNombre());
-            if (dto.getFechanacimiento() == null)
-                ps.setNull(4, 91);
+                ps.setString(3,  dto.getDia());
+            if (dto.getDesde() == null)
+                ps.setNull(4, 92);
             else
-                ps.setDate(4,  dto.getFechanacimiento());
-            if (dto.getDomicilio() == null)
-                ps.setNull(5, 12);
+                ps.setTime(4,  dto.getDesde());
+            if (dto.getHasta() == null)
+                ps.setNull(5, 92);
             else
-                ps.setString(5,  dto.getDomicilio());
-            if (dto.getTelefono() == null)
-                ps.setNull(6, 1);
-            else
-                ps.setString(6,  dto.getTelefono());
-            if (dto.getCelular() == null)
-                ps.setNull(7, 1);
-            else
-                ps.setString(7,  dto.getCelular());
-            if (dto.getEmail() == null)
-                ps.setNull(8, 12);
-            else
-                ps.setString(8,  dto.getEmail());
-            if (dto.getIdespecialidad() == null)
-                ps.setNull(9, 4);
-            else
-                ps.setInt(9,  dto.getIdespecialidad());
-            ps.setInt(10,  pk.getIdprofesional());
+                ps.setTime(5,  dto.getHasta());
+            ps.setInt(6,  pk.getIdhorario());
             numRows = ps.executeUpdate();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                     if (ps != null)
@@ -243,7 +221,7 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
         return numRows;
     }
 
-    public  int delete(ProfesionalesPK pk) throws ProfesionalesDaoException {
+    public  int delete(HorariosPK pk) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         int numRows = -1;
@@ -252,14 +230,14 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             String sql = SQL_DELETE;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1,  pk.getIdprofesional());
+            ps.setInt(1,  pk.getIdhorario());
             numRows = ps.executeUpdate();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                     if (ps != null)
@@ -273,7 +251,7 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
         return numRows;
     }
 
-    public  Profesionales findWhereOIDEquals(long oid) throws ProfesionalesDaoException {
+    public  Horarios findWhereOIDEquals(long oid) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -289,10 +267,10 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             return fetchSingleResult(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -308,30 +286,30 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public  Profesionales findByPrimaryKey(ProfesionalesPK pk) throws ProfesionalesDaoException {
-        return findByPrimaryKey(pk.getIdprofesional());
+    public  Horarios findByPrimaryKey(HorariosPK pk) throws HorariosDaoException {
+        return findByPrimaryKey(pk.getIdhorario());
     }
 
-    public  Profesionales findByPrimaryKey(Integer idprofesional) throws ProfesionalesDaoException {
+    public  Horarios findByPrimaryKey(Integer idhorario) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE profesionales.idprofesional = ?";
+            String sql = SQL_SELECT + " WHERE horarios.idhorario = ?";
             sql += getOrderByClause();
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idprofesional);
+            ps.setInt(1, idhorario);
             log.trace("SQL: " + sql);
             rs = ps.executeQuery();
             return fetchSingleResult(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -347,58 +325,18 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public  Profesionales[] findByEspecialidades(EspecialidadesPK pk) throws ProfesionalesDaoException {
-        return findByEspecialidades(pk.getIdespecialidad());
+    public  Horarios[] findByProfesionales(ProfesionalesPK pk) throws HorariosDaoException {
+        return findByProfesionales(pk.getIdprofesional());
     }
 
 
-    public  Profesionales[] findByEspecialidades(Integer idespecialidad) throws ProfesionalesDaoException {
+    public  Horarios[] findByProfesionales(Integer idprofesional) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE idespecialidad = ?";
-            sql += getOrderByClause();
-            if (limit != null && limit.intValue() > 0)
-                sql += " LIMIT " + limit;
-            if (offset != null && offset.intValue() > 0)
-                sql += " OFFSET " + offset;
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, idespecialidad);
-            log.trace("SQL: " + sql);
-            rs = ps.executeQuery();
-            return fetchMultipleResults(rs);
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-
-    public  Profesionales[] findWhereIdprofesionalEquals(Integer idprofesional) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = SQL_SELECT + " WHERE profesionales.idprofesional = ?";
+            String sql = SQL_SELECT + " WHERE idprofesional = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -412,10 +350,10 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -431,13 +369,14 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public  Profesionales[] findWhereDniEquals(Integer dni) throws ProfesionalesDaoException {
+
+    public  Horarios[] findWhereIdhorarioEquals(Integer idhorario) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE profesionales.dni = ?";
+            String sql = SQL_SELECT + " WHERE horarios.idhorario = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -445,16 +384,16 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
                 sql += " OFFSET " + offset;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, dni);
+            ps.setInt(1, idhorario);
             log.trace("SQL: " + sql);
             rs = ps.executeQuery();
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -470,13 +409,13 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public  Profesionales[] findWhereNombreEquals(String nombre) throws ProfesionalesDaoException {
+    public  Horarios[] findWhereIdprofesionalEquals(Integer idprofesional) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE profesionales.nombre = ?";
+            String sql = SQL_SELECT + " WHERE horarios.idprofesional = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -484,16 +423,16 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
                 sql += " OFFSET " + offset;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1, nombre);
+            ps.setInt(1, idprofesional);
             log.trace("SQL: " + sql);
             rs = ps.executeQuery();
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -509,14 +448,13 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-
-    public  Profesionales[] findWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws ProfesionalesDaoException {
+    public  Horarios[] findWhereDiaEquals(String dia) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE profesionales.fechanacimiento = ?";
+            String sql = SQL_SELECT + " WHERE horarios.dia = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -524,16 +462,16 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
                 sql += " OFFSET " + offset;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setDate(1, fechanacimiento);
+            ps.setString(1, dia);
             log.trace("SQL: " + sql);
             rs = ps.executeQuery();
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -549,13 +487,13 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public  Profesionales[] findWhereDomicilioEquals(String domicilio) throws ProfesionalesDaoException {
+    public  Horarios[] findWhereDesdeEquals(java.sql.Time desde) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE profesionales.domicilio = ?";
+            String sql = SQL_SELECT + " WHERE horarios.desde = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -563,16 +501,16 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
                 sql += " OFFSET " + offset;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1, domicilio);
+            ps.setTime(1, desde);
             log.trace("SQL: " + sql);
             rs = ps.executeQuery();
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -588,13 +526,13 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public  Profesionales[] findWhereTelefonoEquals(String telefono) throws ProfesionalesDaoException {
+    public  Horarios[] findWhereHastaEquals(java.sql.Time hasta) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE profesionales.telefono = ?";
+            String sql = SQL_SELECT + " WHERE horarios.hasta = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -602,16 +540,16 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
                 sql += " OFFSET " + offset;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1, telefono);
+            ps.setTime(1, hasta);
             log.trace("SQL: " + sql);
             rs = ps.executeQuery();
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -627,124 +565,7 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public  Profesionales[] findWhereCelularEquals(String celular) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = SQL_SELECT + " WHERE profesionales.celular = ?";
-            sql += getOrderByClause();
-            if (limit != null && limit.intValue() > 0)
-                sql += " LIMIT " + limit;
-            if (offset != null && offset.intValue() > 0)
-                sql += " OFFSET " + offset;
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, celular);
-            log.trace("SQL: " + sql);
-            rs = ps.executeQuery();
-            return fetchMultipleResults(rs);
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public  Profesionales[] findWhereEmailEquals(String email) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = SQL_SELECT + " WHERE profesionales.email = ?";
-            sql += getOrderByClause();
-            if (limit != null && limit.intValue() > 0)
-                sql += " LIMIT " + limit;
-            if (offset != null && offset.intValue() > 0)
-                sql += " OFFSET " + offset;
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, email);
-            log.trace("SQL: " + sql);
-            rs = ps.executeQuery();
-            return fetchMultipleResults(rs);
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public  Profesionales[] findWhereIdespecialidadEquals(Integer idespecialidad) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = SQL_SELECT + " WHERE profesionales.idespecialidad = ?";
-            sql += getOrderByClause();
-            if (limit != null && limit.intValue() > 0)
-                sql += " LIMIT " + limit;
-            if (offset != null && offset.intValue() > 0)
-                sql += " OFFSET " + offset;
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, idespecialidad);
-            log.trace("SQL: " + sql);
-            rs = ps.executeQuery();
-            return fetchMultipleResults(rs);
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public  Object[][] findBySelect(String sql, Object[] sqlParams) throws ProfesionalesDaoException {
+    public  Object[][] findBySelect(String sql, Object[] sqlParams) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -776,10 +597,10 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             return ra;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -796,7 +617,7 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
     }
 
 
-    public Profesionales[] findByWhere(String where, Object[] sqlParams) throws ProfesionalesDaoException {
+    public Horarios[] findByWhere(String where, Object[] sqlParams) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -820,10 +641,10 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -840,13 +661,13 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
     }
 
 
-    public int countAll() throws ProfesionalesDaoException {
+    public int countAll() throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idprofesional) from profesionales";
+            String sql = "SELECT count(idhorario) from horarios";
             con = getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -855,10 +676,10 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -874,26 +695,26 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public int countByPrimaryKey(ProfesionalesPK pk) throws ProfesionalesDaoException {
+    public int countByPrimaryKey(HorariosPK pk) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE idprofesional = ? ";
+            String sql = "SELECT count(idhorario) from horarios WHERE idhorario = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, pk.getIdprofesional());
+            ps.setInt(1, pk.getIdhorario());
             rs = ps.executeQuery();
             while (rs.next())
                 count = rs.getInt(1);
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -909,13 +730,83 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public int countByPrimaryKey(Integer idprofesional) throws ProfesionalesDaoException {
+    public int countByPrimaryKey(Integer idhorario) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE idprofesional = ? ";
+            String sql = "SELECT count(idhorario) from horarios WHERE idhorario = ? ";
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idhorario);
+            rs = ps.executeQuery();
+            while (rs.next())
+                count = rs.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public int countWhereIdhorarioEquals(Integer idhorario) throws HorariosDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            String sql = "SELECT count(idhorario) from horarios WHERE idhorario = ? ";
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idhorario);
+            rs = ps.executeQuery();
+            while (rs.next())
+                count = rs.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public int countWhereIdprofesionalEquals(Integer idprofesional) throws HorariosDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            String sql = "SELECT count(idhorario) from horarios WHERE idprofesional = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, idprofesional);
@@ -925,10 +816,10 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -944,26 +835,26 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public int countWhereIdprofesionalEquals(Integer idprofesional) throws ProfesionalesDaoException {
+    public int countWhereDiaEquals(String dia) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE idprofesional = ? ";
+            String sql = "SELECT count(idhorario) from horarios WHERE dia = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idprofesional);
+            ps.setString(1, dia);
             rs = ps.executeQuery();
             while (rs.next())
                 count = rs.getInt(1);
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -979,26 +870,26 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public int countWhereDniEquals(Integer dni) throws ProfesionalesDaoException {
+    public int countWhereDesdeEquals(java.sql.Time desde) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE dni = ? ";
+            String sql = "SELECT count(idhorario) from horarios WHERE desde = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, dni);
+            ps.setTime(1, desde);
             rs = ps.executeQuery();
             while (rs.next())
                 count = rs.getInt(1);
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1014,26 +905,26 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public int countWhereNombreEquals(String nombre) throws ProfesionalesDaoException {
+    public int countWhereHastaEquals(java.sql.Time hasta) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE nombre = ? ";
+            String sql = "SELECT count(idhorario) from horarios WHERE hasta = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setString(1, nombre);
+            ps.setTime(1, hasta);
             rs = ps.executeQuery();
             while (rs.next())
                 count = rs.getInt(1);
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1049,223 +940,13 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    public int countWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws ProfesionalesDaoException {
+    public int countByWhere(String where, Object[] sqlParams) throws HorariosDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE fechanacimiento = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setDate(1, fechanacimiento);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereDomicilioEquals(String domicilio) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE domicilio = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, domicilio);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereTelefonoEquals(String telefono) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE telefono = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, telefono);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereCelularEquals(String celular) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE celular = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, celular);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereEmailEquals(String email) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE email = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, email);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereIdespecialidadEquals(Integer idespecialidad) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idprofesional) from profesionales WHERE idespecialidad = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setInt(1, idespecialidad);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countByWhere(String where, Object[] sqlParams) throws ProfesionalesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idprofesional) from profesionales ";
+            String sql = "SELECT count(idhorario) from horarios ";
             if (where != null)  
                sql += " WHERE " + where;
             con = getConnection();
@@ -1281,10 +962,10 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+            throw new HorariosDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+            throw new HorariosDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1300,78 +981,53 @@ public class ProfesionalesDaoImplBase extends PostgresqlBase implements Profesio
 
     }
 
-    protected  Profesionales[] fetchMultipleResults(ResultSet rs) throws SQLException {
+    protected  Horarios[] fetchMultipleResults(ResultSet rs) throws SQLException {
         ArrayList results = new ArrayList();
         while (rs.next()) {
-            Profesionales dto = new Profesionales();
+            Horarios dto = new Horarios();
             populateDto(dto, rs);
             results.add(dto);
         }
-        Profesionales retValue[] = new Profesionales[results.size()];
+        Horarios retValue[] = new Horarios[results.size()];
         results.toArray(retValue);
         return retValue;
     }
 
 
-    protected  Profesionales fetchSingleResult(ResultSet rs) throws SQLException {
+    protected  Horarios fetchSingleResult(ResultSet rs) throws SQLException {
         if (rs.next()) {
-            Profesionales dto = new Profesionales();
+            Horarios dto = new Horarios();
             populateDto(dto, rs);
             return dto;
         } else 
             return null;
     }
 
-    protected static void populateDto(Profesionales dto, ResultSet rs) throws SQLException {
+    protected static void populateDto(Horarios dto, ResultSet rs) throws SQLException {
+        try {
+            dto.setIdhorario(rs.getInt(COLUMN_POSITION_IDHORARIO));
+            if (rs.wasNull())
+                dto.setIdhorario(null);
+        } catch (Exception e) {}
         try {
             dto.setIdprofesional(rs.getInt(COLUMN_POSITION_IDPROFESIONAL));
             if (rs.wasNull())
                 dto.setIdprofesional(null);
         } catch (Exception e) {}
         try {
-            dto.setDni(rs.getInt(COLUMN_POSITION_DNI));
+            dto.setDia(rs.getString(COLUMN_POSITION_DIA));
             if (rs.wasNull())
-                dto.setDni(null);
+                dto.setDia(null);
         } catch (Exception e) {}
         try {
-            dto.setNombre(rs.getString(COLUMN_POSITION_NOMBRE));
+            dto.setDesde(rs.getTime(COLUMN_POSITION_DESDE));
             if (rs.wasNull())
-                dto.setNombre(null);
+                dto.setDesde(null);
         } catch (Exception e) {}
         try {
-            dto.setFechanacimiento(rs.getDate(COLUMN_POSITION_FECHANACIMIENTO));
+            dto.setHasta(rs.getTime(COLUMN_POSITION_HASTA));
             if (rs.wasNull())
-                dto.setFechanacimiento(null);
-        } catch (Exception e) {}
-        try {
-            dto.setDomicilio(rs.getString(COLUMN_POSITION_DOMICILIO));
-            if (rs.wasNull())
-                dto.setDomicilio(null);
-        } catch (Exception e) {}
-        try {
-            dto.setTelefono(rs.getString(COLUMN_POSITION_TELEFONO));
-            if (rs.wasNull())
-                dto.setTelefono(null);
-        } catch (Exception e) {}
-        try {
-            dto.setCelular(rs.getString(COLUMN_POSITION_CELULAR));
-            if (rs.wasNull())
-                dto.setCelular(null);
-        } catch (Exception e) {}
-        try {
-            dto.setEmail(rs.getString(COLUMN_POSITION_EMAIL));
-            if (rs.wasNull())
-                dto.setEmail(null);
-        } catch (Exception e) {}
-        try {
-            dto.setEspecialidad(rs.getString(COLUMN_POSITION_ESPECIALIDAD));
-            if (rs.wasNull())
-                dto.setEspecialidad(null);
-        } catch (Exception e) {}
-        try {
-            dto.setIdespecialidad(rs.getInt(COLUMN_POSITION_IDESPECIALIDAD));
-            if (rs.wasNull())
-                dto.setIdespecialidad(null);
+                dto.setHasta(null);
         } catch (Exception e) {}
     }
 
