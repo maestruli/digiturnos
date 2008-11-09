@@ -105,11 +105,11 @@
                                 </td>
                                 <td>
                                     <h:panelGrid columns="2" id="gridPanel1" style="height: 240px" width="456">
-                                        <webuijsf:dropDown id="ddServicio" label="Servicio"/>
-                                        <webuijsf:textField id="txtEspecialidad" label="Especalidad"/>
+                                        <webuijsf:dropDown id="ddServicio" label="Servicio" binding="#{frmEspecialidad.ddServicio}" />
+                                        <webuijsf:textField id="txtEspecialidad" label="Especalidad" binding="#{frmEspecialidad.txtEspecialidad}"/>
                                         <webuijsf:button actionExpression="#{frmEspecialidad.cmdAceptar_action}" id="cmdAceptar" text="Aceptar"/>
                                         <webuijsf:button actionExpression="#{frmEspecialidad.cmdCancelar_action}" id="cmdCancelar" text="Cancelar"/>
-                                        <webuijsf:hiddenField id="hdnId"/>
+                                        <webuijsf:hiddenField id="hdnId" binding="#{frmEspecialidad.hdnId}" />
                                     </h:panelGrid>
                                 </td>
                             </tr>

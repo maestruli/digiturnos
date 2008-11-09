@@ -10,6 +10,7 @@ import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.webui.jsf.component.DropDown;
 import com.sun.webui.jsf.component.HiddenField;
 import com.sun.webui.jsf.component.TextField;
+import com.sun.webui.jsf.model.Option;
 import com.sun.webui.jsf.model.SingleSelectOptionsList;
 import digiturnos.dao.dao.EspecialidadesDao;
 import digiturnos.dao.dto.Especialidades;
@@ -21,7 +22,6 @@ import digiturnos.dao.factory.DaoFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.FacesException;
-import org.apache.taglibs.standard.tag.common.core.ForEachSupport;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -45,15 +45,6 @@ public class frmEspecialidad extends AbstractPageBean {
      * here is subject to being replaced.</p>
      */
     private void _init() throws Exception {
-    }
-    private SingleSelectOptionsList ddServicioDefaultOptions = new SingleSelectOptionsList();
-
-    public SingleSelectOptionsList getDdServicioDefaultOptions() {
-        return ddServicioDefaultOptions;
-    }
-
-    public void setDdServicioDefaultOptions(SingleSelectOptionsList ssol) {
-        this.ddServicioDefaultOptions = ssol;
     }
 
     // </editor-fold>
@@ -123,8 +114,15 @@ public class frmEspecialidad extends AbstractPageBean {
     public void prerender() {
         Integer id = new Integer(getRequestBean1().getIdEspecialidad());
         
-        try {
-            ddServicio.setItems(DaoFactory.getDaoFactory().getServiciosDao().findAll());
+        try {   
+            Servicios[] servicios  = DaoFactory.getDaoFactory().getServiciosDao().findAll();
+            Option combo[] = new Option[servicios.length];
+            
+            for (int i = 0; i < servicios.length; i++) {
+                combo[i] = new Option(servicios[i].getIdservicio(), servicios[i].getServicio());
+            }
+            ddServicio.setItems(combo);
+            ddServicio.setSelected(combo[0]);
         } catch (ServiciosDaoException ex) {
             Logger.getLogger(frmEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -133,24 +131,21 @@ public class frmEspecialidad extends AbstractPageBean {
         if(id.intValue()!=0) {
             EspecialidadesDao edao = DaoFactory.getDaoFactory().getEspecialidadesDao();
             try {
-                Especialidades e = edao.findByPrimaryKey(new Integer(id));
+                Especialidades e = edao.findByPrimaryKey(id);
                 txtEspecialidad.setText(e.getEspecialidad());
                 
-                Servicios[] servicios = (Servicios[]) ddServicio.getItems();
+                Option[] servicios = (Option[]) ddServicio.getItems();
                 for(int i=0; i<servicios.length; i++) {
-                    if (servicios[i].getIdservicio()==e.getIdservicio()){
-                        ddServicio.setSelected(servicios[i]);
+                    if (((Integer)servicios[i].getValue()).intValue() == e.getIdservicio().intValue()){
+                        ddServicio.setSelected(servicios[i].getValue());
                         break;
                     }
                 }
-                
             } catch (EspecialidadesDaoException ex) {
                 Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
             }
             
         }
-        
-        
     }
 
     /**
@@ -203,7 +198,7 @@ public class frmEspecialidad extends AbstractPageBean {
          EspecialidadesDao sdao =  DaoFactory.getDaoFactory().getEspecialidadesDao();
          Especialidades especialidad = new Especialidades();
          especialidad.setEspecialidad(txtEspecialidad.getText().toString());
-         especialidad.setIdservicio(((Servicios)ddServicio.getSelected()).getIdservicio());
+         especialidad.setIdservicio((Integer) ddServicio.getValue());
          
          try {
              if (id.intValue()!=0) {
