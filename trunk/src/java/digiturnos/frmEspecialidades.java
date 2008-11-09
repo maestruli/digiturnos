@@ -8,9 +8,7 @@ package digiturnos;
 
 import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
-import com.sun.webui.jsf.component.ImageHyperlink;
 import com.sun.webui.jsf.component.TableRowGroup;
-import com.sun.webui.jsf.model.DefaultTableDataProvider;
 import digiturnos.dao.dao.EspecialidadesDao;
 import digiturnos.dao.dto.EspecialidadesPK;
 import digiturnos.dao.exception.EspecialidadesDaoException;
