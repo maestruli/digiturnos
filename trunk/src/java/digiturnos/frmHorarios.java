@@ -288,7 +288,7 @@ public class frmHorarios extends AbstractPageBean {
         }
          
         this.dpHorarios = null;
-        return "eliminarHorario";
+        return "null";
     }
 }
 
