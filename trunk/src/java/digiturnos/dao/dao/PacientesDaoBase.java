@@ -1,6 +1,6 @@
 /* 
  * PacientesDaoBase.java
- * Created: 7 de noviembre de 2008
+ * Created: 8 de noviembre de 2008
  * 
  * DO NOT MODIFY THIS FILE DIRECTLY IT MAY GET OVERWRITTEN
  * Instead make any modifications to this files subclass
@@ -24,16 +24,15 @@ import digiturnos.dao.exception.*;
   * <br><pre>
   * Table: pacientes
   * ----------------------------------------------
-  *     column: idpaciente        serial null
-  *     column: historiaclinica        int4 null
+  *     column: idpaciente        int4 null
   *     column: dni        int4 null
   *     column: nombre        varchar null
   *     column: sexo        bpchar null
-  *     column: fechanacimiento        date null
   *     column: domicilio        varchar null
   *     column: telefono        bpchar null
   *     column: celular        bpchar null
   *     column: email        varchar null
+  *     column: fechanacimiento        date null
   *     column: observaciones        text null
   * 
   * Primary Key(s):  idpaciente
@@ -42,41 +41,35 @@ import digiturnos.dao.exception.*;
   */ 
 public interface PacientesDaoBase {
 
-    /** column ordinal value constant for pacientes.idpaciente serial */
+    /** column ordinal value constant for pacientes.idpaciente int4 */
     public static final int COLUMN_POSITION_IDPACIENTE = 1;
-    /** column ordinal value constant for pacientes.historiaclinica int4 */
-    public static final int COLUMN_POSITION_HISTORIACLINICA = 2;
     /** column ordinal value constant for pacientes.dni int4 */
-    public static final int COLUMN_POSITION_DNI = 3;
+    public static final int COLUMN_POSITION_DNI = 2;
     /** column ordinal value constant for pacientes.nombre varchar */
-    public static final int COLUMN_POSITION_NOMBRE = 4;
+    public static final int COLUMN_POSITION_NOMBRE = 3;
     /** column ordinal value constant for pacientes.sexo bpchar */
-    public static final int COLUMN_POSITION_SEXO = 5;
-    /** column ordinal value constant for pacientes.fechanacimiento date */
-    public static final int COLUMN_POSITION_FECHANACIMIENTO = 6;
+    public static final int COLUMN_POSITION_SEXO = 4;
     /** column ordinal value constant for pacientes.domicilio varchar */
-    public static final int COLUMN_POSITION_DOMICILIO = 7;
+    public static final int COLUMN_POSITION_DOMICILIO = 5;
     /** column ordinal value constant for pacientes.telefono bpchar */
-    public static final int COLUMN_POSITION_TELEFONO = 8;
+    public static final int COLUMN_POSITION_TELEFONO = 6;
     /** column ordinal value constant for pacientes.celular bpchar */
-    public static final int COLUMN_POSITION_CELULAR = 9;
+    public static final int COLUMN_POSITION_CELULAR = 7;
     /** column ordinal value constant for pacientes.email varchar */
-    public static final int COLUMN_POSITION_EMAIL = 10;
+    public static final int COLUMN_POSITION_EMAIL = 8;
+    /** column ordinal value constant for pacientes.fechanacimiento date */
+    public static final int COLUMN_POSITION_FECHANACIMIENTO = 9;
     /** column ordinal value constant for pacientes.observaciones text */
-    public static final int COLUMN_POSITION_OBSERVACIONES = 11;
+    public static final int COLUMN_POSITION_OBSERVACIONES = 10;
 
-    /** canonical name constant for pacientes.idpaciente serial */
+    /** canonical name constant for pacientes.idpaciente int4 */
     public static final String COLUMN_IDPACIENTE = "pacientes.idpaciente";
-    /** canonical name constant for pacientes.historiaclinica int4 */
-    public static final String COLUMN_HISTORIACLINICA = "pacientes.historiaclinica";
     /** canonical name constant for pacientes.dni int4 */
     public static final String COLUMN_DNI = "pacientes.dni";
     /** canonical name constant for pacientes.nombre varchar */
     public static final String COLUMN_NOMBRE = "pacientes.nombre";
     /** canonical name constant for pacientes.sexo bpchar */
     public static final String COLUMN_SEXO = "pacientes.sexo";
-    /** canonical name constant for pacientes.fechanacimiento date */
-    public static final String COLUMN_FECHANACIMIENTO = "pacientes.fechanacimiento";
     /** canonical name constant for pacientes.domicilio varchar */
     public static final String COLUMN_DOMICILIO = "pacientes.domicilio";
     /** canonical name constant for pacientes.telefono bpchar */
@@ -85,21 +78,19 @@ public interface PacientesDaoBase {
     public static final String COLUMN_CELULAR = "pacientes.celular";
     /** canonical name constant for pacientes.email varchar */
     public static final String COLUMN_EMAIL = "pacientes.email";
+    /** canonical name constant for pacientes.fechanacimiento date */
+    public static final String COLUMN_FECHANACIMIENTO = "pacientes.fechanacimiento";
     /** canonical name constant for pacientes.observaciones text */
     public static final String COLUMN_OBSERVACIONES = "pacientes.observaciones";
 
-    /** simple name constant for pacientes.idpaciente serial */
+    /** simple name constant for pacientes.idpaciente int4 */
     public static final String COLUMN_SIMPLE_IDPACIENTE = "pacientes.idpaciente";
-    /** simple name constant for pacientes.historiaclinica int4 */
-    public static final String COLUMN_SIMPLE_HISTORIACLINICA = "pacientes.historiaclinica";
     /** simple name constant for pacientes.dni int4 */
     public static final String COLUMN_SIMPLE_DNI = "pacientes.dni";
     /** simple name constant for pacientes.nombre varchar */
     public static final String COLUMN_SIMPLE_NOMBRE = "pacientes.nombre";
     /** simple name constant for pacientes.sexo bpchar */
     public static final String COLUMN_SIMPLE_SEXO = "pacientes.sexo";
-    /** simple name constant for pacientes.fechanacimiento date */
-    public static final String COLUMN_SIMPLE_FECHANACIMIENTO = "pacientes.fechanacimiento";
     /** simple name constant for pacientes.domicilio varchar */
     public static final String COLUMN_SIMPLE_DOMICILIO = "pacientes.domicilio";
     /** simple name constant for pacientes.telefono bpchar */
@@ -108,6 +99,8 @@ public interface PacientesDaoBase {
     public static final String COLUMN_SIMPLE_CELULAR = "pacientes.celular";
     /** simple name constant for pacientes.email varchar */
     public static final String COLUMN_SIMPLE_EMAIL = "pacientes.email";
+    /** simple name constant for pacientes.fechanacimiento date */
+    public static final String COLUMN_SIMPLE_FECHANACIMIENTO = "pacientes.fechanacimiento";
     /** simple name constant for pacientes.observaciones text */
     public static final String COLUMN_SIMPLE_OBSERVACIONES = "pacientes.observaciones";
 
@@ -220,12 +213,6 @@ public interface PacientesDaoBase {
 
     /** 
       * Returns rows from the database where 
-      * historiaclinica is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
-      */ 
-    public  Pacientes[] findWhereHistoriaclinicaEquals(Integer historiaclinica) throws PacientesDaoException;
-
-    /** 
-      * Returns rows from the database where 
       * dni is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
       */ 
     public  Pacientes[] findWhereDniEquals(Integer dni) throws PacientesDaoException;
@@ -241,12 +228,6 @@ public interface PacientesDaoBase {
       * sexo is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
       */ 
     public  Pacientes[] findWhereSexoEquals(String sexo) throws PacientesDaoException;
-
-    /** 
-      * Returns rows from the database where 
-      * fechanacimiento is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
-      */ 
-    public  Pacientes[] findWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws PacientesDaoException;
 
     /** 
       * Returns rows from the database where 
@@ -274,6 +255,12 @@ public interface PacientesDaoBase {
 
     /** 
       * Returns rows from the database where 
+      * fechanacimiento is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
+      */ 
+    public  Pacientes[] findWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws PacientesDaoException;
+
+    /** 
+      * Returns rows from the database where 
       * observaciones is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
       */ 
     public  Pacientes[] findWhereObservacionesEquals(String observaciones) throws PacientesDaoException;
@@ -290,15 +277,11 @@ public interface PacientesDaoBase {
 
     public int countWhereIdpacienteEquals(Integer idpaciente) throws PacientesDaoException;
 
-    public int countWhereHistoriaclinicaEquals(Integer historiaclinica) throws PacientesDaoException;
-
     public int countWhereDniEquals(Integer dni) throws PacientesDaoException;
 
     public int countWhereNombreEquals(String nombre) throws PacientesDaoException;
 
     public int countWhereSexoEquals(String sexo) throws PacientesDaoException;
-
-    public int countWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws PacientesDaoException;
 
     public int countWhereDomicilioEquals(String domicilio) throws PacientesDaoException;
 
@@ -307,6 +290,8 @@ public interface PacientesDaoBase {
     public int countWhereCelularEquals(String celular) throws PacientesDaoException;
 
     public int countWhereEmailEquals(String email) throws PacientesDaoException;
+
+    public int countWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws PacientesDaoException;
 
     public int countWhereObservacionesEquals(String observaciones) throws PacientesDaoException;
 

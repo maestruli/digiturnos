@@ -1,5 +1,9 @@
 package digiturnos.dao.jdbc;
 
+import digiturnos.dao.dao.*;
+import digiturnos.dao.dto.*;
+import digiturnos.dao.exception.*;
+import java.util.*;
 import java.sql.*;
 import javax.sql.*;
 import javax.naming.*;
@@ -9,8 +13,7 @@ public class PostgresqlBase  {
 
     public static Log logger = LogFactory.getLog(PostgresqlBase.class);
     public static Log log = LogFactory.getLog(PostgresqlBase.class);
-    public static String dsn = "java:comp/env/jdbc/digiturnos_base";
-                                              
+    public static String dsn = "java:comp/env/jdbc/digiturnos_base";                                            
 
     public static Connection getConnection() {
         try {
