@@ -59,4 +59,14 @@ public class PostgresqlDaoFactory extends DaoFactory {
         profesionalesDao = new ProfesionalesDaoImpl();
         return profesionalesDao;
     }
+    
+    public HorariosDao horariosDao;
+
+    public HorariosDao getHorariosDao() {
+        HorariosDao horariosDao = this.horariosDao;
+        if (horariosDao != null)
+            return horariosDao;
+        horariosDao = new HorariosDaoImpl();
+        return horariosDao;
+    }
 }
