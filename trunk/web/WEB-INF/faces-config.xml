@@ -121,8 +121,8 @@
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
-        <managed-bean-name>frmBandaHoraria</managed-bean-name>
-        <managed-bean-class>digiturnos.frmBandaHoraria</managed-bean-class>
+        <managed-bean-name>frmHorarios</managed-bean-name>
+        <managed-bean-class>digiturnos.frmHorarios</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
