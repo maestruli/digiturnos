@@ -104,23 +104,99 @@
                                     </div>
                                 </td>
                                 <td align="center">
-                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
-                                        <webuijsf:hiddenField binding="#{frmPaciente.hdnId}" id="hdnId"/>
-                                        <webuijsf:textField binding="#{frmPaciente.txtFichaMedica}" columns="15" id="txtFichaMedica" label="Ficha Médica"/>
-                                        <webuijsf:textField binding="#{frmPaciente.txtDNI}" columns="15" id="txtDNI" label="DNI"/>
-                                        <webuijsf:textField binding="#{frmPaciente.txtNombre}" columns="30" id="txtNombre" label="Nombre"/>
-                                        <webuijsf:dropDown binding="#{frmPaciente.ddSexo}" id="ddSexo" items="#{frmPaciente.ddSexoDefaultOptions.options}" label="Sexo"/>
-                                        <webuijsf:calendar binding="#{frmPaciente.cldFechaNacimiento}" columns="15" id="cldFechaNacimiento" label="Fecha de Nacimiento"/>
-                                        <webuijsf:textField binding="#{frmPaciente.txtDomicilio}" columns="30" id="txtDomicilio" label="Domicilio"/>
-                                        <webuijsf:textField binding="#{frmPaciente.txtTelefono}" id="txtTelefono" label="Teléfono"/>
-                                        <webuijsf:textField binding="#{frmPaciente.txtCelular}" id="txtCelular" label="Celular"/>
-                                        <webuijsf:textField binding="#{frmPaciente.txtEmail}" columns="30" id="txtEmail" label="E-mail"/>
-                                        <webuijsf:textArea binding="#{frmPaciente.txtObservaciones}" columns="30" id="txtObservaciones" label="Observaciones"/>
-                                    </h:panelGrid>
-                                    <h:panelGrid cellpadding="5" cellspacing="2" columns="2" id="gridPanel2">
-                                        <webuijsf:button actionExpression="#{frmPaciente.cmdAceptar_action}" id="cmdAceptar" text="Aceptar"/>
-                                        <webuijsf:button actionExpression="#{frmPaciente.cmdCancelar_action}" id="cmdCancelar" text="Cancelar"/>
-                                    </h:panelGrid>
+                                    <div align="center">
+                                        <table align="center" border="0" cellpadding="5" cellspacing="2" id="table1">
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label1" text="Ficha Médica"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:textField binding="#{frmPaciente.txtFichaMedica}" id="txtFichaMedica"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label2" text="DNI"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:textField binding="#{frmPaciente.txtDNI}" id="txtDNI"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label3" text="Nombre"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:textField binding="#{frmPaciente.txtNombre}" id="txtNombre"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label4" text="Sexo"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:dropDown binding="#{frmPaciente.ddSexo}" id="ddSexo" items="#{frmPaciente.ddSexoDefaultOptions.options}"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label5" text="Fecha de Nacimiento"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:calendar binding="#{frmPaciente.cldFechaNacimiento}" id="cldFechaNacimiento"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label6" text="Domicilio"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:textField binding="#{frmPaciente.txtDomicilio}" id="txtDomicilio"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label7" text="Teléfono"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:textField binding="#{frmPaciente.txtTelefono}" id="txtTelefono"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label8" text="Celular"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:textField binding="#{frmPaciente.txtCelular}" id="txtCelular"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label9" text="E-mail"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:textField binding="#{frmPaciente.txtEmail}" id="txtEmail"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <webuijsf:label id="label10" text="Observaciones"/>
+                                                </td>
+                                                <td>
+                                                    <webuijsf:textArea binding="#{frmPaciente.txtObservaciones}" id="txtObservaciones"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center" colspan="2">
+                                                    <webuijsf:button actionExpression="#{frmPaciente.cmdAceptar_action}" id="cmdAceptar"
+                                                        style="height: 24px; width: 71px" text="Aceptar"/>
+                                                    <webuijsf:button actionExpression="#{frmPaciente.cmdCancelar_action}" id="cmdCancelar"
+                                                        style="height: 24px; width: 71px" text="Cancelar"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <webuijsf:hiddenField binding="#{frmPaciente.hdnId}" id="hdnId"/>
                                 </td>
                             </tr>
                         </table>
