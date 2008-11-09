@@ -1,6 +1,5 @@
 package digiturnos.dao.dto;
 
-import java.util.*;
 import java.io.Serializable;
 
 public class Profesionales implements Serializable, Cloneable {
@@ -14,8 +13,6 @@ public class Profesionales implements Serializable, Cloneable {
     /** nombre  12  null */
     protected String nombre;
     /** sexo  1  null */
-    protected String sexo;
-    /** fechanacimiento  91  null */
     protected java.sql.Date fechanacimiento;
     /** domicilio  12  null */
     protected String domicilio;
@@ -26,10 +23,10 @@ public class Profesionales implements Serializable, Cloneable {
     /** email  12  null */
     protected String email;
     /** observaciones  12  null */
-    protected String observaciones;
-    /** idespecialidad  4  Foriegn Key: idespecialidad  null */
     protected Integer idespecialidad;
 
+    private String especialidad;
+    
     /** Creates a dto for the profesionales table */
     public Profesionales() {
     }
@@ -81,22 +78,6 @@ public class Profesionales implements Serializable, Cloneable {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    /** 
-     * Gets the value for sexo  null
-     * null
-     */
-    public String getSexo() {
-        return sexo;
-    }
-
-    /** 
-     * Sets the value for sexo  null
-     * null
-     */
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
     }
 
     /** 
@@ -180,22 +161,6 @@ public class Profesionales implements Serializable, Cloneable {
     }
 
     /** 
-     * Gets the value for observaciones  null
-     * null
-     */
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    /** 
-     * Sets the value for observaciones  null
-     * null
-     */
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    /** 
      * Gets the value for idespecialidad  null
      * null
      */
@@ -221,13 +186,11 @@ public class Profesionales implements Serializable, Cloneable {
             o.setIdprofesional(new Integer(this.getIdprofesional().intValue()));
             o.setDni(new Integer(this.getDni().intValue()));
             o.setNombre(new String(this.getNombre()));
-            o.setSexo(new String(this.getSexo()));
             o.setFechanacimiento((java.sql.Date) this.getFechanacimiento().clone());
             o.setDomicilio(new String(this.getDomicilio()));
             o.setTelefono(new String(this.getTelefono()));
             o.setCelular(new String(this.getCelular()));
             o.setEmail(new String(this.getEmail()));
-            o.setObservaciones(new String(this.getObservaciones()));
             o.setIdespecialidad(new Integer(this.getIdespecialidad().intValue()));
             return o;
         } catch (CloneNotSupportedException e) {
@@ -245,13 +208,11 @@ public class Profesionales implements Serializable, Cloneable {
                 compare(this.getIdprofesional(), that.getIdprofesional()) &&
                 compare(this.getDni(), that.getDni()) &&
                 compare(this.getNombre(), that.getNombre()) &&
-                compare(this.getSexo(), that.getSexo()) &&
                 compare(this.getFechanacimiento(), that.getFechanacimiento()) &&
                 compare(this.getDomicilio(), that.getDomicilio()) &&
                 compare(this.getTelefono(), that.getTelefono()) &&
                 compare(this.getCelular(), that.getCelular()) &&
                 compare(this.getEmail(), that.getEmail()) &&
-                compare(this.getObservaciones(), that.getObservaciones()) &&
                 compare(this.getIdespecialidad(), that.getIdespecialidad())
                 );
     }
@@ -265,13 +226,11 @@ public class Profesionales implements Serializable, Cloneable {
         result = hash(result, this.getIdprofesional());
         result = hash(result, this.getDni());
         result = hash(result, this.getNombre());
-        result = hash(result, this.getSexo());
         result = hash(result, this.getFechanacimiento());
         result = hash(result, this.getDomicilio());
         result = hash(result, this.getTelefono());
         result = hash(result, this.getCelular());
         result = hash(result, this.getEmail());
-        result = hash(result, this.getObservaciones());
         result = hash(result, this.getIdespecialidad());
         return result;
     }
@@ -284,6 +243,14 @@ public class Profesionales implements Serializable, Cloneable {
             result = 37 * seed * o.hashCode();
         }
         return result;
+    }
+
+    public String getEspecialidad() {
+        return especialidad;
+    }
+
+    public void setEspecialidad(String especialidad) {
+        this.especialidad = especialidad;
     }
 
 }
