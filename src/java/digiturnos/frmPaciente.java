@@ -17,6 +17,9 @@ import digiturnos.dao.dto.Pacientes;
 import digiturnos.dao.dto.PacientesPK;
 import digiturnos.dao.exception.PacientesDaoException;
 import digiturnos.dao.factory.DaoFactory;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.FacesException;
@@ -224,7 +227,7 @@ public class frmPaciente extends AbstractPageBean {
                 txtDNI.setText(p.getDni());
                 txtNombre.setText(p.getNombre());
                 ddSexo.setSelected(p.getSexo());
-                cldFechaNacimiento.setText(p.getFechanacimiento());
+                cldFechaNacimiento.setText(new SimpleDateFormat("dd/MM/yyyy").format(p.getFechanacimiento()));
                 txtDomicilio.setText(p.getDomicilio());
                 txtTelefono.setText(p.getTelefono());
                 txtCelular.setText(p.getCelular());
@@ -261,20 +264,14 @@ public class frmPaciente extends AbstractPageBean {
     public String cmdAceptar_action() {
         Integer id = (Integer) hdnId.getText();
 
-        Integer fichaCargada = Integer.valueOf(txtFichaMedica.getValue().toString()).intValue();
-        Integer dniCargado = Integer.valueOf(txtDNI.getValue().toString()).intValue();
-
-        java.util.Date utilDate = cldFechaNacimiento.getSelectedDate();
-        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
-        
         PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
         Pacientes paciente = new Pacientes();
 
-        paciente.setIdpaciente(fichaCargada);
-        paciente.setDni(dniCargado);
+        paciente.setIdpaciente(new Integer((String)txtFichaMedica.getText()));
+        paciente.setDni(new Integer((String)txtDNI.getText()));
         paciente.setNombre(txtNombre.getText().toString());
         paciente.setSexo(ddSexo.getSelected().toString());
-        paciente.setFechanacimiento(sqlDate);
+        paciente.setFechanacimiento( Date.valueOf( new SimpleDateFormat("yyyy-MM-dd").format(cldFechaNacimiento.getText()) ) );
         paciente.setDomicilio(txtDomicilio.getText().toString());
         paciente.setTelefono(txtTelefono.getText().toString());
         paciente.setCelular(txtCelular.getText().toString());
