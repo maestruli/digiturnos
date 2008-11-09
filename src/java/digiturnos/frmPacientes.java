@@ -6,8 +6,17 @@
  
 package digiturnos;
 
+import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.TableRowGroup;
+import digiturnos.dao.dao.PacientesDao;
+import digiturnos.dao.dto.PacientesPK;
+import digiturnos.dao.exception.PacientesDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -19,6 +28,9 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmPacientes extends AbstractPageBean {
+    private ObjectArrayDataProvider dpPacientes;
+    private TableRowGroup rowGroup = new TableRowGroup();
+
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -134,6 +146,65 @@ public class frmPacientes extends AbstractPageBean {
     protected RequestBean1 getRequestBean1() {
         return (RequestBean1) getBean("RequestBean1");
     }
+
+    public String lnkCerrarSesion_action() {
+        HttpSession sesion = (HttpSession) getExternalContext().getSession(true);
+        sesion.invalidate();
+        return "cerrarSesion";
+    }
+
+    public String imageHyperlink1_action() {
+        String id = this.dpPacientes.getValue("idpaciente", rowGroup.getRowKey()).toString();
+        getRequestBean1().setIdPaciente(Integer.parseInt(id));
+        return "editarPaciente";
+    }
+
+    public String imageHyperlink2_action() {
+        Integer id = Integer.valueOf(this.dpPacientes.getValue("idpaciente", rowGroup.getRowKey()).toString());
+        
+        PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
+        try {
+            pdao.delete(new PacientesPK(id));
+        } catch (PacientesDaoException ex) {
+            Logger.getLogger(frmServicios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        this.dpPacientes = null;
+        return null;
+    }
+    public String button1_action() {
+        // TODO: Replace with your code
+        return "nuevoPaciente";
+    }
     
+    public ObjectArrayDataProvider getDpPacientes() {
+        
+        if (this.dpPacientes==null) {
+            PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
+            pdao.setOrderByColumn(pdao.COLUMN_NOMBRE);
+            
+            this.dpPacientes = new ObjectArrayDataProvider();
+            try {
+                this.dpPacientes.setArray((Object[]) pdao.findAll());
+            } catch (PacientesDaoException ex) {
+                Logger.getLogger(SessionBean1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return dpPacientes;
+    }
+
+    public void setDpPacientes(ObjectArrayDataProvider dpPacientes) {
+        this.dpPacientes = dpPacientes;
+    }
+
+    public TableRowGroup getRowGroup() {
+        return rowGroup;
+    }
+
+    public void setRowGroup(TableRowGroup rowGroup) {
+        this.rowGroup = rowGroup;
+    }
+
 }
 

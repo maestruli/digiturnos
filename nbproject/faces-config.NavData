@@ -1,26 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scene Scope="Project" version="2">
-    <Scope Scope="Faces Configuration Only"/>
-    <Scope Scope="Project">
-        <Node id="frmPrincipal.jsp" x="650" y="150" zoom="false"/>
-        <Node id="frmProfesionales.jsp" x="150" y="750" zoom="true"/>
-        <Node id="frmPaciente.jsp" x="900" y="150" zoom="true"/>
-        <Node id="frmEspecialidades.jsp" x="-31" y="75" zoom="false"/>
-        <Node id="frmUsuario.jsp" x="900" y="300" zoom="true"/>
-        <Node id="frmBandaHoraria.jsp" x="900" y="450" zoom="true"/>
-        <Node id="frmVerTurnos.jsp" x="547" y="10" zoom="true"/>
-        <Node id="frmServicio.jsp" x="444" y="249" zoom="false"/>
-        <Node id="frmServicios.jsp" x="150" y="450" zoom="false"/>
-        <Node id="frmPacientes.jsp" x="400" y="150" zoom="true"/>
-        <Node id="frmBandasHorarias.jsp" x="650" y="450" zoom="true"/>
-        <Node id="frmVerAgenda.jsp" x="650" y="300" zoom="true"/>
-        <Node id="frmOtorgarLicencias.jsp" x="1150" y="300" zoom="true"/>
-        <Node id="frmLogin.jsp" x="150" y="300" zoom="true"/>
-        <Node id="frmProfesional.jsp" x="400" y="450" zoom="true"/>
-        <Node id="frmUsuarios.jsp" x="400" y="600" zoom="true"/>
-        <Node id="frmEspecialidad.jsp" x="262" y="-18" zoom="false"/>
-        <Node id="frmReservarTurno.jsp" x="-47" y="351" zoom="true"/>
-        <Node id="frmOtorgarTurnos.jsp" x="150" y="600" zoom="true"/>
+    <Scope Scope="Faces Configuration Only">
+        <Node id="frmServicios.jsp" x="650" y="150" zoom="true"/>
+        <Node id="frmPacientes.jsp" x="150" y="150" zoom="true"/>
+        <Node id="frmPrincipal.jsp" x="650" y="600" zoom="true"/>
+        <Node id="frmPaciente.jsp" x="400" y="600" zoom="true"/>
+        <Node id="frmEspecialidades.jsp" x="150" y="450" zoom="true"/>
+        <Node id="frmLogin.jsp" x="150" y="600" zoom="true"/>
+        <Node id="frmEspecialidad.jsp" x="650" y="300" zoom="true"/>
+        <Node id="frmServicio.jsp" x="150" y="750" zoom="true"/>
     </Scope>
-    <Scope Scope="All Faces Configurations"/>
+    <Scope Scope="Project">
+        <Node id="frmProfesionales.jsp" x="8" y="287" zoom="true"/>
+        <Node id="frmPrincipal.jsp" x="654" y="-37" zoom="false"/>
+        <Node id="frmPaciente.jsp" x="383" y="36" zoom="false"/>
+        <Node id="frmEspecialidades.jsp" x="1188" y="523" zoom="false"/>
+        <Node id="frmUsuario.jsp" x="9" y="248" zoom="true"/>
+        <Node id="frmVerTurnos.jsp" x="9" y="325" zoom="true"/>
+        <Node id="frmBandaHoraria.jsp" x="11" y="210" zoom="true"/>
+        <Node id="frmServicio.jsp" x="373" y="310" zoom="false"/>
+        <Node id="frmServicios.jsp" x="588" y="447" zoom="false"/>
+        <Node id="frmBandasHorarias.jsp" x="150" y="750" zoom="true"/>
+        <Node id="frmPacientes.jsp" x="548" y="162" zoom="false"/>
+        <Node id="frmVerAgenda.jsp" x="11" y="55" zoom="true"/>
+        <Node id="frmOtorgarLicencias.jsp" x="11" y="15" zoom="true"/>
+        <Node id="frmLogin.jsp" x="1044" y="39" zoom="true"/>
+        <Node id="frmProfesional.jsp" x="10" y="172" zoom="true"/>
+        <Node id="frmUsuarios.jsp" x="10" y="93" zoom="true"/>
+        <Node id="frmEspecialidad.jsp" x="897" y="331" zoom="false"/>
+        <Node id="frmReservarTurno.jsp" x="10" y="135" zoom="true"/>
+        <Node id="frmOtorgarTurnos.jsp" x="7" y="359" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations">
+        <Node id="frmServicios.jsp" x="650" y="150" zoom="true"/>
+        <Node id="frmPacientes.jsp" x="150" y="150" zoom="true"/>
+        <Node id="frmPrincipal.jsp" x="650" y="600" zoom="true"/>
+        <Node id="frmEspecialidades.jsp" x="150" y="450" zoom="true"/>
+        <Node id="frmPaciente.jsp" x="400" y="600" zoom="true"/>
+        <Node id="frmLogin.jsp" x="150" y="600" zoom="true"/>
+        <Node id="frmEspecialidad.jsp" x="650" y="300" zoom="true"/>
+        <Node id="frmServicio.jsp" x="150" y="750" zoom="true"/>
+    </Scope>
 </Scene>

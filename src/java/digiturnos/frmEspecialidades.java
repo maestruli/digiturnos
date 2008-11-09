@@ -152,7 +152,7 @@ public class frmEspecialidades extends AbstractPageBean {
 
     public String lnkCerrarSesion_action() {
         // TODO: Replace with your code
-        return "case1";
+        return "cerrarSesion";
     }
 
     public String imageHyperlink1_action() {
