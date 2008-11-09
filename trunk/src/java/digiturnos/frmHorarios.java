@@ -1,18 +1,27 @@
 /*
- * frmProfesionales.java
+ * frmBandaHoraria.java
  *
- * Created on 07/11/2008, 23:54:00
+ * Created on 08/11/2008, 00:19:56
  */
  
 package digiturnos;
 
 import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.DropDown;
+import com.sun.webui.jsf.component.HiddenField;
+import com.sun.webui.jsf.component.StaticText;
 import com.sun.webui.jsf.component.TableRowGroup;
+import com.sun.webui.jsf.component.TextField;
+import com.sun.webui.jsf.model.Option;
+import digiturnos.dao.dao.HorariosDao;
 import digiturnos.dao.dao.ProfesionalesDao;
-import digiturnos.dao.dto.ProfesionalesPK;
+import digiturnos.dao.dto.Horarios;
+import digiturnos.dao.dto.HorariosPK;
+import digiturnos.dao.exception.HorariosDaoException;
 import digiturnos.dao.exception.ProfesionalesDaoException;
 import digiturnos.dao.factory.DaoFactory;
+import java.sql.Time;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.FacesException;
@@ -26,9 +35,14 @@ import javax.faces.FacesException;
  *
  * @author Augusto
  */
-public class frmProfesionales extends AbstractPageBean {
-    private ObjectArrayDataProvider dpProfesionales;
+public class frmHorarios extends AbstractPageBean {
+    private StaticText txtEtiqueta = new StaticText();
+    private DropDown ddDias = new DropDown();
+    private TextField txtDesde = new TextField();
+    private TextField txtHasta = new TextField();
+    private ObjectArrayDataProvider dpHorarios;
     private TableRowGroup rowGroup = new TableRowGroup();
+    private HiddenField hdnId = new HiddenField();
     
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
@@ -39,13 +53,16 @@ public class frmProfesionales extends AbstractPageBean {
      */
     private void _init() throws Exception {
     }
+    
+
+    
 
     // </editor-fold>
 
     /**
      * <p>Construct a new Page bean instance.</p>
      */
-    public frmProfesionales() {
+    public frmHorarios() {
     }
 
     /**
@@ -74,7 +91,7 @@ public class frmProfesionales extends AbstractPageBean {
         try {
             _init();
         } catch (Exception e) {
-            log("frmProfesionales Initialization Failure", e);
+            log("frmBandaHoraria Initialization Failure", e);
             throw e instanceof FacesException ? (FacesException) e: new FacesException(e);
         }
         
@@ -105,6 +122,26 @@ public class frmProfesionales extends AbstractPageBean {
      */
     @Override
     public void prerender() {
+        Integer id = new Integer(getRequestBean1().getIdProfesional());
+        getHdnId().setText(id);
+        
+        Option combo[] = new Option[7];
+        combo[0] = new Option("Lunes");
+        combo[1] = new Option("Martes");
+        combo[2] = new Option("Miercoles");
+        combo[3] = new Option("Jueves");
+        combo[4] = new Option("Viernes");
+        combo[5] = new Option("Sabado");
+        combo[6] = new Option("Domingo");
+        ddDias.setItems(combo);
+        
+        ProfesionalesDao pdao = DaoFactory.getDaoFactory().getProfesionalesDao();
+        try {
+            txtEtiqueta.setText("Horarios del Dr. " + pdao.findByPrimaryKey(id).getNombre());
+        } catch (ProfesionalesDaoException ex) {
+            Logger.getLogger(frmHorarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
 
     /**
@@ -145,56 +182,83 @@ public class frmProfesionales extends AbstractPageBean {
     protected RequestBean1 getRequestBean1() {
         return (RequestBean1) getBean("RequestBean1");
     }
-    
-    
-    public ObjectArrayDataProvider getDpProfesionales() {
-        if (this.dpProfesionales==null) {
-            ProfesionalesDao rdao = DaoFactory.getDaoFactory().getProfesionalesDao();
-            rdao.setOrderByColumn(rdao.COLUMN_NOMBRE);
-            
-            this.dpProfesionales = new ObjectArrayDataProvider();
-            try {
-                this.dpProfesionales.setArray((Object[]) rdao.findAll());
-            } catch (ProfesionalesDaoException ex) {
-                Logger.getLogger(SessionBean1.class.getName()).log(Level.SEVERE, null, ex);
-            }
+
+    public String cmdAgregar_action() {
+        Horarios horario = new Horarios();
+        horario.setIdprofesional((Integer)hdnId.getText());
+        horario.setDia((String)ddDias.getValue());
+        horario.setDesde(Time.valueOf((String) txtDesde.getText()));
+        horario.setHasta(Time.valueOf((String) txtHasta.getText()));
+        try {
+            DaoFactory.getDaoFactory().getHorariosDao().insert(horario);
+        } catch (HorariosDaoException ex) {
+            Logger.getLogger(frmHorarios.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
-        return dpProfesionales;
-    }
-
-    public void setDpProfesionales(ObjectArrayDataProvider oadp) {
-        this.dpProfesionales = oadp;
-    }
-
-    public String cmdNuevo_action() {
-        // TODO: Process the action. Return value is a navigation
-        // case name where null will return to the same page.
-        return "nuevo";
+        this.dpHorarios = null;
+        
+        return "null";
     }
 
     public String lnkCerrarSesion_action() {
+        // TODO: Replace with your code
         return "cerrarSesion";
     }
 
-    public String imageHyperlink1_action() {
-        String id = this.dpProfesionales.getValue("idprofesional", getRowGroup().getRowKey()).toString();
-        getRequestBean1().setIdProfesional(Integer.parseInt(id));
-        return "editar";
+    public String cmdVolver_action() {
+        // TODO: Process the action. Return value is a navigation
+        // case name where null will return to the same page.
+        return "volver";
     }
 
-    public String imageHyperlink2_action() {
-        Integer id = Integer.valueOf(this.dpProfesionales.getValue("idprofesional", getRowGroup().getRowKey()).toString());
-        
-        ProfesionalesDao edao =   DaoFactory.getDaoFactory().getProfesionalesDao();
-        try {
-            edao.delete(new ProfesionalesPK(id));
-        } catch (ProfesionalesDaoException ex) {
-            Logger.getLogger(frmServicios.class.getName()).log(Level.SEVERE, null, ex);
+    public StaticText getTxtEtiqueta() {
+        return txtEtiqueta;
+    }
+
+    public void setTxtEtiqueta(StaticText txtEtiqueta) {
+        this.txtEtiqueta = txtEtiqueta;
+    }
+
+    public DropDown getDdDias() {
+        return ddDias;
+    }
+
+    public void setDdDias(DropDown ddDias) {
+        this.ddDias = ddDias;
+    }
+
+    public TextField getTxtDesde() {
+        return txtDesde;
+    }
+
+    public void setTxtDesde(TextField txtDesde) {
+        this.txtDesde = txtDesde;
+    }
+
+    public TextField getTxtHasta() {
+        return txtHasta;
+    }
+
+    public void setTxtHasta(TextField txtHasta) {
+        this.txtHasta = txtHasta;
+    }
+    public ObjectArrayDataProvider getDpHorarios() {
+        if (this.dpHorarios==null) {
+            HorariosDao hdao = DaoFactory.getDaoFactory().getHorariosDao();
+            hdao.setOrderByColumn(hdao.COLUMN_DIA);
+            
+            this.dpHorarios = new ObjectArrayDataProvider();
+            try {
+                this.dpHorarios.setArray((Object[]) hdao.findWhereIdprofesionalEquals((Integer)hdnId.getText()));
+            } catch (HorariosDaoException ex) {
+                Logger.getLogger(SessionBean1.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-         
-        this.dpProfesionales = null;
-        return "eliminar";
+        
+        return dpHorarios;
+    }
+
+    public void setDpHorarios(ObjectArrayDataProvider oadp) {
+        this.dpHorarios = oadp;
     }
 
     public TableRowGroup getRowGroup() {
@@ -205,11 +269,26 @@ public class frmProfesionales extends AbstractPageBean {
         this.rowGroup = rowGroup;
     }
 
-    public String verHorarios_action() {
-        String id = this.dpProfesionales.getValue("idprofesional", getRowGroup().getRowKey()).toString();
-        getRequestBean1().setIdProfesional(Integer.parseInt(id));
-        return "verHorarios";
+    public HiddenField getHdnId() {
+        return hdnId;
     }
-    
+
+    public void setHdnId(HiddenField hdnId) {
+        this.hdnId = hdnId;
+    }
+
+    public String imageHyperlink1_action() {
+        Integer id = Integer.valueOf(this.dpHorarios.getValue("idhorario", getRowGroup().getRowKey()).toString());
+        
+        HorariosDao hdao =   DaoFactory.getDaoFactory().getHorariosDao();
+        try {
+            hdao.delete(new HorariosPK(id));
+        } catch (HorariosDaoException ex) {
+            Logger.getLogger(frmServicios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        this.dpHorarios = null;
+        return "eliminarHorario";
+    }
 }
 

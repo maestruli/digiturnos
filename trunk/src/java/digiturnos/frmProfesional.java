@@ -7,6 +7,23 @@
 package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.Calendar;
+import com.sun.webui.jsf.component.DropDown;
+import com.sun.webui.jsf.component.HiddenField;
+import com.sun.webui.jsf.component.TextField;
+import com.sun.webui.jsf.model.Option;
+import digiturnos.dao.dao.ProfesionalesDao;
+import digiturnos.dao.dto.Especialidades;
+import digiturnos.dao.dto.Profesionales;
+import digiturnos.dao.dto.ProfesionalesPK;
+import digiturnos.dao.exception.EspecialidadesDaoException;
+import digiturnos.dao.exception.ProfesionalesDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
 
 /**
@@ -19,6 +36,16 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmProfesional extends AbstractPageBean {
+    private TextField txtDNI = new TextField();
+    private TextField txtNombre = new TextField();
+    private TextField txtDomicilio = new TextField();
+    private TextField txtTelefono = new TextField();
+    private TextField txtCelular = new TextField();
+    private TextField txtEmail = new TextField();
+    private DropDown ddEspecialidad = new DropDown();
+    private Calendar calFecha = new Calendar();
+    private HiddenField hdnId = new HiddenField();
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -94,6 +121,34 @@ public class frmProfesional extends AbstractPageBean {
      */
     @Override
     public void prerender() {
+        Integer id = new Integer(getRequestBean1().getIdProfesional());
+        getHdnId().setText(id);
+        this.llenarEspecialidades();
+        
+        if(id.intValue()!=0) {
+             ProfesionalesDao pdao = DaoFactory.getDaoFactory().getProfesionalesDao();
+            try {
+                Profesionales e = pdao.findByPrimaryKey(id);
+                txtDNI.setText(e.getDni().toString());
+                txtNombre.setText(e.getNombre());
+                txtCelular.setText(e.getCelular());
+                txtDomicilio.setText(e.getDomicilio());
+                txtEmail.setText(e.getEmail());
+                txtTelefono.setText(e.getTelefono());
+                calFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(e.getFechanacimiento()));
+                
+                Option[] especialidades = (Option[]) ddEspecialidad.getItems();
+                for(int i=0; i<especialidades.length; i++) {
+                    if (((Integer)especialidades[i].getValue()).intValue() == e.getIdespecialidad().intValue()){
+                        ddEspecialidad.setSelected(especialidades[i].getValue());
+                        break;
+                    }
+                }
+            } catch (ProfesionalesDaoException ex) {
+                Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
     }
 
     /**
@@ -133,6 +188,134 @@ public class frmProfesional extends AbstractPageBean {
      */
     protected RequestBean1 getRequestBean1() {
         return (RequestBean1) getBean("RequestBean1");
+    }
+
+    public TextField getTxtDNI() {
+        return txtDNI;
+    }
+
+    public void setTxtDNI(TextField txtDNI) {
+        this.txtDNI = txtDNI;
+    }
+
+    public TextField getTxtNombre() {
+        return txtNombre;
+    }
+
+    public void setTxtNombre(TextField txtNombre) {
+        this.txtNombre = txtNombre;
+    }
+
+    public TextField getTxtDomicilio() {
+        return txtDomicilio;
+    }
+
+    public void setTxtDomicilio(TextField txtDomicilio) {
+        this.txtDomicilio = txtDomicilio;
+    }
+
+    public TextField getTxtTelefono() {
+        return txtTelefono;
+    }
+
+    public void setTxtTelefono(TextField txtTelefono) {
+        this.txtTelefono = txtTelefono;
+    }
+
+    public TextField getTxtCelular() {
+        return txtCelular;
+    }
+
+    public void setTxtCelular(TextField txtCelular) {
+        this.txtCelular = txtCelular;
+    }
+
+    public TextField getTxtEmail() {
+        return txtEmail;
+    }
+
+    public void setTxtEmail(TextField txtEmail) {
+        this.txtEmail = txtEmail;
+    }
+
+    public DropDown getDdEspecialidad() {
+        return ddEspecialidad;
+    }
+
+    public void setDdEspecialidad(DropDown ddEspecialidad) {
+        this.ddEspecialidad = ddEspecialidad;
+    }
+
+    public Calendar getCalFecha() {
+        return calFecha;
+    }
+
+    public void setCalFecha(Calendar calFecha) {
+        this.calFecha = calFecha;
+    }
+
+    public String lnkCerrarSesion_action() {
+        // TODO: Replace with your code
+        return "cerrarSesion";
+    }
+
+    public String cmdCancelar_action() {
+        // TODO: Process the action. Return value is a navigation
+        // case name where null will return to the same page.
+        return "cancelarProfesional";
+    }
+
+    public String cmdAceptar_action() {
+        Integer  id = (Integer)hdnId.getText();
+        
+         ProfesionalesDao pdao =  DaoFactory.getDaoFactory().getProfesionalesDao();
+         Profesionales profesional = new Profesionales();
+         
+         profesional.setCelular((String) txtCelular.getText());
+         profesional.setDni( new Integer((String)txtDNI.getText()));
+         profesional.setDomicilio((String) txtDomicilio.getText());
+         profesional.setEmail((String) txtEmail.getText());
+         profesional.setFechanacimiento( Date.valueOf( new SimpleDateFormat("yyyy-MM-dd").format(calFecha.getText()) ) );
+         profesional.setIdespecialidad(new Integer(ddEspecialidad.getValue().toString()));
+         profesional.setNombre((String) txtNombre.getText());
+         profesional.setTelefono((String) txtTelefono.getText());
+         
+         try {
+             if (id.intValue()!=0) {
+                profesional.setIdprofesional(id);
+                pdao.update(new ProfesionalesPK(id), profesional);
+             }
+             else {
+                 pdao.insert(profesional);
+             }
+        } catch ( ProfesionalesDaoException ex) {
+            Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         
+        return "aceptarProfesional";
+    }
+
+    private void llenarEspecialidades() {
+        try {   
+            Especialidades[] especialidades  = DaoFactory.getDaoFactory().getEspecialidadesDao().findAll();
+            Option combo[] = new Option[especialidades.length];
+            
+            for (int i = 0; i < especialidades.length; i++) {
+                combo[i] = new Option(especialidades[i].getIdespecialidad(), especialidades[i].getEspecialidad());
+            }
+            ddEspecialidad.setItems(combo);
+            ddEspecialidad.setSelected(combo[0]);
+        } catch (EspecialidadesDaoException ex) {
+            Logger.getLogger(frmEspecialidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public HiddenField getHdnId() {
+        return hdnId;
+    }
+
+    public void setHdnId(HiddenField hdnId) {
+        this.hdnId = hdnId;
     }
     
 }
