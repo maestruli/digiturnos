@@ -256,13 +256,13 @@ public class frmProfesional extends AbstractPageBean {
 
     public String lnkCerrarSesion_action() {
         // TODO: Replace with your code
-        return "cerrarSesion";
+        return "case1";
     }
 
     public String cmdCancelar_action() {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
-        return "cancelarProfesional";
+        return "cancelar";
     }
 
     public String cmdAceptar_action() {
@@ -292,7 +292,7 @@ public class frmProfesional extends AbstractPageBean {
             Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
         }
          
-        return "aceptarProfesional";
+        return "aceptar";
     }
 
     private void llenarEspecialidades() {

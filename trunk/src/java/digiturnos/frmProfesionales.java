@@ -180,7 +180,7 @@ public class frmProfesionales extends AbstractPageBean {
     public String imageHyperlink1_action() {
         String id = this.dpProfesionales.getValue("idprofesional", getRowGroup().getRowKey()).toString();
         getRequestBean1().setIdProfesional(Integer.parseInt(id));
-        return "editar";
+        return "editarProfesional";
     }
 
     public String imageHyperlink2_action() {
@@ -194,7 +194,7 @@ public class frmProfesionales extends AbstractPageBean {
         }
          
         this.dpProfesionales = null;
-        return "eliminar";
+        return "null";
     }
 
     public TableRowGroup getRowGroup() {
@@ -208,7 +208,7 @@ public class frmProfesionales extends AbstractPageBean {
     public String verHorarios_action() {
         String id = this.dpProfesionales.getValue("idprofesional", getRowGroup().getRowKey()).toString();
         getRequestBean1().setIdProfesional(Integer.parseInt(id));
-        return "verHorarios";
+        return "editarHorarios";
     }
     
 }
