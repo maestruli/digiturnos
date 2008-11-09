@@ -1,14 +1,17 @@
 /*
  * frmPaciente.java
  *
- * Created on 07/11/2008, 17:37:43
+ * Created on 02/11/2008, 17:08:29
  */
- 
 package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.Calendar;
+import com.sun.webui.jsf.component.DropDown;
 import com.sun.webui.jsf.component.HiddenField;
+import com.sun.webui.jsf.component.TextArea;
 import com.sun.webui.jsf.component.TextField;
+import com.sun.webui.jsf.model.SingleSelectOptionsList;
 import digiturnos.dao.dao.PacientesDao;
 import digiturnos.dao.dto.Pacientes;
 import digiturnos.dao.dto.PacientesPK;
@@ -17,6 +20,7 @@ import digiturnos.dao.factory.DaoFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.FacesException;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -28,22 +32,125 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmPaciente extends AbstractPageBean {
-    private TextField txtNombre = new TextField();
-    private HiddenField hdnId = new HiddenField();
-    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
-
     /**
      * <p>Automatically managed component initialization.  <strong>WARNING:</strong>
      * This method is automatically generated, so any user-specified code inserted
      * here is subject to being replaced.</p>
      */
     private void _init() throws Exception {
+        ddSexoDefaultOptions.setOptions(new com.sun.webui.jsf.model.Option[]{new com.sun.webui.jsf.model.Option("M", "M"), new com.sun.webui.jsf.model.Option("F", "F")});
+    }
+    private HiddenField hdnId = new HiddenField();
+
+    public HiddenField getHdnId() {
+        return hdnId;
     }
 
+    public void setHdnId(HiddenField hf) {
+        this.hdnId = hf;
+    }
+    private TextField txtFichaMedica = new TextField();
+
+    public TextField getTxtFichaMedica() {
+        return txtFichaMedica;
+    }
+
+    public void setTxtFichaMedica(TextField tf) {
+        this.txtFichaMedica = tf;
+    }
+    private TextField txtDNI = new TextField();
+
+    public TextField getTxtDNI() {
+        return txtDNI;
+    }
+
+    public void setTxtDNI(TextField tf) {
+        this.txtDNI = tf;
+    }
+    private TextField txtNombre = new TextField();
+
+    public TextField getTxtNombre() {
+        return txtNombre;
+    }
+
+    public void setTxtNombre(TextField tf) {
+        this.txtNombre = tf;
+    }
+    private TextField txtDomicilio = new TextField();
+
+    public TextField getTxtDomicilio() {
+        return txtDomicilio;
+    }
+
+    public void setTxtDomicilio(TextField tf) {
+        this.txtDomicilio = tf;
+    }
+    private TextField txtTelefono = new TextField();
+
+    public TextField getTxtTelefono() {
+        return txtTelefono;
+    }
+
+    public void setTxtTelefono(TextField tf) {
+        this.txtTelefono = tf;
+    }
+    private TextField txtCelular = new TextField();
+
+    public TextField getTxtCelular() {
+        return txtCelular;
+    }
+
+    public void setTxtCelular(TextField tf) {
+        this.txtCelular = tf;
+    }
+    private TextField txtEmail = new TextField();
+
+    public TextField getTxtEmail() {
+        return txtEmail;
+    }
+
+    public void setTxtEmail(TextField tf) {
+        this.txtEmail = tf;
+    }
+    private SingleSelectOptionsList ddSexoDefaultOptions = new SingleSelectOptionsList();
+
+    public SingleSelectOptionsList getDdSexoDefaultOptions() {
+        return ddSexoDefaultOptions;
+    }
+
+    public void setDdSexoDefaultOptions(SingleSelectOptionsList ssol) {
+        this.ddSexoDefaultOptions = ssol;
+    }
+    private DropDown ddSexo = new DropDown();
+
+    public DropDown getDdSexo() {
+        return ddSexo;
+    }
+
+    public void setDdSexo(DropDown dd) {
+        this.ddSexo = dd;
+    }
+    private TextArea txtObservaciones = new TextArea();
+
+    public TextArea getTxtObservaciones() {
+        return txtObservaciones;
+    }
+
+    public void setTxtObservaciones(TextArea ta) {
+        this.txtObservaciones = ta;
+    }
+    private Calendar cldFechaNacimiento = new Calendar();
+
+    public Calendar getCldFechaNacimiento() {
+        return cldFechaNacimiento;
+    }
+
+    public void setCldFechaNacimiento(Calendar c) {
+        this.cldFechaNacimiento = c;
+    }
 
     // </editor-fold>
-
     /**
      * <p>Construct a new Page bean instance.</p>
      */
@@ -69,7 +176,7 @@ public class frmPaciente extends AbstractPageBean {
         // Perform application initialization that must complete
         // *before* managed components are initialized
         // TODO - add your own initialiation code here
-        
+
         // <editor-fold defaultstate="collapsed" desc="Managed Component Initialization">
         // Initialize automatically managed components
         // *Note* - this logic should NOT be modified
@@ -77,13 +184,12 @@ public class frmPaciente extends AbstractPageBean {
             _init();
         } catch (Exception e) {
             log("frmPaciente Initialization Failure", e);
-            throw e instanceof FacesException ? (FacesException) e: new FacesException(e);
+            throw e instanceof FacesException ? (FacesException) e : new FacesException(e);
         }
-        
-        // </editor-fold>
-        // Perform application initialization that must complete
-        // *after* managed components are initialized
-        // TODO - add your own initialization code here
+
+    // </editor-fold>
+    // Perform application initialization that must complete
+    // *after* managed components are initialized
     }
 
     /**
@@ -108,17 +214,25 @@ public class frmPaciente extends AbstractPageBean {
     @Override
     public void prerender() {
         Integer id = new Integer(getRequestBean1().getIdPaciente());
-        
         hdnId.setText(id);
-        if(id.intValue()!=0) {
-            PacientesDao sdao = DaoFactory.getDaoFactory().getPacientesDao();
+        if (id != 0) {
+
+            PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
             try {
-                Pacientes p = sdao.findByPrimaryKey(new Integer(id));
+                Pacientes p = pdao.findByPrimaryKey(new Integer(id));
+                txtFichaMedica.setText(p.getIdpaciente());
+                txtDNI.setText(p.getDni());
                 txtNombre.setText(p.getNombre());
+                ddSexo.setSelected(p.getSexo());
+                cldFechaNacimiento.setText(p.getFechanacimiento());
+                txtDomicilio.setText(p.getDomicilio());
+                txtTelefono.setText(p.getTelefono());
+                txtCelular.setText(p.getCelular());
+                txtEmail.setText(p.getEmail());
+                txtObservaciones.setText(p.getObservaciones());
             } catch (PacientesDaoException ex) {
-                Logger.getLogger(frmPaciente.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
         }
     }
 
@@ -132,6 +246,52 @@ public class frmPaciente extends AbstractPageBean {
      */
     @Override
     public void destroy() {
+    }
+
+    public String lnkCerrarSesion_action() {
+        HttpSession sesion = (HttpSession) getExternalContext().getSession(true);
+        sesion.invalidate();
+        return "cerrarSesion";
+    }
+
+    public String cmdCancelar_action() {
+        return "Cancelar";
+    }
+
+    public String cmdAceptar_action() {
+        Integer id = (Integer) hdnId.getText();
+
+        Integer fichaCargada = Integer.valueOf(txtFichaMedica.getValue().toString()).intValue();
+        Integer dniCargado = Integer.valueOf(txtDNI.getValue().toString()).intValue();
+
+        java.util.Date utilDate = cldFechaNacimiento.getSelectedDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        
+        PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
+        Pacientes paciente = new Pacientes();
+
+        paciente.setIdpaciente(fichaCargada);
+        paciente.setDni(dniCargado);
+        paciente.setNombre(txtNombre.getText().toString());
+        paciente.setSexo(ddSexo.getSelected().toString());
+        paciente.setFechanacimiento(sqlDate);
+        paciente.setDomicilio(txtDomicilio.getText().toString());
+        paciente.setTelefono(txtTelefono.getText().toString());
+        paciente.setCelular(txtCelular.getText().toString());
+        paciente.setEmail(txtEmail.getText().toString());
+        paciente.setObservaciones(txtObservaciones.getText().toString());
+        try {
+            if (id.intValue() != 0) {
+                paciente.setIdpaciente(id);
+                pdao.update(new PacientesPK(id), paciente);
+            } else {
+                pdao.insert(paciente);
+            }
+        } catch (PacientesDaoException ex) {
+            Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return "Aceptar";
     }
 
     /**
@@ -160,52 +320,4 @@ public class frmPaciente extends AbstractPageBean {
     protected SessionBean1 getSessionBean1() {
         return (SessionBean1) getBean("SessionBean1");
     }
-
-    public String cmdAceptar_action() {
-         Integer  id = (Integer)hdnId.getText();
-        
-         PacientesDao pdao =  DaoFactory.getDaoFactory().getPacientesDao();
-         Pacientes paciente = new Pacientes();
-         paciente.setNombre(txtNombre.getText().toString());
-         try {
-             if (id.intValue()!=0) {
-                 paciente.setIdpaciente(id);
-                pdao.update(new PacientesPK(id), paciente);
-             }
-             else {
-                 pdao.insert(paciente);
-             }
-        } catch (PacientesDaoException ex) {
-            Logger.getLogger(frmPaciente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "Aceptar";
-    }
-
-    public String lnkCerrarSesion_action() {
-        // TODO: Replace with your code
-        return "cerrarSesion";
-    }
-
-    public String cmdCancelar_action() {
-        // TODO: Process the action. Return value is a navigation
-        // case name where null will return to the same page.
-        return "Cancelar";
-    }
-
-    public TextField getTxtNombre() {
-        return txtNombre;
-    }
-
-    public void setTxtNombre(TextField txtNombre) {
-        this.txtNombre = txtNombre;
-    }
-
-    public HiddenField getHdnId() {
-        return hdnId;
-    }
-
-    public void setHdnId(HiddenField hdnId) {
-        this.hdnId = hdnId;
-    }
-    
 }

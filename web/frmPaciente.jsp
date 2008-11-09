@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
     Document   : frmPaciente
-    Created on : 07/11/2008, 17:37:40
+    Created on : 02/11/2008, 17:08:28
     Author     : Augusto
 -->
 <jsp:root version="2.1" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
@@ -14,7 +14,7 @@
                 </webuijsf:head>
                 <webuijsf:body id="body1" style="-rave-layout: grid">
                     <webuijsf:form id="formulario">
-                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td colspan="2">
                                     <img alt="Digiturnos" border="0" src="resources/header.jpg"/>
@@ -51,7 +51,7 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkVerAgenda" text="Ver agenda de día"/>
+                                                        <webuijsf:hyperlink id="lnkVerAgenda" text="Ver agenda de día" url="/faces/frmVerAgenda.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -61,25 +61,25 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkOtorgarTurnos" text="Otorgar Turnos"/>
+                                                        <webuijsf:hyperlink id="lnkOtorgarTurnos" text="Otorgar Turnos" url="/faces/frmOtorgarTurnos.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkPacientes" text="Administrar Pacientes"/>
+                                                        <webuijsf:hyperlink id="lnkPacientes" text="Administrar Pacientes" url="/faces/frmPacientes.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkServicios" text="Administrar Servicios"/>
+                                                        <webuijsf:hyperlink id="lnkServicios" text="Administrar Servicios" url="/faces/frmServicios.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkEspecialidades" text="Administrar Especialidades"/>
+                                                        <webuijsf:hyperlink id="lnkEspecialidades" text="Administrar Especialidades" url="/faces/frmEspecialidades.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkProfesionales" text="Administrar Profesionales"/>
+                                                        <webuijsf:hyperlink id="lnkProfesionales" text="Administrar Profesionales" url="/faces/frmProfesionales.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkBandasHorarias" text="Administrar Bandas Horarias"/>
+                                                        <webuijsf:hyperlink id="lnkBandasHorarias" text="Administrar Bandas Horarias" url="/faces/frmBandasHorarias.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkOtorgarLicencias" text="Otorgar Licencias"/>
+                                                        <webuijsf:hyperlink id="lnkOtorgarLicencias" text="Otorgar Licencias" url="/faces/frmOtorgarLicencias.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -89,7 +89,7 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkUsuarios" text="Administar Usuarios"/>
+                                                        <webuijsf:hyperlink id="lnkUsuarios" text="Administar Usuarios" url="/faces/frmUsuarios.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -104,9 +104,18 @@
                                     </div>
                                 </td>
                                 <td align="center">
-                                    <h:panelGrid cellpadding="5" cellspacing="2" columns="2" id="gridPanel1">
-                                        <webuijsf:textField binding="#{frmPaciente.txtNombre}" columns="30" id="txtField1" label="Nombre"/>
+                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
                                         <webuijsf:hiddenField binding="#{frmPaciente.hdnId}" id="hdnId"/>
+                                        <webuijsf:textField binding="#{frmPaciente.txtFichaMedica}" columns="15" id="txtFichaMedica" label="Ficha Médica"/>
+                                        <webuijsf:textField binding="#{frmPaciente.txtDNI}" columns="15" id="txtDNI" label="DNI"/>
+                                        <webuijsf:textField binding="#{frmPaciente.txtNombre}" columns="30" id="txtNombre" label="Nombre"/>
+                                        <webuijsf:dropDown binding="#{frmPaciente.ddSexo}" id="ddSexo" items="#{frmPaciente.ddSexoDefaultOptions.options}" label="Sexo"/>
+                                        <webuijsf:calendar binding="#{frmPaciente.cldFechaNacimiento}" columns="15" id="cldFechaNacimiento" label="Fecha de Nacimiento"/>
+                                        <webuijsf:textField binding="#{frmPaciente.txtDomicilio}" columns="30" id="txtDomicilio" label="Domicilio"/>
+                                        <webuijsf:textField binding="#{frmPaciente.txtTelefono}" id="txtTelefono" label="Teléfono"/>
+                                        <webuijsf:textField binding="#{frmPaciente.txtCelular}" id="txtCelular" label="Celular"/>
+                                        <webuijsf:textField binding="#{frmPaciente.txtEmail}" columns="30" id="txtEmail" label="E-mail"/>
+                                        <webuijsf:textArea binding="#{frmPaciente.txtObservaciones}" columns="30" id="txtObservaciones" label="Observaciones"/>
                                     </h:panelGrid>
                                     <h:panelGrid cellpadding="5" cellspacing="2" columns="2" id="gridPanel2">
                                         <webuijsf:button actionExpression="#{frmPaciente.cmdAceptar_action}" id="cmdAceptar" text="Aceptar"/>
