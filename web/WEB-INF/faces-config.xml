@@ -250,4 +250,15 @@
             <to-view-id>/frmProfesionales.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/frmHorarios.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>cerrarSesion</from-outcome>
+            <to-view-id>/frmLogin.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>volver</from-outcome>
+            <to-view-id>/frmProfesionales.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
