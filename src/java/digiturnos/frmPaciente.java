@@ -263,12 +263,13 @@ public class frmPaciente extends AbstractPageBean {
 
     public String cmdAceptar_action() {
         Integer id = (Integer) hdnId.getText();
+        //Integer fichaCargada = Integer.valueOf(txtFichaMedica.getText().toString()).intValue();
 
         PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
         Pacientes paciente = new Pacientes();
 
-        paciente.setIdpaciente(new Integer((String)txtFichaMedica.getText()));
-        paciente.setDni(new Integer((String)txtDNI.getText()));
+        paciente.setIdpaciente(new Integer((String)txtFichaMedica.getText().toString()));
+        paciente.setDni(new Integer((String)txtDNI.getText().toString()));
         paciente.setNombre(txtNombre.getText().toString());
         paciente.setSexo(ddSexo.getSelected().toString());
         paciente.setFechanacimiento( Date.valueOf( new SimpleDateFormat("yyyy-MM-dd").format(cldFechaNacimiento.getText()) ) );
@@ -279,10 +280,10 @@ public class frmPaciente extends AbstractPageBean {
         paciente.setObservaciones(txtObservaciones.getText().toString());
         try {
             if (id.intValue() != 0) {
-                paciente.setIdpaciente(id);
+                //paciente.setIdpaciente(id);
                 pdao.update(new PacientesPK(id), paciente);
             } else {
-                pdao.insert(paciente);
+                pdao.insert(paciente, paciente.getIdpaciente());
             }
         } catch (PacientesDaoException ex) {
             Logger.getLogger(frmServicio.class.getName()).log(Level.SEVERE, null, ex);

@@ -14,7 +14,7 @@
                 </webuijsf:head>
                 <webuijsf:body id="body1" style="-rave-layout: grid">
                     <webuijsf:form id="formulario">
-                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="left: 0px; top: -96px; position: absolute">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="">
                             <tr>
                                 <td colspan="2">
                                     <img alt="Digiturnos" border="0" src="resources/header.jpg"/>
@@ -100,8 +100,9 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <table>
+                                <td align="center">
+                                    <webuijsf:hiddenField binding="#{frmProfesional.hdnId}" id="hdnId1"/>
+                                    <table align="center" cellpadding="5" cellspacing="2">
                                         <tr>
                                             <td>
                                                 <webuijsf:label id="label1" text="DNI"/>
@@ -167,14 +168,11 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
-                                                <webuijsf:button actionExpression="#{frmProfesional.cmdCancelar_action}" id="cmdCancelar"
-                                                    style="height: 24px; width: 71px" text="Cancelar"/>
-                                            </td>
-                                            <td>
+                                            <td align="center" colspan="2">
                                                 <webuijsf:button actionExpression="#{frmProfesional.cmdAceptar_action}" id="cmdAceptar"
                                                     style="height: 24px; width: 71px" text="Aceptar"/>
-                                                <webuijsf:hiddenField id="hdnId1" binding="#{frmProfesional.hdnId}" />
+                                                <webuijsf:button actionExpression="#{frmProfesional.cmdCancelar_action}" id="cmdCancelar"
+                                                    style="height: 24px; width: 71px" text="Cancelar"/>
                                             </td>
                                         </tr>
                                     </table>
