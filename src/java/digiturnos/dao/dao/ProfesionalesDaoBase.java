@@ -48,22 +48,20 @@ public interface ProfesionalesDaoBase {
     public static final int COLUMN_POSITION_DNI = 2;
     /** column ordinal value constant for profesionales.nombre varchar */
     public static final int COLUMN_POSITION_NOMBRE = 3;
-    /** column ordinal value constant for profesionales.sexo bpchar */
-    public static final int COLUMN_POSITION_SEXO = 4;
     /** column ordinal value constant for profesionales.fechanacimiento date */
-    public static final int COLUMN_POSITION_FECHANACIMIENTO = 5;
+    public static final int COLUMN_POSITION_FECHANACIMIENTO = 4;
     /** column ordinal value constant for profesionales.domicilio varchar */
-    public static final int COLUMN_POSITION_DOMICILIO = 6;
+    public static final int COLUMN_POSITION_DOMICILIO = 5;
     /** column ordinal value constant for profesionales.telefono bpchar */
-    public static final int COLUMN_POSITION_TELEFONO = 7;
+    public static final int COLUMN_POSITION_TELEFONO = 6;
     /** column ordinal value constant for profesionales.celular bpchar */
-    public static final int COLUMN_POSITION_CELULAR = 8;
+    public static final int COLUMN_POSITION_CELULAR = 7;
     /** column ordinal value constant for profesionales.email varchar */
-    public static final int COLUMN_POSITION_EMAIL = 9;
-    /** column ordinal value constant for profesionales.observaciones text */
-    public static final int COLUMN_POSITION_OBSERVACIONES = 10;
+    public static final int COLUMN_POSITION_EMAIL = 8;
     /** column ordinal value constant for profesionales.idespecialidad int4 */
-    public static final int COLUMN_POSITION_IDESPECIALIDAD = 11;
+    public static final int COLUMN_POSITION_IDESPECIALIDAD = 9;
+    
+    public static final int COLUMN_POSITION_ESPECIALIDAD = 10;
 
     /** canonical name constant for profesionales.idprofesional serial */
     public static final String COLUMN_IDPROFESIONAL = "profesionales.idprofesional";
@@ -71,8 +69,6 @@ public interface ProfesionalesDaoBase {
     public static final String COLUMN_DNI = "profesionales.dni";
     /** canonical name constant for profesionales.nombre varchar */
     public static final String COLUMN_NOMBRE = "profesionales.nombre";
-    /** canonical name constant for profesionales.sexo bpchar */
-    public static final String COLUMN_SEXO = "profesionales.sexo";
     /** canonical name constant for profesionales.fechanacimiento date */
     public static final String COLUMN_FECHANACIMIENTO = "profesionales.fechanacimiento";
     /** canonical name constant for profesionales.domicilio varchar */
@@ -84,8 +80,6 @@ public interface ProfesionalesDaoBase {
     /** canonical name constant for profesionales.email varchar */
     public static final String COLUMN_EMAIL = "profesionales.email";
     /** canonical name constant for profesionales.observaciones text */
-    public static final String COLUMN_OBSERVACIONES = "profesionales.observaciones";
-    /** canonical name constant for profesionales.idespecialidad int4 */
     public static final String COLUMN_IDESPECIALIDAD = "profesionales.idespecialidad";
 
     /** simple name constant for profesionales.idprofesional serial */
@@ -94,8 +88,6 @@ public interface ProfesionalesDaoBase {
     public static final String COLUMN_SIMPLE_DNI = "profesionales.dni";
     /** simple name constant for profesionales.nombre varchar */
     public static final String COLUMN_SIMPLE_NOMBRE = "profesionales.nombre";
-    /** simple name constant for profesionales.sexo bpchar */
-    public static final String COLUMN_SIMPLE_SEXO = "profesionales.sexo";
     /** simple name constant for profesionales.fechanacimiento date */
     public static final String COLUMN_SIMPLE_FECHANACIMIENTO = "profesionales.fechanacimiento";
     /** simple name constant for profesionales.domicilio varchar */
@@ -106,8 +98,6 @@ public interface ProfesionalesDaoBase {
     public static final String COLUMN_SIMPLE_CELULAR = "profesionales.celular";
     /** simple name constant for profesionales.email varchar */
     public static final String COLUMN_SIMPLE_EMAIL = "profesionales.email";
-    /** simple name constant for profesionales.observaciones text */
-    public static final String COLUMN_SIMPLE_OBSERVACIONES = "profesionales.observaciones";
     /** simple name constant for profesionales.idespecialidad int4 */
     public static final String COLUMN_SIMPLE_IDESPECIALIDAD = "profesionales.idespecialidad";
 
@@ -232,12 +222,6 @@ public interface ProfesionalesDaoBase {
 
     /** 
       * Returns rows from the database where 
-      * sexo is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
-      */ 
-    public  Profesionales[] findWhereSexoEquals(String sexo) throws ProfesionalesDaoException;
-
-    /** 
-      * Returns rows from the database where 
       * fechanacimiento is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
       */ 
     public  Profesionales[] findWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws ProfesionalesDaoException;
@@ -265,13 +249,6 @@ public interface ProfesionalesDaoBase {
       * email is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
       */ 
     public  Profesionales[] findWhereEmailEquals(String email) throws ProfesionalesDaoException;
-
-    /** 
-      * Returns rows from the database where 
-      * observaciones is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
-      */ 
-    public  Profesionales[] findWhereObservacionesEquals(String observaciones) throws ProfesionalesDaoException;
-
     /** 
       * Returns rows from the database where 
       * idespecialidad is equal to the supplied parameter. If there are no matching rows, an empty array is returned.
@@ -298,8 +275,6 @@ public interface ProfesionalesDaoBase {
 
     public int countWhereNombreEquals(String nombre) throws ProfesionalesDaoException;
 
-    public int countWhereSexoEquals(String sexo) throws ProfesionalesDaoException;
-
     public int countWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws ProfesionalesDaoException;
 
     public int countWhereDomicilioEquals(String domicilio) throws ProfesionalesDaoException;
@@ -309,8 +284,6 @@ public interface ProfesionalesDaoBase {
     public int countWhereCelularEquals(String celular) throws ProfesionalesDaoException;
 
     public int countWhereEmailEquals(String email) throws ProfesionalesDaoException;
-
-    public int countWhereObservacionesEquals(String observaciones) throws ProfesionalesDaoException;
 
     public int countWhereIdespecialidadEquals(Integer idespecialidad) throws ProfesionalesDaoException;
 
