@@ -101,7 +101,7 @@
                                     </div>
                                 </td>
                                 <td valign="top">
-                                    Aca van las cosas
+                                    
                                 </td>
                             </tr>
                         </table>
