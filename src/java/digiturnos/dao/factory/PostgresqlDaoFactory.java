@@ -5,12 +5,12 @@ import digiturnos.dao.jdbc.*;
 
 public class PostgresqlDaoFactory extends DaoFactory {
 
-    
     public EspecialidadesDao especialidadesDao;
-    public PacientesDao pacientesDao;
     public ServiciosDao serviciosDao;
     public TiposUsuarioDao tiposUsuarioDao;
     public UsuariosDao usuariosDao;
+    public PacientesDao pacientesDao;
+    public ProfesionalesDao profesionalesDao;
 
     public EspecialidadesDao getEspecialidadesDao() {
         EspecialidadesDao eDao = this.especialidadesDao;
@@ -18,14 +18,6 @@ public class PostgresqlDaoFactory extends DaoFactory {
             return eDao;
         eDao = new EspecialidadesDaoImpl();
         return eDao;
-    }
-
-    public PacientesDao getPacientesDao() {
-        PacientesDao pDao = this.pacientesDao;
-        if (pDao != null)
-            return pDao;
-        pDao = new PacientesDaoImpl();
-        return pDao;
     }
 
     public ServiciosDao getServiciosDao() {
@@ -52,4 +44,19 @@ public class PostgresqlDaoFactory extends DaoFactory {
         return uDao;
     }
 
+    public PacientesDao getPacientesDao() {
+        PacientesDao pacientesDao = this.pacientesDao;
+        if (pacientesDao != null)
+            return pacientesDao;
+        pacientesDao = new PacientesDaoImpl();
+        return pacientesDao;
+    }
+
+    public ProfesionalesDao getProfesionalesDao() {
+        ProfesionalesDao profesionalesDao = this.profesionalesDao;
+        if (profesionalesDao != null)
+            return profesionalesDao;
+        profesionalesDao = new ProfesionalesDaoImpl();
+        return profesionalesDao;
+    }
 }

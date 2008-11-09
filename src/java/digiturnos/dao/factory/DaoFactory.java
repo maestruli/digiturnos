@@ -35,6 +35,7 @@ public abstract class DaoFactory {
     public abstract TiposUsuarioDao getTiposUsuarioDao();
     public abstract UsuariosDao getUsuariosDao();
     public abstract EspecialidadesDao getEspecialidadesDao();
-    public abstract PacientesDao getPacientesDao();
     public abstract ServiciosDao getServiciosDao();
+    public abstract PacientesDao getPacientesDao();
+    public abstract ProfesionalesDao getProfesionalesDao();
 }

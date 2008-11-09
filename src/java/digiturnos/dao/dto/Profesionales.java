@@ -3,18 +3,20 @@ package digiturnos.dao.dto;
 import java.util.*;
 import java.io.Serializable;
 
-public class Pacientes implements Serializable, Cloneable {
+public class Profesionales implements Serializable, Cloneable {
 
     private final static int SEED = 37;
 
-    /** idpaciente  4  null */
-    protected Integer idpaciente;
+    /** idprofesional  4  null */
+    protected Integer idprofesional;
     /** dni  4  null */
     protected Integer dni;
     /** nombre  12  null */
     protected String nombre;
     /** sexo  1  null */
     protected String sexo;
+    /** fechanacimiento  91  null */
+    protected java.sql.Date fechanacimiento;
     /** domicilio  12  null */
     protected String domicilio;
     /** telefono  1  null */
@@ -23,30 +25,30 @@ public class Pacientes implements Serializable, Cloneable {
     protected String celular;
     /** email  12  null */
     protected String email;
-    /** fechanacimiento  91  null */
-    protected java.sql.Date fechanacimiento;
     /** observaciones  12  null */
     protected String observaciones;
+    /** idespecialidad  4  Foriegn Key: idespecialidad  null */
+    protected Integer idespecialidad;
 
-    /** Creates a dto for the pacientes table */
-    public Pacientes() {
+    /** Creates a dto for the profesionales table */
+    public Profesionales() {
     }
 
 
     /** 
-     * Gets the value for idpaciente  null
+     * Gets the value for idprofesional  null
      * null
      */
-    public Integer getIdpaciente() {
-        return idpaciente;
+    public Integer getIdprofesional() {
+        return idprofesional;
     }
 
     /** 
-     * Sets the value for idpaciente  null
+     * Sets the value for idprofesional  null
      * null
      */
-    public void setIdpaciente(Integer idpaciente) {
-        this.idpaciente = idpaciente;
+    public void setIdprofesional(Integer idprofesional) {
+        this.idprofesional = idprofesional;
     }
 
     /** 
@@ -95,6 +97,22 @@ public class Pacientes implements Serializable, Cloneable {
      */
     public void setSexo(String sexo) {
         this.sexo = sexo;
+    }
+
+    /** 
+     * Gets the value for fechanacimiento  null
+     * null
+     */
+    public java.sql.Date getFechanacimiento() {
+        return fechanacimiento;
+    }
+
+    /** 
+     * Sets the value for fechanacimiento  null
+     * null
+     */
+    public void setFechanacimiento(java.sql.Date fechanacimiento) {
+        this.fechanacimiento = fechanacimiento;
     }
 
     /** 
@@ -162,22 +180,6 @@ public class Pacientes implements Serializable, Cloneable {
     }
 
     /** 
-     * Gets the value for fechanacimiento  null
-     * null
-     */
-    public java.sql.Date getFechanacimiento() {
-        return fechanacimiento;
-    }
-
-    /** 
-     * Sets the value for fechanacimiento  null
-     * null
-     */
-    public void setFechanacimiento(java.sql.Date fechanacimiento) {
-        this.fechanacimiento = fechanacimiento;
-    }
-
-    /** 
      * Gets the value for observaciones  null
      * null
      */
@@ -193,23 +195,40 @@ public class Pacientes implements Serializable, Cloneable {
         this.observaciones = observaciones;
     }
 
-    public PacientesPK createPK() {
-        return new PacientesPK(idpaciente);
+    /** 
+     * Gets the value for idespecialidad  null
+     * null
+     */
+    public Integer getIdespecialidad() {
+        return idespecialidad;
+    }
+
+    /** 
+     * Sets the value for idespecialidad  null
+     * null
+     */
+    public void setIdespecialidad(Integer idespecialidad) {
+        this.idespecialidad = idespecialidad;
+    }
+
+    public ProfesionalesPK createPK() {
+        return new ProfesionalesPK(idprofesional);
     }
 
     public Object clone() {
         try {
-            Pacientes o = (Pacientes) super.clone();
-            o.setIdpaciente(new Integer(this.getIdpaciente().intValue()));
+            Profesionales o = (Profesionales) super.clone();
+            o.setIdprofesional(new Integer(this.getIdprofesional().intValue()));
             o.setDni(new Integer(this.getDni().intValue()));
             o.setNombre(new String(this.getNombre()));
             o.setSexo(new String(this.getSexo()));
+            o.setFechanacimiento((java.sql.Date) this.getFechanacimiento().clone());
             o.setDomicilio(new String(this.getDomicilio()));
             o.setTelefono(new String(this.getTelefono()));
             o.setCelular(new String(this.getCelular()));
             o.setEmail(new String(this.getEmail()));
-            o.setFechanacimiento((java.sql.Date) this.getFechanacimiento().clone());
             o.setObservaciones(new String(this.getObservaciones()));
+            o.setIdespecialidad(new Integer(this.getIdespecialidad().intValue()));
             return o;
         } catch (CloneNotSupportedException e) {
             return null;
@@ -219,20 +238,21 @@ public class Pacientes implements Serializable, Cloneable {
     public boolean equals(Object o) {
         if (this == o)
             return true;
-        if ( !(o instanceof Pacientes))
+        if ( !(o instanceof Profesionales))
             return false;
-        Pacientes that = (Pacientes) o;
+        Profesionales that = (Profesionales) o;
         return (
-                compare(this.getIdpaciente(), that.getIdpaciente()) &&
+                compare(this.getIdprofesional(), that.getIdprofesional()) &&
                 compare(this.getDni(), that.getDni()) &&
                 compare(this.getNombre(), that.getNombre()) &&
                 compare(this.getSexo(), that.getSexo()) &&
+                compare(this.getFechanacimiento(), that.getFechanacimiento()) &&
                 compare(this.getDomicilio(), that.getDomicilio()) &&
                 compare(this.getTelefono(), that.getTelefono()) &&
                 compare(this.getCelular(), that.getCelular()) &&
                 compare(this.getEmail(), that.getEmail()) &&
-                compare(this.getFechanacimiento(), that.getFechanacimiento()) &&
-                compare(this.getObservaciones(), that.getObservaciones())
+                compare(this.getObservaciones(), that.getObservaciones()) &&
+                compare(this.getIdespecialidad(), that.getIdespecialidad())
                 );
     }
 
@@ -242,16 +262,17 @@ public class Pacientes implements Serializable, Cloneable {
 
     public int hashCode() {
         int result = SEED;
-        result = hash(result, this.getIdpaciente());
+        result = hash(result, this.getIdprofesional());
         result = hash(result, this.getDni());
         result = hash(result, this.getNombre());
         result = hash(result, this.getSexo());
+        result = hash(result, this.getFechanacimiento());
         result = hash(result, this.getDomicilio());
         result = hash(result, this.getTelefono());
         result = hash(result, this.getCelular());
         result = hash(result, this.getEmail());
-        result = hash(result, this.getFechanacimiento());
         result = hash(result, this.getObservaciones());
+        result = hash(result, this.getIdespecialidad());
         return result;
     }
 

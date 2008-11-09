@@ -7,17 +7,17 @@ import java.util.*;
 import java.sql.*;
 import org.apache.commons.logging.*;
 
-public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDaoBase {
+public class ProfesionalesDaoImplBase extends PostgresqlBase implements ProfesionalesDaoBase {
 
     private Integer limit;
     private Integer offset;
 
-    protected static final String SQL_SELECT = "SELECT pacientes.idpaciente, pacientes.dni, pacientes.nombre, pacientes.sexo, pacientes.domicilio, pacientes.telefono, pacientes.celular, pacientes.email, pacientes.fechanacimiento, pacientes.observaciones FROM pacientes ";
-    protected static final String SQL_MAX_ID = "SELECT MAX(idpaciente) FROM pacientes";
-    protected static final String SQL_INSERT = "INSERT INTO pacientes (dni, nombre, sexo, domicilio, telefono, celular, email, fechanacimiento, observaciones) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    protected static final String SQL_INSERT_WITH_ID = "INSERT INTO pacientes (idpaciente, dni, nombre, sexo, domicilio, telefono, celular, email, fechanacimiento, observaciones) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    protected static final String SQL_UPDATE = "UPDATE pacientes SET idpaciente = ?, dni = ?, nombre = ?, sexo = ?, domicilio = ?, telefono = ?, celular = ?, email = ?, fechanacimiento = ?, observaciones = ? WHERE pacientes.idpaciente = ?";
-    protected static final String SQL_DELETE = "DELETE FROM pacientes WHERE pacientes.idpaciente = ?";
+    protected static final String SQL_SELECT = "SELECT profesionales.idprofesional, profesionales.dni, profesionales.nombre, profesionales.sexo, profesionales.fechanacimiento, profesionales.domicilio, profesionales.telefono, profesionales.celular, profesionales.email, profesionales.observaciones, profesionales.idespecialidad FROM profesionales ";
+    protected static final String SQL_MAX_ID = "SELECT MAX(idprofesional) FROM profesionales";
+    protected static final String SQL_INSERT = "INSERT INTO profesionales (dni, nombre, sexo, fechanacimiento, domicilio, telefono, celular, email, observaciones, idespecialidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    protected static final String SQL_INSERT_WITH_ID = "INSERT INTO profesionales (idprofesional, dni, nombre, sexo, fechanacimiento, domicilio, telefono, celular, email, observaciones, idespecialidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    protected static final String SQL_UPDATE = "UPDATE profesionales SET idprofesional = ?, dni = ?, nombre = ?, sexo = ?, fechanacimiento = ?, domicilio = ?, telefono = ?, celular = ?, email = ?, observaciones = ?, idespecialidad = ? WHERE profesionales.idprofesional = ?";
+    protected static final String SQL_DELETE = "DELETE FROM profesionales WHERE profesionales.idprofesional = ?";
 
     protected static final String ORDER_BY = " ORDER BY ";
 
@@ -69,7 +69,7 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
         this.offset = offset;
     }
 
-    public  Pacientes[] findAll() throws PacientesDaoException {
+    public  Profesionales[] findAll() throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -88,10 +88,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -107,57 +107,61 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public PacientesPK insert(Pacientes dto) throws PacientesDaoException {
+    public ProfesionalesPK insert(Profesionales dto) throws ProfesionalesDaoException {
         return insert(dto, null);
     }
 
-    public  PacientesPK insert(Pacientes dto, Integer idpaciente) throws PacientesDaoException {
+    public  ProfesionalesPK insert(Profesionales dto, Integer idprofesional) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        Pacientes idto = null;
-        PacientesPK pk = null;
+        Profesionales idto = null;
+        ProfesionalesPK pk = null;
 
         try {
             String sql = SQL_INSERT;
-            if (!(idpaciente == null ))
+            if (!(idprofesional == null ))
                 sql = SQL_INSERT_WITH_ID;
             con = getConnection();
             con.setAutoCommit(false);
             ps = con.prepareStatement(sql);
             int paramCount = 1;
-            if (!(idpaciente == null ))
-                ps.setInt(paramCount++,  dto.getIdpaciente());
+            if (!(idprofesional == null ))
+                ps.setInt(paramCount++,  dto.getIdprofesional());
             if (dto.getDni() == null)
                 ps.setInt(paramCount++, 0);
             else
                 ps.setInt(paramCount++,  dto.getDni());
             ps.setString(paramCount++,  dto.getNombre());
             ps.setString(paramCount++,  dto.getSexo());
+            ps.setDate(paramCount++,  dto.getFechanacimiento());
             ps.setString(paramCount++,  dto.getDomicilio());
             ps.setString(paramCount++,  dto.getTelefono());
             ps.setString(paramCount++,  dto.getCelular());
             ps.setString(paramCount++,  dto.getEmail());
-            ps.setDate(paramCount++,  dto.getFechanacimiento());
             ps.setString(paramCount++,  dto.getObservaciones());
+            if (dto.getIdespecialidad() == null)
+                ps.setInt(paramCount++, 0);
+            else
+                ps.setInt(paramCount++,  dto.getIdespecialidad());
             ps.executeUpdate();
             log.trace("SQL: " + sql);
-            if (idpaciente == null ) {
-                int cIdpaciente = -1;
-                String sqlIdpaciente = "select currval('pacientes_idpaciente_seq')";
-                PreparedStatement psIdpaciente = con.prepareStatement(sqlIdpaciente);
-                ResultSet rsIdpaciente = psIdpaciente.executeQuery();
-                while (rsIdpaciente.next())
-                    cIdpaciente = rsIdpaciente.getInt(1);
-                dto.setIdpaciente(cIdpaciente);
+            if (idprofesional == null ) {
+                int cIdprofesional = -1;
+                String sqlIdprofesional = "select currval('profesionales_idprofesional_seq')";
+                PreparedStatement psIdprofesional = con.prepareStatement(sqlIdprofesional);
+                ResultSet rsIdprofesional = psIdprofesional.executeQuery();
+                while (rsIdprofesional.next())
+                    cIdprofesional = rsIdprofesional.getInt(1);
+                dto.setIdprofesional(cIdprofesional);
             }
             con.commit();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -176,7 +180,7 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public  int update(PacientesPK pk, Pacientes dto) throws PacientesDaoException {
+    public  int update(ProfesionalesPK pk, Profesionales dto) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         int numRows = -1;
@@ -185,10 +189,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             String sql = SQL_UPDATE;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            if (dto.getIdpaciente() == null)
+            if (dto.getIdprofesional() == null)
                 ps.setNull(1, 4);
             else
-                ps.setInt(1,  dto.getIdpaciente());
+                ps.setInt(1,  dto.getIdprofesional());
             if (dto.getDni() == null)
                 ps.setNull(2, 4);
             else
@@ -201,38 +205,42 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
                 ps.setNull(4, 1);
             else
                 ps.setString(4,  dto.getSexo());
+            if (dto.getFechanacimiento() == null)
+                ps.setNull(5, 91);
+            else
+                ps.setDate(5,  dto.getFechanacimiento());
             if (dto.getDomicilio() == null)
-                ps.setNull(5, 12);
+                ps.setNull(6, 12);
             else
-                ps.setString(5,  dto.getDomicilio());
+                ps.setString(6,  dto.getDomicilio());
             if (dto.getTelefono() == null)
-                ps.setNull(6, 1);
-            else
-                ps.setString(6,  dto.getTelefono());
-            if (dto.getCelular() == null)
                 ps.setNull(7, 1);
             else
-                ps.setString(7,  dto.getCelular());
+                ps.setString(7,  dto.getTelefono());
+            if (dto.getCelular() == null)
+                ps.setNull(8, 1);
+            else
+                ps.setString(8,  dto.getCelular());
             if (dto.getEmail() == null)
-                ps.setNull(8, 12);
+                ps.setNull(9, 12);
             else
-                ps.setString(8,  dto.getEmail());
-            if (dto.getFechanacimiento() == null)
-                ps.setNull(9, 91);
-            else
-                ps.setDate(9,  dto.getFechanacimiento());
+                ps.setString(9,  dto.getEmail());
             if (dto.getObservaciones() == null)
                 ps.setNull(10, 12);
             else
                 ps.setString(10,  dto.getObservaciones());
-            ps.setInt(11,  pk.getIdpaciente());
+            if (dto.getIdespecialidad() == null)
+                ps.setNull(11, 4);
+            else
+                ps.setInt(11,  dto.getIdespecialidad());
+            ps.setInt(12,  pk.getIdprofesional());
             numRows = ps.executeUpdate();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                     if (ps != null)
@@ -246,7 +254,7 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
         return numRows;
     }
 
-    public  int delete(PacientesPK pk) throws PacientesDaoException {
+    public  int delete(ProfesionalesPK pk) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         int numRows = -1;
@@ -255,14 +263,14 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             String sql = SQL_DELETE;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1,  pk.getIdpaciente());
+            ps.setInt(1,  pk.getIdprofesional());
             numRows = ps.executeUpdate();
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                     if (ps != null)
@@ -276,7 +284,7 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
         return numRows;
     }
 
-    public  Pacientes findWhereOIDEquals(long oid) throws PacientesDaoException {
+    public  Profesionales findWhereOIDEquals(long oid) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -292,10 +300,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return fetchSingleResult(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -311,30 +319,30 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public  Pacientes findByPrimaryKey(PacientesPK pk) throws PacientesDaoException {
-        return findByPrimaryKey(pk.getIdpaciente());
+    public  Profesionales findByPrimaryKey(ProfesionalesPK pk) throws ProfesionalesDaoException {
+        return findByPrimaryKey(pk.getIdprofesional());
     }
 
-    public  Pacientes findByPrimaryKey(Integer idpaciente) throws PacientesDaoException {
+    public  Profesionales findByPrimaryKey(Integer idprofesional) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE pacientes.idpaciente = ?";
+            String sql = SQL_SELECT + " WHERE profesionales.idprofesional = ?";
             sql += getOrderByClause();
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idpaciente);
+            ps.setInt(1, idprofesional);
             log.trace("SQL: " + sql);
             rs = ps.executeQuery();
             return fetchSingleResult(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -350,14 +358,18 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
+    public  Profesionales[] findByEspecialidades(EspecialidadesPK pk) throws ProfesionalesDaoException {
+        return findByEspecialidades(pk.getIdespecialidad());
+    }
 
-    public  Pacientes[] findWhereIdpacienteEquals(Integer idpaciente) throws PacientesDaoException {
+
+    public  Profesionales[] findByEspecialidades(Integer idespecialidad) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE pacientes.idpaciente = ?";
+            String sql = SQL_SELECT + " WHERE idespecialidad = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -365,16 +377,16 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
                 sql += " OFFSET " + offset;
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idpaciente);
+            ps.setInt(1, idespecialidad);
             log.trace("SQL: " + sql);
             rs = ps.executeQuery();
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -390,13 +402,53 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public  Pacientes[] findWhereDniEquals(Integer dni) throws PacientesDaoException {
+
+    public  Profesionales[] findWhereIdprofesionalEquals(Integer idprofesional) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE pacientes.dni = ?";
+            String sql = SQL_SELECT + " WHERE profesionales.idprofesional = ?";
+            sql += getOrderByClause();
+            if (limit != null && limit.intValue() > 0)
+                sql += " LIMIT " + limit;
+            if (offset != null && offset.intValue() > 0)
+                sql += " OFFSET " + offset;
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idprofesional);
+            log.trace("SQL: " + sql);
+            rs = ps.executeQuery();
+            return fetchMultipleResults(rs);
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public  Profesionales[] findWhereDniEquals(Integer dni) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = SQL_SELECT + " WHERE profesionales.dni = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -410,10 +462,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -429,13 +481,13 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public  Pacientes[] findWhereNombreEquals(String nombre) throws PacientesDaoException {
+    public  Profesionales[] findWhereNombreEquals(String nombre) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE pacientes.nombre = ?";
+            String sql = SQL_SELECT + " WHERE profesionales.nombre = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -449,10 +501,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -468,13 +520,13 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public  Pacientes[] findWhereSexoEquals(String sexo) throws PacientesDaoException {
+    public  Profesionales[] findWhereSexoEquals(String sexo) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE pacientes.sexo = ?";
+            String sql = SQL_SELECT + " WHERE profesionales.sexo = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -488,10 +540,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -507,169 +559,13 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public  Pacientes[] findWhereDomicilioEquals(String domicilio) throws PacientesDaoException {
+    public  Profesionales[] findWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE pacientes.domicilio = ?";
-            sql += getOrderByClause();
-            if (limit != null && limit.intValue() > 0)
-                sql += " LIMIT " + limit;
-            if (offset != null && offset.intValue() > 0)
-                sql += " OFFSET " + offset;
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, domicilio);
-            log.trace("SQL: " + sql);
-            rs = ps.executeQuery();
-            return fetchMultipleResults(rs);
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public  Pacientes[] findWhereTelefonoEquals(String telefono) throws PacientesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = SQL_SELECT + " WHERE pacientes.telefono = ?";
-            sql += getOrderByClause();
-            if (limit != null && limit.intValue() > 0)
-                sql += " LIMIT " + limit;
-            if (offset != null && offset.intValue() > 0)
-                sql += " OFFSET " + offset;
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, telefono);
-            log.trace("SQL: " + sql);
-            rs = ps.executeQuery();
-            return fetchMultipleResults(rs);
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public  Pacientes[] findWhereCelularEquals(String celular) throws PacientesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = SQL_SELECT + " WHERE pacientes.celular = ?";
-            sql += getOrderByClause();
-            if (limit != null && limit.intValue() > 0)
-                sql += " LIMIT " + limit;
-            if (offset != null && offset.intValue() > 0)
-                sql += " OFFSET " + offset;
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, celular);
-            log.trace("SQL: " + sql);
-            rs = ps.executeQuery();
-            return fetchMultipleResults(rs);
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public  Pacientes[] findWhereEmailEquals(String email) throws PacientesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = SQL_SELECT + " WHERE pacientes.email = ?";
-            sql += getOrderByClause();
-            if (limit != null && limit.intValue() > 0)
-                sql += " LIMIT " + limit;
-            if (offset != null && offset.intValue() > 0)
-                sql += " OFFSET " + offset;
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, email);
-            log.trace("SQL: " + sql);
-            rs = ps.executeQuery();
-            return fetchMultipleResults(rs);
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public  Pacientes[] findWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws PacientesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-
-        try {
-            String sql = SQL_SELECT + " WHERE pacientes.fechanacimiento = ?";
+            String sql = SQL_SELECT + " WHERE profesionales.fechanacimiento = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -683,10 +579,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -702,13 +598,169 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public  Pacientes[] findWhereObservacionesEquals(String observaciones) throws PacientesDaoException {
+    public  Profesionales[] findWhereDomicilioEquals(String domicilio) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
 
         try {
-            String sql = SQL_SELECT + " WHERE pacientes.observaciones = ?";
+            String sql = SQL_SELECT + " WHERE profesionales.domicilio = ?";
+            sql += getOrderByClause();
+            if (limit != null && limit.intValue() > 0)
+                sql += " LIMIT " + limit;
+            if (offset != null && offset.intValue() > 0)
+                sql += " OFFSET " + offset;
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, domicilio);
+            log.trace("SQL: " + sql);
+            rs = ps.executeQuery();
+            return fetchMultipleResults(rs);
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public  Profesionales[] findWhereTelefonoEquals(String telefono) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = SQL_SELECT + " WHERE profesionales.telefono = ?";
+            sql += getOrderByClause();
+            if (limit != null && limit.intValue() > 0)
+                sql += " LIMIT " + limit;
+            if (offset != null && offset.intValue() > 0)
+                sql += " OFFSET " + offset;
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, telefono);
+            log.trace("SQL: " + sql);
+            rs = ps.executeQuery();
+            return fetchMultipleResults(rs);
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public  Profesionales[] findWhereCelularEquals(String celular) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = SQL_SELECT + " WHERE profesionales.celular = ?";
+            sql += getOrderByClause();
+            if (limit != null && limit.intValue() > 0)
+                sql += " LIMIT " + limit;
+            if (offset != null && offset.intValue() > 0)
+                sql += " OFFSET " + offset;
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, celular);
+            log.trace("SQL: " + sql);
+            rs = ps.executeQuery();
+            return fetchMultipleResults(rs);
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public  Profesionales[] findWhereEmailEquals(String email) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = SQL_SELECT + " WHERE profesionales.email = ?";
+            sql += getOrderByClause();
+            if (limit != null && limit.intValue() > 0)
+                sql += " LIMIT " + limit;
+            if (offset != null && offset.intValue() > 0)
+                sql += " OFFSET " + offset;
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, email);
+            log.trace("SQL: " + sql);
+            rs = ps.executeQuery();
+            return fetchMultipleResults(rs);
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public  Profesionales[] findWhereObservacionesEquals(String observaciones) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = SQL_SELECT + " WHERE profesionales.observaciones = ?";
             sql += getOrderByClause();
             if (limit != null && limit.intValue() > 0)
                 sql += " LIMIT " + limit;
@@ -722,10 +774,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -741,7 +793,46 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public  Object[][] findBySelect(String sql, Object[] sqlParams) throws PacientesDaoException {
+    public  Profesionales[] findWhereIdespecialidadEquals(Integer idespecialidad) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            String sql = SQL_SELECT + " WHERE profesionales.idespecialidad = ?";
+            sql += getOrderByClause();
+            if (limit != null && limit.intValue() > 0)
+                sql += " LIMIT " + limit;
+            if (offset != null && offset.intValue() > 0)
+                sql += " OFFSET " + offset;
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idespecialidad);
+            log.trace("SQL: " + sql);
+            rs = ps.executeQuery();
+            return fetchMultipleResults(rs);
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public  Object[][] findBySelect(String sql, Object[] sqlParams) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -773,10 +864,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return ra;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -793,7 +884,7 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
     }
 
 
-    public Pacientes[] findByWhere(String where, Object[] sqlParams) throws PacientesDaoException {
+    public Profesionales[] findByWhere(String where, Object[] sqlParams) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -817,10 +908,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return fetchMultipleResults(rs);
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -837,13 +928,13 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
     }
 
 
-    public int countAll() throws PacientesDaoException {
+    public int countAll() throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes";
+            String sql = "SELECT count(idprofesional) from profesionales";
             con = getConnection();
             ps = con.prepareStatement(sql);
             rs = ps.executeQuery();
@@ -852,10 +943,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -871,26 +962,26 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countByPrimaryKey(PacientesPK pk) throws PacientesDaoException {
+    public int countByPrimaryKey(ProfesionalesPK pk) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE idpaciente = ? ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE idprofesional = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, pk.getIdpaciente());
+            ps.setInt(1, pk.getIdprofesional());
             rs = ps.executeQuery();
             while (rs.next())
                 count = rs.getInt(1);
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -906,26 +997,26 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countByPrimaryKey(Integer idpaciente) throws PacientesDaoException {
+    public int countByPrimaryKey(Integer idprofesional) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE idpaciente = ? ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE idprofesional = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idpaciente);
+            ps.setInt(1, idprofesional);
             rs = ps.executeQuery();
             while (rs.next())
                 count = rs.getInt(1);
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -941,26 +1032,26 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countWhereIdpacienteEquals(Integer idpaciente) throws PacientesDaoException {
+    public int countWhereIdprofesionalEquals(Integer idprofesional) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE idpaciente = ? ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE idprofesional = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
-            ps.setInt(1, idpaciente);
+            ps.setInt(1, idprofesional);
             rs = ps.executeQuery();
             while (rs.next())
                 count = rs.getInt(1);
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -976,13 +1067,13 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countWhereDniEquals(Integer dni) throws PacientesDaoException {
+    public int countWhereDniEquals(Integer dni) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE dni = ? ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE dni = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setInt(1, dni);
@@ -992,10 +1083,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1011,13 +1102,13 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countWhereNombreEquals(String nombre) throws PacientesDaoException {
+    public int countWhereNombreEquals(String nombre) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE nombre = ? ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE nombre = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, nombre);
@@ -1027,10 +1118,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1046,13 +1137,13 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countWhereSexoEquals(String sexo) throws PacientesDaoException {
+    public int countWhereSexoEquals(String sexo) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE sexo = ? ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE sexo = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, sexo);
@@ -1062,10 +1153,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1081,153 +1172,13 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countWhereDomicilioEquals(String domicilio) throws PacientesDaoException {
+    public int countWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE domicilio = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, domicilio);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereTelefonoEquals(String telefono) throws PacientesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE telefono = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, telefono);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereCelularEquals(String celular) throws PacientesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE celular = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, celular);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereEmailEquals(String email) throws PacientesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE email = ? ";
-            con = getConnection();
-            ps = con.prepareStatement(sql);
-            ps.setString(1, email);
-            rs = ps.executeQuery();
-            while (rs.next())
-                count = rs.getInt(1);
-            return count;
-        } catch (SQLException e) {
-            logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
-        } catch (Exception e) {
-            logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
-        } finally {
-            try {
-                if (rs != null)
-                    rs.close();
-                if (ps != null)
-                    ps.close();
-                if (con != null) {
-                    con.close();
-                }
-            } catch (Exception e) {
-            }
-        }
-
-    }
-
-    public int countWhereFechanacimientoEquals(java.sql.Date fechanacimiento) throws PacientesDaoException {
-        Connection con = null;
-        PreparedStatement ps = null;
-        ResultSet rs = null;
-        int count = 0;
-        try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE fechanacimiento = ? ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE fechanacimiento = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setDate(1, fechanacimiento);
@@ -1237,10 +1188,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1256,13 +1207,153 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countWhereObservacionesEquals(String observaciones) throws PacientesDaoException {
+    public int countWhereDomicilioEquals(String domicilio) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes WHERE observaciones = ? ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE domicilio = ? ";
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, domicilio);
+            rs = ps.executeQuery();
+            while (rs.next())
+                count = rs.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public int countWhereTelefonoEquals(String telefono) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            String sql = "SELECT count(idprofesional) from profesionales WHERE telefono = ? ";
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, telefono);
+            rs = ps.executeQuery();
+            while (rs.next())
+                count = rs.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public int countWhereCelularEquals(String celular) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            String sql = "SELECT count(idprofesional) from profesionales WHERE celular = ? ";
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, celular);
+            rs = ps.executeQuery();
+            while (rs.next())
+                count = rs.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public int countWhereEmailEquals(String email) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            String sql = "SELECT count(idprofesional) from profesionales WHERE email = ? ";
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setString(1, email);
+            rs = ps.executeQuery();
+            while (rs.next())
+                count = rs.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public int countWhereObservacionesEquals(String observaciones) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            String sql = "SELECT count(idprofesional) from profesionales WHERE observaciones = ? ";
             con = getConnection();
             ps = con.prepareStatement(sql);
             ps.setString(1, observaciones);
@@ -1272,10 +1363,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1291,13 +1382,48 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    public int countByWhere(String where, Object[] sqlParams) throws PacientesDaoException {
+    public int countWhereIdespecialidadEquals(Integer idespecialidad) throws ProfesionalesDaoException {
         Connection con = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
         int count = 0;
         try {
-            String sql = "SELECT count(idpaciente) from pacientes ";
+            String sql = "SELECT count(idprofesional) from profesionales WHERE idespecialidad = ? ";
+            con = getConnection();
+            ps = con.prepareStatement(sql);
+            ps.setInt(1, idespecialidad);
+            rs = ps.executeQuery();
+            while (rs.next())
+                count = rs.getInt(1);
+            return count;
+        } catch (SQLException e) {
+            logger.error("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
+        } catch (Exception e) {
+            logger.error("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (ps != null)
+                    ps.close();
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {
+            }
+        }
+
+    }
+
+    public int countByWhere(String where, Object[] sqlParams) throws ProfesionalesDaoException {
+        Connection con = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        int count = 0;
+        try {
+            String sql = "SELECT count(idprofesional) from profesionales ";
             if (where != null)  
                sql += " WHERE " + where;
             con = getConnection();
@@ -1313,10 +1439,10 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             return count;
         } catch (SQLException e) {
             logger.error("SQLException: " + e.getMessage(), e);
-            throw new PacientesDaoException("SQLException: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("SQLException: " + e.getMessage(), e);
         } catch (Exception e) {
             logger.error("Exception: " + e.getMessage(), e);
-            throw new PacientesDaoException("Exception: " + e.getMessage(), e);
+            throw new ProfesionalesDaoException("Exception: " + e.getMessage(), e);
         } finally {
             try {
                 if (rs != null)
@@ -1332,33 +1458,33 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
 
     }
 
-    protected  Pacientes[] fetchMultipleResults(ResultSet rs) throws SQLException {
+    protected  Profesionales[] fetchMultipleResults(ResultSet rs) throws SQLException {
         ArrayList results = new ArrayList();
         while (rs.next()) {
-            Pacientes dto = new Pacientes();
+            Profesionales dto = new Profesionales();
             populateDto(dto, rs);
             results.add(dto);
         }
-        Pacientes retValue[] = new Pacientes[results.size()];
+        Profesionales retValue[] = new Profesionales[results.size()];
         results.toArray(retValue);
         return retValue;
     }
 
 
-    protected  Pacientes fetchSingleResult(ResultSet rs) throws SQLException {
+    protected  Profesionales fetchSingleResult(ResultSet rs) throws SQLException {
         if (rs.next()) {
-            Pacientes dto = new Pacientes();
+            Profesionales dto = new Profesionales();
             populateDto(dto, rs);
             return dto;
         } else 
             return null;
     }
 
-    protected static void populateDto(Pacientes dto, ResultSet rs) throws SQLException {
+    protected static void populateDto(Profesionales dto, ResultSet rs) throws SQLException {
         try {
-            dto.setIdpaciente(rs.getInt(COLUMN_POSITION_IDPACIENTE));
+            dto.setIdprofesional(rs.getInt(COLUMN_POSITION_IDPROFESIONAL));
             if (rs.wasNull())
-                dto.setIdpaciente(null);
+                dto.setIdprofesional(null);
         } catch (Exception e) {}
         try {
             dto.setDni(rs.getInt(COLUMN_POSITION_DNI));
@@ -1374,6 +1500,11 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
             dto.setSexo(rs.getString(COLUMN_POSITION_SEXO));
             if (rs.wasNull())
                 dto.setSexo(null);
+        } catch (Exception e) {}
+        try {
+            dto.setFechanacimiento(rs.getDate(COLUMN_POSITION_FECHANACIMIENTO));
+            if (rs.wasNull())
+                dto.setFechanacimiento(null);
         } catch (Exception e) {}
         try {
             dto.setDomicilio(rs.getString(COLUMN_POSITION_DOMICILIO));
@@ -1396,14 +1527,14 @@ public class PacientesDaoImplBase extends PostgresqlBase implements PacientesDao
                 dto.setEmail(null);
         } catch (Exception e) {}
         try {
-            dto.setFechanacimiento(rs.getDate(COLUMN_POSITION_FECHANACIMIENTO));
-            if (rs.wasNull())
-                dto.setFechanacimiento(null);
-        } catch (Exception e) {}
-        try {
             dto.setObservaciones(rs.getString(COLUMN_POSITION_OBSERVACIONES));
             if (rs.wasNull())
                 dto.setObservaciones(null);
+        } catch (Exception e) {}
+        try {
+            dto.setIdespecialidad(rs.getInt(COLUMN_POSITION_IDESPECIALIDAD));
+            if (rs.wasNull())
+                dto.setIdespecialidad(null);
         } catch (Exception e) {}
     }
 
