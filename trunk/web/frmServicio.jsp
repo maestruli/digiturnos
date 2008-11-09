@@ -51,7 +51,7 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkVerAgenda" text="Ver agenda de día"/>
+                                                        <webuijsf:hyperlink id="lnkVerAgenda" text="Ver agenda de día" url="/faces/frmVerAgenda.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -61,25 +61,22 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkOtorgarTurnos" text="Otorgar Turnos"/>
+                                                        <webuijsf:hyperlink id="lnkOtorgarTurnos" text="Otorgar Turnos" url="/faces/frmOtorgarTurnos.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkPacientes" text="Administrar Pacientes"/>
+                                                        <webuijsf:hyperlink id="lnkPacientes" text="Administrar Pacientes" url="/faces/frmPacientes.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkServicios" text="Administrar Servicios"/>
+                                                        <webuijsf:hyperlink id="lnkServicios" text="Administrar Servicios" url="/faces/frmServicios.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkEspecialidades" text="Administrar Especialidades"/>
+                                                        <webuijsf:hyperlink id="lnkEspecialidades" text="Administrar Especialidades" url="/faces/frmEspecialidades.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkProfesionales" text="Administrar Profesionales"/>
+                                                        <webuijsf:hyperlink id="lnkProfesionales" text="Administrar Profesionales" url="/faces/frmProfesionales.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkBandasHorarias" text="Administrar Bandas Horarias"/>
-                                                    </li>
-                                                    <li>
-                                                        <webuijsf:hyperlink id="lnkOtorgarLicencias" text="Otorgar Licencias"/>
+                                                        <webuijsf:hyperlink id="lnkOtorgarLicencias" text="Otorgar Licencias" url="/faces/frmOtorgarLicencias.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -89,7 +86,7 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkUsuarios" text="Administar Usuarios"/>
+                                                        <webuijsf:hyperlink id="lnkUsuarios" text="Administar Usuarios" url="/faces/frmUsuarios.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>
