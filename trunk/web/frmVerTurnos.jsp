@@ -41,7 +41,7 @@
                                                         <webuijsf:hyperlink id="linkVerTurnos" text="Ver turnos" url="/faces/frmVerTurnos.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="linkVerHistorico" text="Ver Historico" url="/faces/frmVerTurnos.jsp"/>
+                                                        <webuijsf:hyperlink id="linkVerHistorico" text="Ver Historico" url="/faces/frmVerTurnosHistoricos.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -103,17 +103,24 @@
                                 <td align="center">
                                     <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
                                         <webuijsf:table augmentTitle="false" id="table1" paginateButton="true" paginationControls="true"
-                                            title="Historial de Turnos" width="300">
+                                            title="Historial de Turnos" width="80%">
                                             <webuijsf:tableRowGroup binding="#{frmVerTurnos.rowGroup}" id="tableRowGroup1" rows="10"
                                                 sourceData="#{frmVerTurnos.dpTurnos}" sourceVar="currentRow">
-                                                <webuijsf:tableColumn headerText="ID" id="tableColumn1" sort="idturno">
-                                                    <webuijsf:staticText id="staticText1" text="#{currentRow.value['idturno']}"/>
-                                                </webuijsf:tableColumn>
                                                 <webuijsf:tableColumn headerText="Fecha" id="tableColumn2" sort="fecha">
                                                     <webuijsf:staticText id="staticText2" text="#{currentRow.value['fecha']}"/>
                                                 </webuijsf:tableColumn>
                                                 <webuijsf:tableColumn headerText="Hora" id="tableColumn3" sort="hora">
                                                     <webuijsf:staticText id="staticText3" text="#{currentRow.value['hora']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn headerText="Especialidad" id="tableColumn1" sort="nombreEspecialidad">
+                                                    <webuijsf:staticText id="staticText1" text="#{currentRow.value['nombreEspecialidad']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn headerText="Profesional" id="tableColumn5" sort="nombreProfesional">
+                                                    <webuijsf:staticText id="staticText5" text="#{currentRow.value['nombreProfesional']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn align="center" id="tableColumn4">
+                                                    <webuijsf:imageHyperlink actionExpression="#{frmVerTurnos.imageHyperlink1_action}" id="imageHyperlink1"
+                                                        imageURL="/resources/delete24.png" text=""/>
                                                 </webuijsf:tableColumn>
                                             </webuijsf:tableRowGroup>
                                         </webuijsf:table>

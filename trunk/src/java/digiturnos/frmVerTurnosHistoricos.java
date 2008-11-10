@@ -10,7 +10,6 @@ import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.webui.jsf.component.TableRowGroup;
 import digiturnos.dao.dao.TurnosDao;
-import digiturnos.dao.dto.TurnosPK;
 import digiturnos.dao.exception.TurnosDaoException;
 import digiturnos.dao.factory.DaoFactory;
 import java.util.logging.Level;
@@ -27,7 +26,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Augusto
  */
-public class frmVerTurnos extends AbstractPageBean {
+public class frmVerTurnosHistoricos extends AbstractPageBean {
     private ObjectArrayDataProvider dpTurnos;
     private TableRowGroup rowGroup = new TableRowGroup();
     
@@ -46,7 +45,7 @@ public class frmVerTurnos extends AbstractPageBean {
     /**
      * <p>Construct a new Page bean instance.</p>
      */
-    public frmVerTurnos() {
+    public frmVerTurnosHistoricos() {
     }
 
     /**
@@ -160,7 +159,7 @@ public class frmVerTurnos extends AbstractPageBean {
         String[][] columnas = new String[2][2];
         TurnosDao tdao = DaoFactory.getDaoFactory().getTurnosDao();
         String where = "idpaciente = " + getSessionBean1().getIdPaciente().toString() +
-                " AND (fecha > CURRENT_DATE or (fecha = CURRENT_DATE and hora >= CURRENT_TIME))";
+                " AND (fecha < CURRENT_DATE or (fecha = CURRENT_DATE and hora < CURRENT_TIME))";
         
         if (this.dpTurnos==null) {
             
@@ -192,20 +191,6 @@ public class frmVerTurnos extends AbstractPageBean {
 
     public void setRowGroup(TableRowGroup rowGroup) {
         this.rowGroup = rowGroup;
-    }
-
-    public String imageHyperlink1_action() {
-        Integer id = Integer.valueOf(this.dpTurnos.getValue("idturno", rowGroup.getRowKey()).toString());
-        
-        TurnosDao tdao =   DaoFactory.getDaoFactory().getTurnosDao();
-        try {
-            tdao.delete(new TurnosPK(id));
-        } catch (TurnosDaoException ex) {
-            Logger.getLogger(frmServicios.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         
-        this.dpTurnos = null;
-        return null;
     }
     
 }
