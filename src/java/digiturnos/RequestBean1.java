@@ -7,6 +7,7 @@
 package digiturnos;
 
 import com.sun.rave.web.ui.appbase.AbstractRequestBean;
+import java.util.Date;
 import javax.faces.FacesException;
 
 /**
@@ -27,6 +28,7 @@ public class RequestBean1 extends AbstractRequestBean {
     private int idEspecialidad = 0;
     private int idProfesional = 0;
     private int idPaciente = 0;
+    private Date fechaAgenda;
     
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
@@ -140,5 +142,13 @@ public class RequestBean1 extends AbstractRequestBean {
 
     public void setIdPaciente(int idPaciente) {
         this.idPaciente = idPaciente;
+    }
+
+    public Date getFechaAgenda() {
+        return fechaAgenda;
+    }
+
+    public void setFechaAgenda(Date fechaAgenda) {
+        this.fechaAgenda = fechaAgenda;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * frmVerTurnos.java
+ * frmVerTurnosHistoricos.java
  *
  * Created on 07/11/2008, 23:53:34
  */
@@ -74,7 +74,7 @@ public class frmVerTurnosHistoricos extends AbstractPageBean {
         try {
             _init();
         } catch (Exception e) {
-            log("frmVerTurnos Initialization Failure", e);
+            log("frmVerTurnosHistoricos Initialization Failure", e);
             throw e instanceof FacesException ? (FacesException) e: new FacesException(e);
         }
         
@@ -158,7 +158,7 @@ public class frmVerTurnosHistoricos extends AbstractPageBean {
         
         String[][] columnas = new String[2][2];
         TurnosDao tdao = DaoFactory.getDaoFactory().getTurnosDao();
-        String where = "idpaciente = " + getSessionBean1().getIdPaciente().toString() +
+        String where = "idpaciente = " + getSessionBean1().getIdLogueado().toString() +
                 " AND (fecha < CURRENT_DATE or (fecha = CURRENT_DATE and hora < CURRENT_TIME))";
         
         if (this.dpTurnos==null) {

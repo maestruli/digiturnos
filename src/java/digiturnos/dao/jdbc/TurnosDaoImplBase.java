@@ -1079,6 +1079,9 @@ public class TurnosDaoImplBase extends PostgresqlBase implements TurnosDaoBase {
         try {
             dto.getProfesional();
         } catch (Exception e) {}
+        try {
+            dto.getPaciente();
+        } catch (Exception e) {}
     }
 
 

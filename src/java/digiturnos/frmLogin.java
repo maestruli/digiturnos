@@ -11,9 +11,12 @@ import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.PasswordField;
 import com.sun.webui.jsf.component.TextField;
 import digiturnos.dao.dao.PacientesDao;
+import digiturnos.dao.dao.ProfesionalesDao;
 import digiturnos.dao.dao.UsuariosDao;
 import digiturnos.dao.dto.Pacientes;
+import digiturnos.dao.dto.Profesionales;
 import digiturnos.dao.dto.Usuarios;
+import digiturnos.dao.exception.ProfesionalesDaoException;
 import digiturnos.dao.exception.UsuariosDaoException;
 import digiturnos.dao.exception.PacientesDaoException;
 import digiturnos.dao.factory.DaoFactory;
@@ -152,7 +155,7 @@ public class frmLogin extends AbstractPageBean {
         return (ApplicationBean1) getBean("ApplicationBean1");
     }
 
-    public String cmdLogin_action() throws PacientesDaoException {
+    public String cmdLogin_action() throws PacientesDaoException, ProfesionalesDaoException {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
         
@@ -161,8 +164,11 @@ public class frmLogin extends AbstractPageBean {
         String where="password=" + clave + " AND dni=" +  usuario;
         String wherep = "dni = " + usuario;
         
-        PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
-        Pacientes p[];
+        PacientesDao pacdao = DaoFactory.getDaoFactory().getPacientesDao();
+        Pacientes pac[];
+
+        ProfesionalesDao prodao = DaoFactory.getDaoFactory().getProfesionalesDao();
+        Profesionales pro[];
 
         UsuariosDao udao = DaoFactory.getDaoFactory().getUsuariosDao();
         Usuarios resultado[];
@@ -175,8 +181,12 @@ public class frmLogin extends AbstractPageBean {
                 getSessionBean1().setAdmin(resultado[0].getIdtipousuario().intValue()==4);
                 getSessionBean1().setNombre(resultado[0].getNombre());
                 if (getSessionBean1().isPaciente()) {
-                    p = pdao.findByWhere(wherep, null);
-                    getSessionBean1().setIdPaciente(p[0].getIdpaciente());
+                    pac = pacdao.findByWhere(wherep, null);
+                    getSessionBean1().setIdLogueado(pac[0].getIdpaciente());
+                }
+                if (getSessionBean1().isProfesional()) {
+                    pro = prodao.findByWhere(wherep, null);
+                    getSessionBean1().setIdLogueado(pro[0].getIdprofesional());
                 }
                 return "logueoExitoso";
             }

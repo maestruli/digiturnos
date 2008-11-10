@@ -1,13 +1,25 @@
 /*
  * frmVerAgenda.java
  *
- * Created on 07/11/2008, 23:51:32
+ * Created on 07/11/2008, 23:53:34
  */
  
 package digiturnos;
 
+import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.Calendar;
+import com.sun.webui.jsf.component.TableRowGroup;
+import digiturnos.dao.dao.TurnosDao;
+import digiturnos.dao.exception.TurnosDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -19,6 +31,9 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmVerAgenda extends AbstractPageBean {
+    private ObjectArrayDataProvider dpTurnos;
+    private TableRowGroup rowGroup = new TableRowGroup();
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -27,6 +42,15 @@ public class frmVerAgenda extends AbstractPageBean {
      * here is subject to being replaced.</p>
      */
     private void _init() throws Exception {
+    }
+    private Calendar calFecha = new Calendar();
+
+    public Calendar getCalFecha() {
+        return calFecha;
+    }
+
+    public void setCalFecha(Calendar c) {
+        this.calFecha = c;
     }
 
     // </editor-fold>
@@ -94,6 +118,11 @@ public class frmVerAgenda extends AbstractPageBean {
      */
     @Override
     public void prerender() {
+        if (getRequestBean1().getFechaAgenda() == null)
+            calFecha.setSelectedDate(new Date());
+        else
+            calFecha.setSelectedDate(getRequestBean1().getFechaAgenda());
+        getRequestBean1().setFechaAgenda(null);
     }
 
     /**
@@ -133,6 +162,54 @@ public class frmVerAgenda extends AbstractPageBean {
      */
     protected RequestBean1 getRequestBean1() {
         return (RequestBean1) getBean("RequestBean1");
+    }
+
+    public String lnkCerrarSesion_action() {
+        HttpSession sesion = (HttpSession) getExternalContext().getSession(true);
+        sesion.invalidate();
+        return "cerrarSesion";
+    }
+
+    public ObjectArrayDataProvider getDpTurnos() throws ParseException {
+        
+        TurnosDao tdao = DaoFactory.getDaoFactory().getTurnosDao();
+
+        String fechaWhere = new SimpleDateFormat("yyyy-MM-dd").format(calFecha.getSelectedDate());
+        
+        String where = "idprofesional = " + getSessionBean1().getIdLogueado().toString() +
+                " AND fecha = '" + fechaWhere + "'";
+
+        if (this.dpTurnos==null) {
+            
+            tdao.setOrderByColumn(tdao.COLUMN_HORA);
+            
+            this.dpTurnos = new ObjectArrayDataProvider();
+            try {
+                this.dpTurnos.setArray((Object[]) tdao.findByWhere(where, null));
+            } catch (TurnosDaoException ex) {
+                Logger.getLogger(SessionBean1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return dpTurnos;
+    }
+
+    public void setDpTurnos(ObjectArrayDataProvider dpTurnos) {
+        this.dpTurnos = dpTurnos;
+    }
+
+    public TableRowGroup getRowGroup() {
+        return rowGroup;
+    }
+
+    public void setRowGroup(TableRowGroup rowGroup) {
+        this.rowGroup = rowGroup;
+    }
+
+    public String cmdAceptar_action() {
+        setDpTurnos(null);
+        getRequestBean1().setFechaAgenda(calFecha.getSelectedDate());
+        return "filtrarAgenda";
     }
     
 }
