@@ -35,13 +35,13 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="linkReservaTurno" text="Reservar Turno" url="/faces/frmReservarTurno.jsp"/>
+                                                        <webuijsf:hyperlink id="linkReservaTurno" text="Reservar Turno" url="/faces/frmOtorgarTurnos.jsp"/>
                                                     </li>
                                                     <li>
                                                         <webuijsf:hyperlink id="linkVerTurnos" text="Ver turnos" url="/faces/frmVerTurnos.jsp"/>
                                                     </li>
                                                     <li>
-                                                        <webuijsf:hyperlink id="linkVerHistorico" text="Ver Historico" url="/faces/frmVerTurnos.jsp"/>
+                                                        <webuijsf:hyperlink id="linkVerHistorico" text="Ver Historico" url="/faces/frmVerTurnosHistoricos.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>

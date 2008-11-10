@@ -102,68 +102,68 @@
                                 </td>
                                 <td align="center">
                                     <webuijsf:hiddenField binding="#{frmProfesional.hdnId}" id="hdnId1"/>
-                                    <table align="center" cellpadding="5" cellspacing="2">
+                                    <table cellpadding="5" cellspacing="2">
                                         <tr>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:label id="label1" text="DNI"/>
                                             </td>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:textField binding="#{frmProfesional.txtDNI}" id="txtDNI"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:label id="label5" text="Nombre"/>
                                             </td>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:textField binding="#{frmProfesional.txtNombre}" id="txtNombre"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:label id="label6" text="Fecha de Nacimiento"/>
                                             </td>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:calendar binding="#{frmProfesional.calFecha}" id="calFecha"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:label id="label7" text="Domicilio"/>
                                             </td>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:textField binding="#{frmProfesional.txtDomicilio}" id="txtDomicilio"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:label id="label8" text="Telefono fijo"/>
                                             </td>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:textField binding="#{frmProfesional.txtTelefono}" id="textField4"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:label id="label4" text="Celular"/>
                                             </td>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:textField binding="#{frmProfesional.txtCelular}" id="txtCelular"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:label id="label3" text="email"/>
                                             </td>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:textField binding="#{frmProfesional.txtEmail}" id="txtEmail"/>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:label id="label2" text="Especialidad"/>
                                             </td>
-                                            <td>
+                                            <td align="left">
                                                 <webuijsf:dropDown binding="#{frmProfesional.ddEspecialidad}" id="ddEspecialidad"/>
                                             </td>
                                         </tr>
