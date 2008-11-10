@@ -1,13 +1,21 @@
 /*
  * frmVerTurnos.java
  *
- * Created on 04/11/2008, 22:06:33
+ * Created on 07/11/2008, 23:53:34
  */
  
 package digiturnos;
 
+import com.sun.data.provider.impl.ObjectArrayDataProvider;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
+import com.sun.webui.jsf.component.TableRowGroup;
+import digiturnos.dao.dao.TurnosDao;
+import digiturnos.dao.exception.TurnosDaoException;
+import digiturnos.dao.factory.DaoFactory;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.FacesException;
+import javax.servlet.http.HttpSession;
 
 /**
  * <p>Page bean that corresponds to a similarly named JSP page.  This
@@ -19,6 +27,9 @@ import javax.faces.FacesException;
  * @author Augusto
  */
 public class frmVerTurnos extends AbstractPageBean {
+    private ObjectArrayDataProvider dpTurnos;
+    private TableRowGroup rowGroup = new TableRowGroup();
+    
     // <editor-fold defaultstate="collapsed" desc="Managed Component Definition">
 
     /**
@@ -94,6 +105,8 @@ public class frmVerTurnos extends AbstractPageBean {
      */
     @Override
     public void prerender() {
+        
+        
     }
 
     /**
@@ -113,15 +126,6 @@ public class frmVerTurnos extends AbstractPageBean {
      *
      * @return reference to the scoped data bean
      */
-    protected RequestBean1 getRequestBean1() {
-        return (RequestBean1) getBean("RequestBean1");
-    }
-
-    /**
-     * <p>Return a reference to the scoped data bean.</p>
-     *
-     * @return reference to the scoped data bean
-     */
     protected ApplicationBean1 getApplicationBean1() {
         return (ApplicationBean1) getBean("ApplicationBean1");
     }
@@ -133,6 +137,59 @@ public class frmVerTurnos extends AbstractPageBean {
      */
     protected SessionBean1 getSessionBean1() {
         return (SessionBean1) getBean("SessionBean1");
+    }
+
+    /**
+     * <p>Return a reference to the scoped data bean.</p>
+     *
+     * @return reference to the scoped data bean
+     */
+    protected RequestBean1 getRequestBean1() {
+        return (RequestBean1) getBean("RequestBean1");
+    }
+
+    public String lnkCerrarSesion_action() {
+        HttpSession sesion = (HttpSession) getExternalContext().getSession(true);
+        sesion.invalidate();
+        return "cerrarSesion";
+    }
+
+    public ObjectArrayDataProvider getDpTurnos() {
+        
+        String[][] columnas = new String[2][2];
+        TurnosDao tdao = DaoFactory.getDaoFactory().getTurnosDao();
+        String where = "idpaciente = " + getSessionBean1().getIdPaciente().toString();
+        
+        if (this.dpTurnos==null) {
+            
+            columnas[0][0] = tdao.COLUMN_FECHA;
+            columnas[0][1] = " ASC ";
+            columnas[1][0] = tdao.COLUMN_HORA;
+            columnas[1][1] = " ASC ";
+
+            tdao.setOrderByColumns(columnas);
+            
+            this.dpTurnos = new ObjectArrayDataProvider();
+            try {
+                this.dpTurnos.setArray((Object[]) tdao.findByWhere(where, null));
+            } catch (TurnosDaoException ex) {
+                Logger.getLogger(SessionBean1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        return dpTurnos;
+    }
+
+    public void setDpTurnos(ObjectArrayDataProvider dpTurnos) {
+        this.dpTurnos = dpTurnos;
+    }
+
+    public TableRowGroup getRowGroup() {
+        return rowGroup;
+    }
+
+    public void setRowGroup(TableRowGroup rowGroup) {
+        this.rowGroup = rowGroup;
     }
     
 }

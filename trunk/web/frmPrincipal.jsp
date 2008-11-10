@@ -100,9 +100,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td align="center" valign="top">
-                                    
-                                </td>
+                                <td align="center" valign="top"/>
                             </tr>
                         </table>
                     </webuijsf:form>
