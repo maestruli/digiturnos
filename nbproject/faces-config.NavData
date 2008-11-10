@@ -11,25 +11,24 @@
         <Node id="frmServicio.jsp" x="150" y="750" zoom="true"/>
     </Scope>
     <Scope Scope="Project">
-        <Node id="frmPrincipal.jsp" x="654" y="-37" zoom="false"/>
-        <Node id="frmProfesionales.jsp" x="8" y="287" zoom="true"/>
-        <Node id="frmEspecialidades.jsp" x="1188" y="523" zoom="false"/>
-        <Node id="frmPaciente.jsp" x="383" y="36" zoom="false"/>
-        <Node id="frmUsuario.jsp" x="9" y="248" zoom="true"/>
-        <Node id="frmVerTurnos.jsp" x="9" y="325" zoom="true"/>
-        <Node id="frmBandaHoraria.jsp" x="11" y="210" zoom="true"/>
-        <Node id="frmServicio.jsp" x="373" y="310" zoom="false"/>
-        <Node id="frmServicios.jsp" x="588" y="447" zoom="false"/>
-        <Node id="frmBandasHorarias.jsp" x="150" y="750" zoom="true"/>
-        <Node id="frmPacientes.jsp" x="548" y="162" zoom="false"/>
-        <Node id="frmVerAgenda.jsp" x="11" y="55" zoom="true"/>
-        <Node id="frmOtorgarLicencias.jsp" x="11" y="15" zoom="true"/>
-        <Node id="frmLogin.jsp" x="1044" y="39" zoom="true"/>
-        <Node id="frmProfesional.jsp" x="10" y="172" zoom="true"/>
-        <Node id="frmUsuarios.jsp" x="10" y="93" zoom="true"/>
-        <Node id="frmEspecialidad.jsp" x="897" y="331" zoom="false"/>
-        <Node id="frmReservarTurno.jsp" x="10" y="135" zoom="true"/>
-        <Node id="frmOtorgarTurnos.jsp" x="7" y="359" zoom="true"/>
+        <Node id="frmProfesionales.jsp" x="1679" y="32" zoom="true"/>
+        <Node id="frmPrincipal.jsp" x="1418" y="32" zoom="true"/>
+        <Node id="frmEspecialidades.jsp" x="562" y="32" zoom="true"/>
+        <Node id="frmPaciente.jsp" x="2751" y="32" zoom="true"/>
+        <Node id="frmUsuario.jsp" x="4709" y="32" zoom="true"/>
+        <Node id="frmVerTurnos.jsp" x="34" y="32" zoom="false"/>
+        <Node id="frmServicio.jsp" x="305" y="32" zoom="true"/>
+        <Node id="frmServicios.jsp" x="1969" y="32" zoom="true"/>
+        <Node id="frmPacientes.jsp" x="2233" y="32" zoom="true"/>
+        <Node id="frmVerAgenda.jsp" x="4435" y="32" zoom="true"/>
+        <Node id="frmOtorgarLicencias.jsp" x="3830" y="32" zoom="true"/>
+        <Node id="frmLogin.jsp" x="1474" y="374" zoom="true"/>
+        <Node id="frmUsuarios.jsp" x="3568" y="32" zoom="true"/>
+        <Node id="frmProfesional.jsp" x="1142" y="32" zoom="true"/>
+        <Node id="frmEspecialidad.jsp" x="859" y="32" zoom="true"/>
+        <Node id="frmOtorgarTurnos.jsp" x="4140" y="32" zoom="true"/>
+        <Node id="frmReservarTurno.jsp" x="3272" y="32" zoom="true"/>
+        <Node id="frmHorarios.jsp" x="3012" y="32" zoom="true"/>
     </Scope>
     <Scope Scope="All Faces Configurations">
         <Node id="frmServicios.jsp" x="650" y="150" zoom="true"/>

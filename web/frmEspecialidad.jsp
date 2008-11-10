@@ -12,9 +12,9 @@
                 <webuijsf:head id="head1">
                     <webuijsf:link id="link1" url="/resources/stylesheet.css"/>
                 </webuijsf:head>
-                <webuijsf:body id="body1" imageURL="/resources/fondo.jpg" style="-rave-layout: grid">
+                <webuijsf:body id="body1" style="-rave-layout: grid">
                     <webuijsf:form id="formulario">
-                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="left: 0px; top: -96px; position: absolute">
+                        <table align="center" border="0" cellpadding="0" cellspacing="0" style="">
                             <tr>
                                 <td colspan="2">
                                     <img alt="Digiturnos" border="0" src="resources/header.jpg"/>
@@ -100,13 +100,13 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
+                                <td style="width: 584px">
                                     <h:panelGrid columns="2" id="gridPanel1" style="height: 240px" width="456">
-                                        <webuijsf:dropDown id="ddServicio" label="Servicio" binding="#{frmEspecialidad.ddServicio}" />
-                                        <webuijsf:textField id="txtEspecialidad" label="Especalidad" binding="#{frmEspecialidad.txtEspecialidad}"/>
+                                        <webuijsf:dropDown binding="#{frmEspecialidad.ddServicio}" id="ddServicio" label="Servicio"/>
+                                        <webuijsf:textField binding="#{frmEspecialidad.txtEspecialidad}" id="txtEspecialidad" label="Especalidad"/>
                                         <webuijsf:button actionExpression="#{frmEspecialidad.cmdAceptar_action}" id="cmdAceptar" text="Aceptar"/>
                                         <webuijsf:button actionExpression="#{frmEspecialidad.cmdCancelar_action}" id="cmdCancelar" text="Cancelar"/>
-                                        <webuijsf:hiddenField id="hdnId" binding="#{frmEspecialidad.hdnId}" />
+                                        <webuijsf:hiddenField binding="#{frmEspecialidad.hdnId}" id="hdnId"/>
                                     </h:panelGrid>
                                 </td>
                             </tr>

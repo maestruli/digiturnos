@@ -11,6 +11,8 @@ public class PostgresqlDaoFactory extends DaoFactory {
     public UsuariosDao usuariosDao;
     public PacientesDao pacientesDao;
     public ProfesionalesDao profesionalesDao;
+    public TurnosDao turnosDao;
+    public HorariosDao horariosDao;
 
     public EspecialidadesDao getEspecialidadesDao() {
         EspecialidadesDao eDao = this.especialidadesDao;
@@ -60,8 +62,6 @@ public class PostgresqlDaoFactory extends DaoFactory {
         return profesionalesDao;
     }
     
-    public HorariosDao horariosDao;
-
     public HorariosDao getHorariosDao() {
         HorariosDao horariosDao = this.horariosDao;
         if (horariosDao != null)
@@ -69,4 +69,13 @@ public class PostgresqlDaoFactory extends DaoFactory {
         horariosDao = new HorariosDaoImpl();
         return horariosDao;
     }
+
+    public TurnosDao getTurnosDao() {
+        TurnosDao turnosDao = this.turnosDao;
+        if (turnosDao != null)
+            return turnosDao;
+        turnosDao = new TurnosDaoImpl();
+        return turnosDao;
+    }
+
 }

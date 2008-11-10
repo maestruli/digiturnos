@@ -39,4 +39,5 @@ public abstract class DaoFactory {
     public abstract PacientesDao getPacientesDao();
     public abstract ProfesionalesDao getProfesionalesDao();
     public abstract HorariosDao getHorariosDao();
+    public abstract TurnosDao getTurnosDao();
 }

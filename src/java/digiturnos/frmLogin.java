@@ -10,9 +10,12 @@ import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.PasswordField;
 import com.sun.webui.jsf.component.TextField;
+import digiturnos.dao.dao.PacientesDao;
 import digiturnos.dao.dao.UsuariosDao;
+import digiturnos.dao.dto.Pacientes;
 import digiturnos.dao.dto.Usuarios;
 import digiturnos.dao.exception.UsuariosDaoException;
+import digiturnos.dao.exception.PacientesDaoException;
 import digiturnos.dao.factory.DaoFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -149,15 +152,18 @@ public class frmLogin extends AbstractPageBean {
         return (ApplicationBean1) getBean("ApplicationBean1");
     }
 
-    public String cmdLogin_action() {
+    public String cmdLogin_action() throws PacientesDaoException {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
         
         String usuario = (String) txtUsuario.getText();
         String clave = "MD5('" + txtPassword.getText() + "')";
         String where="password=" + clave + " AND dni=" +  usuario;
+        String wherep = "dni = " + usuario;
         
-        
+        PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
+        Pacientes p[];
+
         UsuariosDao udao = DaoFactory.getDaoFactory().getUsuariosDao();
         Usuarios resultado[];
         try {
@@ -168,6 +174,10 @@ public class frmLogin extends AbstractPageBean {
                 getSessionBean1().setProfesional(resultado[0].getIdtipousuario().intValue()==3);
                 getSessionBean1().setAdmin(resultado[0].getIdtipousuario().intValue()==4);
                 getSessionBean1().setNombre(resultado[0].getNombre());
+                if (getSessionBean1().isPaciente()) {
+                    p = pdao.findByWhere(wherep, null);
+                    getSessionBean1().setIdPaciente(p[0].getIdpaciente());
+                }
                 return "logueoExitoso";
             }
         } catch (UsuariosDaoException ex) {
