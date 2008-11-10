@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
     Document   : frmVerTurnos
-    Created on : 07/11/2008, 23:53:34
     Author     : Augusto
 -->
 <jsp:root version="2.1" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html" xmlns:jsp="http://java.sun.com/JSP/Page" xmlns:webuijsf="http://www.sun.com/webui/webuijsf">
@@ -35,7 +34,7 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="linkReservaTurno" text="Reservar Turno" url="/faces/frmOtorgarTurnos.jsp"/>
+                                                        <webuijsf:hyperlink id="linkReservaTurno" text="Reservar Turno" url="/faces/frmReservarTurno.jsp"/>
                                                     </li>
                                                     <li>
                                                         <webuijsf:hyperlink id="linkVerTurnos" text="Ver turnos" url="/faces/frmVerTurnos.jsp"/>
@@ -101,8 +100,9 @@
                                     </div>
                                 </td>
                                 <td align="center">
+                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
                                         <webuijsf:table augmentTitle="false" id="table1" paginateButton="true" paginationControls="true"
-                                            title="Historial de Turnos">
+                                            title="Turnos Reservados" width="80%">
                                             <webuijsf:tableRowGroup binding="#{frmVerTurnos.rowGroup}" id="tableRowGroup1" rows="10"
                                                 sourceData="#{frmVerTurnos.dpTurnos}" sourceVar="currentRow">
                                                 <webuijsf:tableColumn headerText="Fecha" id="tableColumn2" sort="fecha">
@@ -123,6 +123,7 @@
                                                 </webuijsf:tableColumn>
                                             </webuijsf:tableRowGroup>
                                         </webuijsf:table>
+                                    </h:panelGrid>
                                 </td>
                             </tr>
                         </table>
