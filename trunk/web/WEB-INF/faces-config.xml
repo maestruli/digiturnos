@@ -229,6 +229,10 @@
             <from-outcome>editarProfesional</from-outcome>
             <to-view-id>/frmProfesional.jsp</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>cerrarSesion</from-outcome>
+            <to-view-id>/frmLogin.jsp</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/frmProfesional.jsp</from-view-id>
@@ -280,6 +284,17 @@
         <navigation-case>
             <from-outcome>cancelar</from-outcome>
             <to-view-id>/frmPrincipal.jsp</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>cerrarSesion</from-outcome>
+            <to-view-id>/frmLogin.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/frmVerAgenda.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>filtrarAgenda</from-outcome>
+            <to-view-id>/frmVerAgenda.jsp</to-view-id>
         </navigation-case>
         <navigation-case>
             <from-outcome>cerrarSesion</from-outcome>
