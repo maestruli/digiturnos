@@ -101,9 +101,8 @@
                                     </div>
                                 </td>
                                 <td align="center">
-                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
                                         <webuijsf:table augmentTitle="false" id="table1" paginateButton="true" paginationControls="true"
-                                            title="Historial de Turnos" width="80%">
+                                            title="Historial de Turnos">
                                             <webuijsf:tableRowGroup binding="#{frmVerTurnos.rowGroup}" id="tableRowGroup1" rows="10"
                                                 sourceData="#{frmVerTurnos.dpTurnos}" sourceVar="currentRow">
                                                 <webuijsf:tableColumn headerText="Fecha" id="tableColumn2" sort="fecha">
@@ -124,7 +123,6 @@
                                                 </webuijsf:tableColumn>
                                             </webuijsf:tableRowGroup>
                                         </webuijsf:table>
-                                    </h:panelGrid>
                                 </td>
                             </tr>
                         </table>
