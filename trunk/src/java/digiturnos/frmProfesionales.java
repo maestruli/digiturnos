@@ -170,7 +170,7 @@ public class frmProfesionales extends AbstractPageBean {
     public String cmdNuevo_action() {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
-        return "nuevo";
+        return "nuevoProfesional";
     }
 
     public String lnkCerrarSesion_action() {
