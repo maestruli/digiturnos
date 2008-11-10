@@ -268,4 +268,16 @@
             <to-view-id>/frmLogin.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>frmVerTurnosHistoricos</managed-bean-name>
+        <managed-bean-class>digiturnos.frmVerTurnosHistoricos</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <navigation-rule>
+        <from-view-id>/frmVerTurnosHistoricos.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>cerrarSesion</from-outcome>
+            <to-view-id>/frmLogin.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

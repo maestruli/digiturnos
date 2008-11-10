@@ -1,6 +1,8 @@
 package digiturnos.dao.dto;
 
-import java.util.*;
+import digiturnos.dao.dao.ProfesionalesDao;
+import digiturnos.dao.exception.ProfesionalesDaoException;
+import digiturnos.dao.factory.DaoFactory;
 import java.io.Serializable;
 
 public class Turnos implements Serializable, Cloneable {
@@ -17,6 +19,10 @@ public class Turnos implements Serializable, Cloneable {
     protected java.sql.Date fecha;
     /** hora  92  null */
     protected java.sql.Time hora;
+    
+    private Profesionales profesional;
+    private String nombreProfesional;
+    private String nombreEspecialidad;
 
     /** Creates a dto for the turnos table */
     public Turnos() {
@@ -159,4 +165,35 @@ public class Turnos implements Serializable, Cloneable {
         return result;
     }
 
+    public Profesionales getProfesional() throws ProfesionalesDaoException {
+        if (this.profesional==null) {
+            ProfesionalesDao pdao = DaoFactory.getDaoFactory().getProfesionalesDao();
+            Profesionales p;
+            p = pdao.findByPrimaryKey(this.idprofesional);
+            setProfesional(p);
+            setNombreProfesional(p.nombre);
+            setNombreEspecialidad(p.getEspecialidad());
+        }
+        return profesional;
+    }
+
+    public void setProfesional(Profesionales profesional) {
+        this.profesional = profesional;
+    }
+
+    public String getNombreProfesional() {
+        return nombreProfesional;
+    }
+
+    public void setNombreProfesional(String nombreProfesional) {
+        this.nombreProfesional = nombreProfesional;
+    }
+
+    public String getNombreEspecialidad() {
+        return nombreEspecialidad;
+    }
+
+    public void setNombreEspecialidad(String nombreServicio) {
+        this.nombreEspecialidad = nombreServicio;
+    }
 }

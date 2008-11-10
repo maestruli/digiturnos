@@ -1076,6 +1076,9 @@ public class TurnosDaoImplBase extends PostgresqlBase implements TurnosDaoBase {
             if (rs.wasNull())
                 dto.setHora(null);
         } catch (Exception e) {}
+        try {
+            dto.getProfesional();
+        } catch (Exception e) {}
     }
 
 
