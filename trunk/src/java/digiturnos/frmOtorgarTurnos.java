@@ -9,6 +9,7 @@ package digiturnos;
 import com.sun.rave.web.ui.appbase.AbstractPageBean;
 import com.sun.webui.jsf.component.Button;
 import com.sun.webui.jsf.component.DropDown;
+import com.sun.webui.jsf.component.StaticText;
 import com.sun.webui.jsf.model.Option;
 import digiturnos.dao.dao.TurnosDao;
 import digiturnos.dao.dto.Especialidades;
@@ -23,7 +24,6 @@ import digiturnos.dao.exception.PacientesDaoException;
 import digiturnos.dao.exception.ProfesionalesDaoException;
 import digiturnos.dao.exception.ServiciosDaoException;
 import digiturnos.dao.factory.DaoFactory;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -55,6 +55,7 @@ public class frmOtorgarTurnos extends AbstractPageBean {
     private Button cmdConfirmarPaciente = new Button();
     private Button cmdConfirmarProfesional = new Button();
     private Button cmdConfirmarTurno = new Button();
+    private StaticText txtMensaje = new StaticText();
     
     private Option[] servicios;
     private Option[] pacientes;
@@ -522,7 +523,7 @@ public class frmOtorgarTurnos extends AbstractPageBean {
     public String cmdConfirmarTurno_action() {
         try {
             Integer idProfesional = (Integer) ddProfesional.getValue();
-            Integer idPaciente = (Integer) ddPaciente.getValue();
+            Integer idPaciente = new Integer((String)ddPaciente.getValue());
             String fecha = (String) ddFecha.getSelected();
             String hora = (String) ddTurno.getSelected();
 
@@ -530,10 +531,15 @@ public class frmOtorgarTurnos extends AbstractPageBean {
             t.setIdpaciente(idPaciente);
             t.setIdprofesional(idProfesional);
             t.setFecha(new java.sql.Date(SimpleDateFormat.getDateInstance().parse(fecha).getTime()));
-            t.setHora(new java.sql.Time(SimpleDateFormat.getDateInstance().parse(hora).getTime()));
+            t.setHora(new java.sql.Time(new SimpleDateFormat("HH:mm").parse(hora).getTime()));
             DaoFactory.getDaoFactory().getTurnosDao().insert(t);
 
+            ddHorario.setDisabled(true);
+            ddFecha.setDisabled(true);
+            ddTurno.setDisabled(true);
+            txtMensaje.setVisible(true);
             cmdConfirmarTurno.setDisabled(true);
+            
         } catch (Exception ex) {
             Logger.getLogger(frmOtorgarTurnos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -544,6 +550,14 @@ public class frmOtorgarTurnos extends AbstractPageBean {
         // TODO: Process the action. Return value is a navigation
         // case name where null will return to the same page.
         return "cancelar";
+    }
+
+    public StaticText getTxtMensaje() {
+        return txtMensaje;
+    }
+
+    public void setTxtMensaje(StaticText txtMensaje) {
+        this.txtMensaje = txtMensaje;
     }
 }
 
