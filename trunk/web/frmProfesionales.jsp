@@ -116,9 +116,6 @@
                                                         <webuijsf:tableColumn headerText="Nombre" id="tableColumn3" sort="nombre">
                                                             <webuijsf:staticText id="staticText3" text="#{currentRow.value['nombre']}"/>
                                                         </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn headerText="Nac" id="tableColumn5">
-                                                            <webuijsf:staticText id="staticText5" text="#{currentRow.value['fechanacimiento']}"/>
-                                                        </webuijsf:tableColumn>
                                                         <webuijsf:tableColumn headerText="Domicilio" id="tableColumn6">
                                                             <webuijsf:staticText id="staticText6" text="#{currentRow.value['domicilio']}"/>
                                                         </webuijsf:tableColumn>
@@ -135,7 +132,8 @@
                                                             <webuijsf:staticText id="staticText9" text="#{currentRow.value['especialidad']}"/>
                                                         </webuijsf:tableColumn>
                                                         <webuijsf:tableColumn id="tableColumn12">
-                                                            <webuijsf:imageHyperlink id="imageHyperlink3" text="" actionExpression="#{frmProfesionales.verHorarios_action}" imageURL="/resources/cal24.png"/>
+                                                            <webuijsf:imageHyperlink actionExpression="#{frmProfesionales.verHorarios_action}"
+                                                                id="imageHyperlink3" imageURL="/resources/cal24.png" text=""/>
                                                         </webuijsf:tableColumn>
                                                         <webuijsf:tableColumn id="tableColumn9">
                                                             <webuijsf:imageHyperlink actionExpression="#{frmProfesionales.imageHyperlink1_action}"

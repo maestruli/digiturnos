@@ -100,37 +100,31 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <table width="100%">
-                                        <tr>
-                                            <td align="center">
-                                                <webuijsf:table augmentTitle="false" id="table1" style="align: center" title="Servicios" width="480">
-                                                    <webuijsf:tableRowGroup emptyDataMsg="No hay datos para mostrar." id="tableRowGroup1" rows="10"
-                                                                            sourceData="#{frmServicios.dpServicios}" sourceVar="currentRow" binding="#{frmServicios.rowGroup}">
-                                                        <webuijsf:tableColumn headerText="ID" id="tableColumn1" sort="idservicio">
-                                                            <webuijsf:staticText id="staticText1" text="#{currentRow.value['idservicio']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn headerText="Servicio" id="tableColumn2" sort="servicio">
-                                                            <webuijsf:staticText id="staticText2" text="#{currentRow.value['servicio']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn align="center" id="tableColumn3">
-                                                            <webuijsf:imageHyperlink actionExpression="#{frmServicios.imageHyperlink1_action}"
-                                                                binding="#{frmServicios.imgLnkEditar}" id="imageHyperlink1" imageURL="/resources/edit24.png" text=""/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn align="center" id="tableColumn4">
-                                                            <webuijsf:imageHyperlink actionExpression="#{frmServicios.imageHyperlink2_action}"
-                                                                binding="#{frmServicios.imgLnkEliminar}" id="imageHyperlink2" imageURL="/resources/delete24.png" text=""/>
-                                                        </webuijsf:tableColumn>
-                                                    </webuijsf:tableRowGroup>
-                                                </webuijsf:table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="right">
-                                                <webuijsf:button actionExpression="#{frmServicios.cmdNuevo_action}" id="cmdNuevo" text="Nuevo"/>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <td align="center">
+                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
+                                        <webuijsf:table augmentTitle="false" id="table1" style="align: center" title="Servicios" width="350">
+                                            <webuijsf:tableRowGroup binding="#{frmServicios.rowGroup}" emptyDataMsg="No hay datos para mostrar."
+                                                id="tableRowGroup1" rows="10" sourceData="#{frmServicios.dpServicios}" sourceVar="currentRow">
+                                                <webuijsf:tableColumn headerText="ID" id="tableColumn1" sort="idservicio">
+                                                    <webuijsf:staticText id="staticText1" text="#{currentRow.value['idservicio']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn headerText="Servicio" id="tableColumn2" sort="servicio">
+                                                    <webuijsf:staticText id="staticText2" text="#{currentRow.value['servicio']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn align="center" id="tableColumn3">
+                                                    <webuijsf:imageHyperlink actionExpression="#{frmServicios.imageHyperlink1_action}"
+                                                        binding="#{frmServicios.imgLnkEditar}" id="imageHyperlink1" imageURL="/resources/edit24.png" text=""/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn align="center" id="tableColumn4">
+                                                    <webuijsf:imageHyperlink actionExpression="#{frmServicios.imageHyperlink2_action}"
+                                                        binding="#{frmServicios.imgLnkEliminar}" id="imageHyperlink2" imageURL="/resources/delete24.png" text=""/>
+                                                </webuijsf:tableColumn>
+                                            </webuijsf:tableRowGroup>
+                                        </webuijsf:table>
+                                    </h:panelGrid>
+                                    <h:panelGrid id="gridPanel2">
+                                        <webuijsf:button actionExpression="#{frmServicios.cmdNuevo_action}" id="cmdNuevo" text="Nuevo"/>
+                                    </h:panelGrid>
                                 </td>
                             </tr>
                         </table>
