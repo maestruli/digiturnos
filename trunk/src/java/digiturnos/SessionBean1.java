@@ -33,7 +33,7 @@ public class SessionBean1 extends AbstractSessionBean {
     private boolean paciente;
     private boolean empleado;
     private boolean admin;
-    private Integer idPaciente;
+    private Integer idLogueado;
     
     private ObjectArrayDataProvider dpServicios;
     private ObjectArrayDataProvider dpEspecialidades;
@@ -227,12 +227,12 @@ public class SessionBean1 extends AbstractSessionBean {
         this.dpUsuarios = dpUsuarios;
     }
 
-    public Integer getIdPaciente() {
-        return idPaciente;
+    public Integer getIdLogueado() {
+        return idLogueado;
     }
 
-    public void setIdPaciente(Integer idPaciente) {
-        this.idPaciente = idPaciente;
+    public void setIdLogueado(Integer idPaciente) {
+        this.idLogueado = idPaciente;
     }
 
 

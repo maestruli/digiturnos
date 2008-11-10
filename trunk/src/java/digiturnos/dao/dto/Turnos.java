@@ -1,6 +1,8 @@
 package digiturnos.dao.dto;
 
+import digiturnos.dao.dao.PacientesDao;
 import digiturnos.dao.dao.ProfesionalesDao;
+import digiturnos.dao.exception.PacientesDaoException;
 import digiturnos.dao.exception.ProfesionalesDaoException;
 import digiturnos.dao.factory.DaoFactory;
 import java.io.Serializable;
@@ -23,6 +25,8 @@ public class Turnos implements Serializable, Cloneable {
     private Profesionales profesional;
     private String nombreProfesional;
     private String nombreEspecialidad;
+    private Pacientes paciente;
+    private String nombrePaciente;
 
     /** Creates a dto for the turnos table */
     public Turnos() {
@@ -195,5 +199,28 @@ public class Turnos implements Serializable, Cloneable {
 
     public void setNombreEspecialidad(String nombreServicio) {
         this.nombreEspecialidad = nombreServicio;
+    }
+
+    public String getNombrePaciente() {
+        return nombrePaciente;
+    }
+
+    public void setNombrePaciente(String nombrePaciente) {
+        this.nombrePaciente = nombrePaciente;
+    }
+
+    public Pacientes getPaciente() throws PacientesDaoException {
+        if (this.paciente==null) {
+            PacientesDao pdao = DaoFactory.getDaoFactory().getPacientesDao();
+            Pacientes p;
+            p = pdao.findByPrimaryKey(this.idpaciente);
+            setPaciente(p);
+            setNombrePaciente(p.nombre);
+        }
+        return paciente;
+    }
+
+    public void setPaciente(Pacientes paciente) {
+        this.paciente = paciente;
     }
 }

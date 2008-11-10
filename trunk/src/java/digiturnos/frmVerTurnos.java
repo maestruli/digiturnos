@@ -159,7 +159,7 @@ public class frmVerTurnos extends AbstractPageBean {
         
         String[][] columnas = new String[2][2];
         TurnosDao tdao = DaoFactory.getDaoFactory().getTurnosDao();
-        String where = "idpaciente = " + getSessionBean1().getIdPaciente().toString() +
+        String where = "idpaciente = " + getSessionBean1().getIdLogueado().toString() +
                 " AND (fecha > CURRENT_DATE or (fecha = CURRENT_DATE and hora >= CURRENT_TIME))";
         
         if (this.dpTurnos==null) {
