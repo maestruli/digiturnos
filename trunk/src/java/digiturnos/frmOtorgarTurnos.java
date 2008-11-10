@@ -16,14 +16,14 @@ import digiturnos.dao.dto.Horarios;
 import digiturnos.dao.dto.Pacientes;
 import digiturnos.dao.dto.Profesionales;
 import digiturnos.dao.dto.Servicios;
+import digiturnos.dao.dto.Turnos;
 import digiturnos.dao.exception.EspecialidadesDaoException;
 import digiturnos.dao.exception.HorariosDaoException;
 import digiturnos.dao.exception.PacientesDaoException;
 import digiturnos.dao.exception.ProfesionalesDaoException;
 import digiturnos.dao.exception.ServiciosDaoException;
 import digiturnos.dao.factory.DaoFactory;
-import java.sql.Time;
-import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -512,6 +512,38 @@ public class frmOtorgarTurnos extends AbstractPageBean {
             }
         }
         return "null";
+    }
+
+    public String lnkCerrarSesion_action() {
+        // TODO: Replace with your code
+        return "cerrarSesion";
+    }
+
+    public String cmdConfirmarTurno_action() {
+        try {
+            Integer idProfesional = (Integer) ddProfesional.getValue();
+            Integer idPaciente = (Integer) ddPaciente.getValue();
+            String fecha = (String) ddFecha.getSelected();
+            String hora = (String) ddTurno.getSelected();
+
+            Turnos t = new Turnos();
+            t.setIdpaciente(idPaciente);
+            t.setIdprofesional(idProfesional);
+            t.setFecha(new java.sql.Date(SimpleDateFormat.getDateInstance().parse(fecha).getTime()));
+            t.setHora(new java.sql.Time(SimpleDateFormat.getDateInstance().parse(hora).getTime()));
+            DaoFactory.getDaoFactory().getTurnosDao().insert(t);
+
+            cmdConfirmarTurno.setDisabled(true);
+        } catch (Exception ex) {
+            Logger.getLogger(frmOtorgarTurnos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "null";
+    }
+
+    public String cmdCancelar_action() {
+        // TODO: Process the action. Return value is a navigation
+        // case name where null will return to the same page.
+        return "cancelar";
     }
 }
 

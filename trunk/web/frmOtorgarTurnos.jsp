@@ -94,7 +94,7 @@
                                         <div id="menuSalir">
                                             <ul class="linksmenu">
                                                 <li>
-                                                    <webuijsf:hyperlink actionExpression="#{frmPrincipal.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar Sesión                                                     "/>
+                                                    <webuijsf:hyperlink actionExpression="#{frmOtorgarTurnos.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar Sesión                                                     "/>
                                                 </li>
                                             </ul>
                                         </div>
@@ -170,13 +170,14 @@
                                                     items="#{frmOtorgarTurnos.turnos}" onChange=""/>
                                             </td>
                                             <td>
-                                                <webuijsf:button binding="#{frmOtorgarTurnos.cmdConfirmarTurno}" disabled="true" id="cmdConfirmarTurno"
-                                                    style="width: 119px" text="Confirmar Turno"/>
+                                                <webuijsf:button actionExpression="#{frmOtorgarTurnos.cmdConfirmarTurno_action}"
+                                                    binding="#{frmOtorgarTurnos.cmdConfirmarTurno}" disabled="true" id="cmdConfirmarTurno" style="width: 119px" text="Confirmar Turno"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td align="right" colspan="7">
-                                                <webuijsf:button id="cmdCancelar" style="height: 24px; width: 120px" text="Cancelar"/>
+                                                <webuijsf:button actionExpression="#{frmOtorgarTurnos.cmdCancelar_action}" id="cmdCancelar"
+                                                    style="height: 24px; width: 120px" text="Cancelar"/>
                                             </td>
                                         </tr>
                                     </table>
