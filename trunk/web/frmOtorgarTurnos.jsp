@@ -180,6 +180,13 @@
                                                     style="height: 24px; width: 120px" text="Cancelar"/>
                                             </td>
                                         </tr>
+                                        <tr>
+                                            <td colspan="7" align="center">
+                                                <webuijsf:staticText id="txtExito"
+                                                    style="color: #0000ff; font-family: 'Times New Roman',Times,serif; font-size: 12px; font-style: normal; font-weight: bold"
+                                                    text="Turno registrado con exito" visible="false" binding="#{frmOtorgarTurnos.txtMensaje}"/>
+                                            </td>
+                                        </tr>
                                     </table>
                                 </td>
                             </tr>
