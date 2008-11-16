@@ -11,7 +11,7 @@
         <Node id="frmServicio.jsp" x="150" y="750" zoom="true"/>
     </Scope>
     <Scope Scope="Project">
-        <Node id="frmProfesionales.jsp" x="1708" y="52" zoom="false"/>
+        <Node id="frmProfesionales.jsp" x="1708" y="52" zoom="true"/>
         <Node id="frmPrincipal.jsp" x="1418" y="32" zoom="true"/>
         <Node id="frmPaciente.jsp" x="2751" y="32" zoom="true"/>
         <Node id="frmEspecialidades.jsp" x="562" y="32" zoom="true"/>
@@ -24,12 +24,11 @@
         <Node id="frmVerAgenda.jsp" x="4435" y="32" zoom="false"/>
         <Node id="frmOtorgarLicencias.jsp" x="3830" y="32" zoom="true"/>
         <Node id="frmLogin.jsp" x="1474" y="374" zoom="true"/>
-        <Node id="frmUsuarios.jsp" x="3568" y="32" zoom="true"/>
         <Node id="frmProfesional.jsp" x="1142" y="32" zoom="true"/>
+        <Node id="frmUsuarios.jsp" x="3568" y="32" zoom="true"/>
         <Node id="frmEspecialidad.jsp" x="859" y="32" zoom="true"/>
         <Node id="frmOtorgarTurnos.jsp" x="4140" y="32" zoom="true"/>
-        <Node id="frmReservarTurno.jsp" x="3272" y="32" zoom="true"/>
-        <Node id="frmHorarios.jsp" x="3012" y="32" zoom="true"/>
+        <Node id="frmHorarios.jsp" x="2129" y="256" zoom="false"/>
     </Scope>
     <Scope Scope="All Faces Configurations">
         <Node id="frmServicios.jsp" x="650" y="150" zoom="true"/>

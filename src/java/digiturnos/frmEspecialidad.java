@@ -199,7 +199,7 @@ public class frmEspecialidad extends AbstractPageBean {
          EspecialidadesDao sdao =  DaoFactory.getDaoFactory().getEspecialidadesDao();
          Especialidades especialidad = new Especialidades();
          especialidad.setEspecialidad(txtEspecialidad.getText().toString());
-         especialidad.setIdservicio((Integer) ddServicio.getValue());
+         especialidad.setIdservicio(new Integer((String) ddServicio.getValue()));
          
          try {
              if (id.intValue()!=0) {

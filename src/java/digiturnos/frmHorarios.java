@@ -196,7 +196,7 @@ public class frmHorarios extends AbstractPageBean {
         }
         this.dpHorarios = null;
         
-        return "null";
+        return "agregar";
     }
 
     public String lnkCerrarSesion_action() {

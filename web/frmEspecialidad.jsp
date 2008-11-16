@@ -100,8 +100,8 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td style="width: 584px">
-                                    <h:panelGrid columns="2" id="gridPanel1" style="height: 240px" width="456">
+                                <td align="center" style="width: 584px">
+                                    <h:panelGrid cellpadding="5" cellspacing="2" columns="2" id="gridPanel1" style="">
                                         <webuijsf:dropDown binding="#{frmEspecialidad.ddServicio}" id="ddServicio" label="Servicio"/>
                                         <webuijsf:textField binding="#{frmEspecialidad.txtEspecialidad}" id="txtEspecialidad" label="Especalidad"/>
                                         <webuijsf:button actionExpression="#{frmEspecialidad.cmdAceptar_action}" id="cmdAceptar" text="Aceptar"/>

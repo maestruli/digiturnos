@@ -18,7 +18,6 @@ import digiturnos.dao.dto.PacientesPK;
 import digiturnos.dao.exception.PacientesDaoException;
 import digiturnos.dao.factory.DaoFactory;
 import java.sql.Date;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -270,14 +269,14 @@ public class frmPaciente extends AbstractPageBean {
 
         paciente.setIdpaciente(new Integer((String)txtFichaMedica.getText().toString()));
         paciente.setDni(new Integer((String)txtDNI.getText().toString()));
-        paciente.setNombre(txtNombre.getText().toString());
-        paciente.setSexo(ddSexo.getSelected().toString());
+        paciente.setNombre((String) txtNombre.getText());
+        paciente.setSexo((String) ddSexo.getSelected());
         paciente.setFechanacimiento( Date.valueOf( new SimpleDateFormat("yyyy-MM-dd").format(cldFechaNacimiento.getText()) ) );
-        paciente.setDomicilio(txtDomicilio.getText().toString());
-        paciente.setTelefono(txtTelefono.getText().toString());
-        paciente.setCelular(txtCelular.getText().toString());
-        paciente.setEmail(txtEmail.getText().toString());
-        paciente.setObservaciones(txtObservaciones.getText().toString());
+        paciente.setDomicilio((String) txtDomicilio.getText());
+        paciente.setTelefono((String) txtTelefono.getText());
+        paciente.setCelular((String) txtCelular.getText());
+        paciente.setEmail((String) txtEmail.getText());
+        paciente.setObservaciones((String) txtObservaciones.getText());
         try {
             if (id.intValue() != 0) {
                 //paciente.setIdpaciente(id);
