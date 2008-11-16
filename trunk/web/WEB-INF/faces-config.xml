@@ -263,6 +263,10 @@
             <from-outcome>volver</from-outcome>
             <to-view-id>/frmProfesionales.jsp</to-view-id>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>agregar</from-outcome>
+            <to-view-id>/frmProfesionales.jsp</to-view-id>
+        </navigation-case>
     </navigation-rule>
     <navigation-rule>
         <from-view-id>/frmVerTurnos.jsp</from-view-id>

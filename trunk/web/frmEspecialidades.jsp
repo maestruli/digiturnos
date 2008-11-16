@@ -100,38 +100,34 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <table width="100%">
-                                        <tr>
-                                            <td align="center">
-                                                <webuijsf:table augmentTitle="false" id="table1" paginateButton="true" paginationControls="true"
-                                                    title="Especialidades" width="384">
-                                                    <webuijsf:tableRowGroup id="tableRowGroup1" rows="10" sourceData="#{frmEspecialidades.dpEspecialidades}" sourceVar="currentRow" binding="#{frmEspecialidades.rowGroup}">
-                                                        <webuijsf:tableColumn headerText="ID" id="tableColumn1" sort="idespecialidad">
-                                                            <webuijsf:staticText id="staticText1" text="#{currentRow.value['idespecialidad']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn headerText="Especialidad" id="tableColumn2" sort="especialidad">
-                                                            <webuijsf:staticText id="staticText2" text="#{currentRow.value['especialidad']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn headerText="Servicio" id="tableColumn3" sort="servicio">
-                                                            <webuijsf:staticText id="staticText3" text="#{currentRow.value['servicio']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn id="tableColumn4">
-                                                            <webuijsf:imageHyperlink id="imageHyperlink1" text="" actionExpression="#{frmEspecialidades.imageHyperlink1_action}" imageURL="/resources/edit24.png" />
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn id="tableColumn5">
-                                                            <webuijsf:imageHyperlink id="imageHyperlink2" text="" actionExpression="#{frmEspecialidades.imageHyperlink2_action}"  imageURL="/resources/delete24.png" />
-                                                        </webuijsf:tableColumn>
-                                                    </webuijsf:tableRowGroup>
-                                                </webuijsf:table>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td align="right">
-                                                <webuijsf:button id="button1" text="Nueva" actionExpression="#{frmEspecialidades.cmdNuevo_action}" />
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <td align="center">
+                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
+                                        <webuijsf:table augmentTitle="false" id="table1" paginateButton="true" paginationControls="true" title="Especialidades" width="384">
+                                            <webuijsf:tableRowGroup binding="#{frmEspecialidades.rowGroup}" id="tableRowGroup1" rows="10"
+                                                sourceData="#{frmEspecialidades.dpEspecialidades}" sourceVar="currentRow">
+                                                <webuijsf:tableColumn headerText="ID" id="tableColumn1" sort="idespecialidad">
+                                                    <webuijsf:staticText id="staticText1" text="#{currentRow.value['idespecialidad']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn headerText="Especialidad" id="tableColumn2" sort="especialidad">
+                                                    <webuijsf:staticText id="staticText2" text="#{currentRow.value['especialidad']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn headerText="Servicio" id="tableColumn3" sort="servicio">
+                                                    <webuijsf:staticText id="staticText3" text="#{currentRow.value['servicio']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn align="center" id="tableColumn4">
+                                                    <webuijsf:imageHyperlink actionExpression="#{frmEspecialidades.imageHyperlink1_action}" id="imageHyperlink1"
+                                                        imageURL="/resources/edit24.png" text=""/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn align="center" id="tableColumn5">
+                                                    <webuijsf:imageHyperlink actionExpression="#{frmEspecialidades.imageHyperlink2_action}" id="imageHyperlink2"
+                                                        imageURL="/resources/delete24.png" text=""/>
+                                                </webuijsf:tableColumn>
+                                            </webuijsf:tableRowGroup>
+                                        </webuijsf:table>
+                                    </h:panelGrid>
+                                    <h:panelGrid id="gridPanel2">
+                                        <webuijsf:button actionExpression="#{frmEspecialidades.cmdNuevo_action}" id="button1" text="Nueva"/>
+                                    </h:panelGrid>
                                 </td>
                             </tr>
                         </table>

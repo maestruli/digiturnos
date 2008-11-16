@@ -28,7 +28,7 @@
                                 </td>
                             </tr>
                             <tr align="left" valign="top">
-                                <td align="left" width="170px">
+                                <td align="left" style="height: 253px" width="170px">
                                     <div id="menu">
                                         <h:outputText rendered="#{SessionBean1.paciente}">
                                             <div id="menuCliente">
@@ -100,55 +100,41 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <table width="100%">
-                                        <tr>
-                                            <td align="center" colspan="4">
-                                                <webuijsf:staticText binding="#{frmHorarios.txtEtiqueta}" id="txtEtiqueta"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <webuijsf:dropDown binding="#{frmHorarios.ddDias}" id="ddDia" label="Dia"/>
-                                            </td>
-                                            <td>
-                                                <webuijsf:textField binding="#{frmHorarios.txtDesde}" id="txtDesde" label="Desde"/>
-                                            </td>
-                                            <td>
-                                                <webuijsf:textField binding="#{frmHorarios.txtHasta}" id="txtHasta" label="Hasta"/>
-                                            </td>
-                                            <td>
-                                                <webuijsf:hiddenField binding="#{frmHorarios.hdnId}" id="hdnId"/>
-                                                <webuijsf:button actionExpression="#{frmHorarios.cmdAgregar_action}" id="cmdAgregar" text="Agregar"/>
-                                                <webuijsf:button actionExpression="#{frmHorarios.cmdVolver_action}" id="cmdVolver" text="Volver"/>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4">
-                                                <webuijsf:table augmentTitle="false" id="table1" title="Horarios">
-                                                    <webuijsf:tableRowGroup binding="#{frmHorarios.rowGroup}" id="tableRowGroup1" rows="10"
-                                                        sourceData="#{frmHorarios.dpHorarios}" sourceVar="currentRow">
-                                                        <webuijsf:tableColumn headerText="ID" id="tableColumn1">
-                                                            <webuijsf:staticText id="staticText2" text="#{currentRow.value['idhorario']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn headerText="Dia" id="tableColumn4">
-                                                            <webuijsf:staticText id="staticText1" text="#{currentRow.value['dia']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn headerText="Desde" id="tableColumn5">
-                                                            <webuijsf:staticText id="staticText5" text="#{currentRow.value['desde']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn headerText="Hasta" id="tableColumn6">
-                                                            <webuijsf:staticText id="staticText6" text="#{currentRow.value['hasta']}"/>
-                                                        </webuijsf:tableColumn>
-                                                        <webuijsf:tableColumn id="tableColumn7">
-                                                            <webuijsf:imageHyperlink actionExpression="#{frmHorarios.imageHyperlink1_action}"
-                                                                id="imageHyperlink1" imageURL="/resources/delete24.png" text=""/>
-                                                        </webuijsf:tableColumn>
-                                                    </webuijsf:tableRowGroup>
-                                                </webuijsf:table>
-                                            </td>
-                                        </tr>
-                                    </table>
+                                <td align="center">
+                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
+                                        <webuijsf:staticText binding="#{frmHorarios.txtEtiqueta}" id="txtEtiqueta"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid cellpadding="5" cellspacing="2" columns="5" id="gridPanel2">
+                                        <webuijsf:dropDown binding="#{frmHorarios.ddDias}" id="ddDia" label="Dia"/>
+                                        <webuijsf:textField binding="#{frmHorarios.txtDesde}" id="txtDesde" label="Desde"/>
+                                        <webuijsf:textField binding="#{frmHorarios.txtHasta}" id="txtHasta" label="Hasta"/>
+                                        <webuijsf:button actionExpression="#{frmHorarios.cmdAgregar_action}" id="cmdAgregar" text="Agregar"/>
+                                        <webuijsf:button actionExpression="#{frmHorarios.cmdVolver_action}" id="cmdVolver" text="Volver"/>
+                                    </h:panelGrid>
+                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel3">
+                                        <webuijsf:table augmentTitle="false" id="table1" title="Horarios" width="400">
+                                            <webuijsf:tableRowGroup binding="#{frmHorarios.rowGroup}" id="tableRowGroup1" rows="10"
+                                                sourceData="#{frmHorarios.dpHorarios}" sourceVar="currentRow">
+                                                <webuijsf:tableColumn headerText="ID" id="tableColumn1">
+                                                    <webuijsf:staticText id="staticText2" text="#{currentRow.value['idhorario']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn headerText="Dia" id="tableColumn4">
+                                                    <webuijsf:staticText id="staticText1" text="#{currentRow.value['dia']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn headerText="Desde" id="tableColumn5">
+                                                    <webuijsf:staticText id="staticText5" text="#{currentRow.value['desde']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn headerText="Hasta" id="tableColumn6">
+                                                    <webuijsf:staticText id="staticText6" text="#{currentRow.value['hasta']}"/>
+                                                </webuijsf:tableColumn>
+                                                <webuijsf:tableColumn id="tableColumn7">
+                                                    <webuijsf:imageHyperlink actionExpression="#{frmHorarios.imageHyperlink1_action}" id="imageHyperlink1"
+                                                        imageURL="/resources/delete24.png" text=""/>
+                                                </webuijsf:tableColumn>
+                                            </webuijsf:tableRowGroup>
+                                        </webuijsf:table>
+                                    </h:panelGrid>
+                                    <webuijsf:hiddenField binding="#{frmHorarios.hdnId}" id="hdnId"/>
                                 </td>
                             </tr>
                         </table>
