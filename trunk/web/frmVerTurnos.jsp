@@ -74,9 +74,6 @@
                                                     <li>
                                                         <webuijsf:hyperlink id="lnkProfesionales" text="Administrar Profesionales" url="/faces/frmProfesionales.jsp"/>
                                                     </li>
-                                                    <li>
-                                                        <webuijsf:hyperlink id="lnkOtorgarLicencias" text="Otorgar Licencias" url="/faces/frmOtorgarLicencias.jsp"/>
-                                                    </li>
                                                 </ul>
                                             </div>
                                         </h:outputText>
@@ -100,8 +97,9 @@
                                     </div>
                                 </td>
                                 <td align="center">
+                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
                                         <webuijsf:table augmentTitle="false" id="table1" paginateButton="true" paginationControls="true"
-                                            title="Turnos Reservados">
+                                            title="Turnos Reservados" width="500">
                                             <webuijsf:tableRowGroup binding="#{frmVerTurnos.rowGroup}" id="tableRowGroup1" rows="10"
                                                 sourceData="#{frmVerTurnos.dpTurnos}" sourceVar="currentRow">
                                                 <webuijsf:tableColumn headerText="Fecha" id="tableColumn2" sort="fecha">
@@ -122,6 +120,7 @@
                                                 </webuijsf:tableColumn>
                                             </webuijsf:tableRowGroup>
                                         </webuijsf:table>
+                                    </h:panelGrid>
                                 </td>
                             </tr>
                         </table>
