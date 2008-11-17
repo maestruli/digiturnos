@@ -22,7 +22,7 @@
                             <tr>
                                 <td align="right" bgcolor="#416EED" colspan="2">
                                     <a class="linkSubbanner" href="#">Inicio</a> |
-                                    <a class="linkSubbanner" href="#">Contáctenos</a>
+                                    <a class="linkSubbanner" href="#">ContÃ¡ctenos</a>
                                     <br/>
                                 </td>
                             </tr>
@@ -50,7 +50,7 @@
                                                 <h1>Menu</h1>
                                                 <ul class="linksmenu">
                                                     <li>
-                                                        <webuijsf:hyperlink id="lnkVerAgenda" text="Ver agenda de día" url="/faces/frmVerAgenda.jsp"/>
+                                                        <webuijsf:hyperlink id="lnkVerAgenda" text="Ver agenda de dÃ­a" url="/faces/frmVerAgenda.jsp"/>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -93,16 +93,15 @@
                                         <div id="menuSalir">
                                             <ul class="linksmenu">
                                                 <li>
-                                                    <webuijsf:hyperlink actionExpression="#{frmVerTurnos.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar Sesión                                                     "/>
+                                                    <webuijsf:hyperlink actionExpression="#{frmVerTurnos.lnkCerrarSesion_action}" id="lnkCerrarSesion" text="Cerrar SesiÃ³n                                                     "/>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                 </td>
                                 <td align="center">
-                                    <h:panelGrid cellpadding="5" cellspacing="2" id="gridPanel1">
                                         <webuijsf:table augmentTitle="false" id="table1" paginateButton="true" paginationControls="true"
-                                            title="Turnos Reservados" width="500">
+                                            title="Turnos Reservados">
                                             <webuijsf:tableRowGroup binding="#{frmVerTurnos.rowGroup}" id="tableRowGroup1" rows="10"
                                                 sourceData="#{frmVerTurnos.dpTurnos}" sourceVar="currentRow">
                                                 <webuijsf:tableColumn headerText="Fecha" id="tableColumn2" sort="fecha">
@@ -123,7 +122,6 @@
                                                 </webuijsf:tableColumn>
                                             </webuijsf:tableRowGroup>
                                         </webuijsf:table>
-                                    </h:panelGrid>
                                 </td>
                             </tr>
                         </table>
