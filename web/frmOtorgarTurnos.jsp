@@ -75,9 +75,6 @@
                                                     <li>
                                                         <webuijsf:hyperlink id="lnkProfesionales" text="Administrar Profesionales" url="/faces/frmProfesionales.jsp"/>
                                                     </li>
-                                                    <li>
-                                                        <webuijsf:hyperlink id="lnkOtorgarLicencias" text="Otorgar Licencias" url="/faces/frmOtorgarLicencias.jsp"/>
-                                                    </li>
                                                 </ul>
                                             </div>
                                         </h:outputText>
@@ -184,7 +181,7 @@
                                             <td colspan="7" align="center">
                                                 <webuijsf:staticText id="txtExito"
                                                     style="color: #0000ff; font-family: 'Times New Roman',Times,serif; font-size: 12px; font-style: normal; font-weight: bold"
-                                                    text="Turno registrado con exito" visible="false" binding="#{frmOtorgarTurnos.txtMensaje}"/>
+                                                    text="Turno registrado con éxito." visible="false" binding="#{frmOtorgarTurnos.txtMensaje}"/>
                                             </td>
                                         </tr>
                                     </table>
