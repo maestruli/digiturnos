@@ -106,11 +106,6 @@
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
-        <managed-bean-name>frmOtorgarLicencias</managed-bean-name>
-        <managed-bean-class>digiturnos.frmOtorgarLicencias</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
-    </managed-bean>
-    <managed-bean>
         <managed-bean-name>frmUsuarios</managed-bean-name>
         <managed-bean-class>digiturnos.frmUsuarios</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
