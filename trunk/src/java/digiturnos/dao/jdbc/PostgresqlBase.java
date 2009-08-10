@@ -13,7 +13,7 @@ public class PostgresqlBase  {
 
     public static Log logger = LogFactory.getLog(PostgresqlBase.class);
     public static Log log = LogFactory.getLog(PostgresqlBase.class);
-    public static String dsn = "java:comp/env/jdbc/digiturnos_base";                                            
+    public static String dsn = "jdbc/digiturnos";
 
     public static Connection getConnection() {
         try {

@@ -13,8 +13,8 @@
     <Scope Scope="Project">
         <Node id="frmProfesionales.jsp" x="1708" y="52" zoom="true"/>
         <Node id="frmPrincipal.jsp" x="1418" y="32" zoom="true"/>
-        <Node id="frmPaciente.jsp" x="2751" y="32" zoom="true"/>
         <Node id="frmEspecialidades.jsp" x="562" y="32" zoom="true"/>
+        <Node id="frmPaciente.jsp" x="2751" y="32" zoom="true"/>
         <Node id="frmVerTurnosHistoricos.jsp" x="34" y="113" zoom="false"/>
         <Node id="frmUsuario.jsp" x="4709" y="32" zoom="true"/>
         <Node id="frmVerTurnos.jsp" x="34" y="32" zoom="false"/>
@@ -22,7 +22,6 @@
         <Node id="frmServicios.jsp" x="1969" y="32" zoom="true"/>
         <Node id="frmPacientes.jsp" x="2233" y="32" zoom="true"/>
         <Node id="frmVerAgenda.jsp" x="4435" y="32" zoom="false"/>
-        <Node id="frmOtorgarLicencias.jsp" x="3830" y="32" zoom="true"/>
         <Node id="frmLogin.jsp" x="1474" y="374" zoom="true"/>
         <Node id="frmProfesional.jsp" x="1142" y="32" zoom="true"/>
         <Node id="frmUsuarios.jsp" x="3568" y="32" zoom="true"/>
